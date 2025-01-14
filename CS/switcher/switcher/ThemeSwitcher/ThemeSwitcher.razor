@@ -1,4 +1,7 @@
-﻿@inject ThemeService Themes
+﻿@implements IDisposable
+@inject ThemeService Themes
+@inject PersistentComponentState ApplicationState
+
 @rendermode InteractiveServer
 <ThemeJsChangeDispatcher InitialThemeName="blazor-berry"></ThemeJsChangeDispatcher>
 <div class="@GetHeaderContainerCss()">
@@ -16,6 +19,7 @@
 @code {
     string _themeName;
     bool _themeSwitcherShown;
+    PersistingComponentStateSubscription _persistingSubscription;
 
     protected string ThemeName {
         get { return _themeName; }
@@ -39,7 +43,11 @@
         }
     }
     protected override void OnInitialized() {
-        ThemeName = Themes.ActiveTheme?.Name ?? string.Empty;
+        _persistingSubscription = ApplicationState.RegisterOnPersisting(PersistData);
+        if (ApplicationState.TryTakeFromJson<string>("ThemeName", out var themeName) && themeName != null)
+            ThemeName = themeName;
+        else
+            ThemeName = Themes.ActiveTheme?.Name ?? string.Empty;
     }
     void ToggleThemeSwitcherPanel() {
         ThemeSwitcherShown = !ThemeSwitcherShown;
@@ -53,5 +61,12 @@
         if (IsBootstrapNative)
             cssClasses.Add("theme-external");
         return string.Join(" ", cssClasses);
+    }
+    Task PersistData() {
+        ApplicationState.PersistAsJson("ThemeName", ThemeName);
+        return Task.CompletedTask;
+    }
+    void IDisposable.Dispose() {
+        _persistingSubscription.Dispose();
     }
 }
