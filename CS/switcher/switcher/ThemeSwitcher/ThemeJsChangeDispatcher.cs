@@ -51,7 +51,10 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
     }
 
     public async ValueTask DisposeAsync() {
-        if(_module != null)
-            await _module.DisposeAsync();
+        try {
+            if(_module != null)
+                await _module.DisposeAsync();
+        } catch(JSDisconnectedException) {
+        }
     }
 }
