@@ -9,7 +9,7 @@ namespace switcher.ThemeSwitcher {
 
     public class ThemeService {
         public static readonly string DEFAULT_THEME_NAME = "blazing-berry";
-        static readonly string[] NEW_BLAZOR_THEMES = [DEFAULT_THEME_NAME, "blazing-dark", "purple", "office-white"];
+        static readonly string[] NEW_BLAZOR_THEMES = [DEFAULT_THEME_NAME, "blazing-dark", "purple", "office-white", "fluent-light", "fluent-dark"];
         static readonly Dictionary<string, string> HIGHLIGHT_JS_THEME = new() {
             { DEFAULT_THEME_NAME, "default" },
             { "blazing-dark", "androidstudio" },
@@ -60,7 +60,7 @@ namespace switcher.ThemeSwitcher {
         private static List<ThemeSet> CreateSets(ThemeService config) {
             return new List<ThemeSet>() {
                 new ThemeSet("DevExpress Themes", NEW_BLAZOR_THEMES),
-                new ThemeSet("Bootstrap Themes", "default", "default-dark", "cerulean", "cyborg", "flatly", "journal", "litera", "lumen", "lux", "pulse", "simplex", "solar", "superhero", "united", "yeti")
+                new ThemeSet("Bootstrap Themes", "default", "default-dark", "cerulean", "cyborg", "flatly", "journal", "litera", "lumen", "lux", "pulse", "simplex", "solar", "superhero", "united", "yeti"),
             };
         }
     }

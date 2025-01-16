@@ -18,7 +18,7 @@ namespace switcher.ThemeSwitcher {
 
     public class ThemeSet {
         static readonly HashSet<string> BuiltInThemes = new HashSet<string>() {
-            "blazing-berry", "blazing-dark", "purple", "office-white"
+            "blazing-berry", "blazing-dark", "purple", "office-white", "fluent-light", "fluent-dark"
         };
         public string Title { get; }
         public Theme[] Themes { get; }

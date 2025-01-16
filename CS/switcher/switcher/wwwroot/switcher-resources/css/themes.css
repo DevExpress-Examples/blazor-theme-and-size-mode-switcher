@@ -78,3 +78,11 @@
 .theme-external {
     font-size: 0.875rem;
 }
+
+.blazor-themes a.fluent-light:before {
+    background: #0f6cbd;
+}
+
+.blazor-themes a.fluent-dark:before {
+    background: #282828;
+}
