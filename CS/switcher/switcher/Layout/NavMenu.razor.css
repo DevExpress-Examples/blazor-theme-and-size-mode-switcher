@@ -39,7 +39,7 @@
         gap: 0.5rem;
     }
 
-::deep .menu-item {
+::deep .menu-item a {
     color: var(--bs-white);
 }
 
