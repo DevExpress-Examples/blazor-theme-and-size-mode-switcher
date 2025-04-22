@@ -4,13 +4,8 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    string? InitialThemeName = HttpContextAccessor.HttpContext?.Request.Cookies["ActiveTheme"];
+    string? InitialThemeName = HttpContextAccessor.HttpContext?.Request.Cookies[ThemeService.ThemeCookieKey];
     Themes.SetActiveThemeByName(InitialThemeName);
-    var bsTheme = Themes.GetBootstrapThemeCssUrl(Themes.ActiveTheme);
-    var dxTheme = Themes.GetThemeCssUrl(Themes.ActiveTheme);
-    var hlTheme = Themes.GetHighlightJSThemeCssUrl(Themes.ActiveTheme);
-
-    string AppendVersion(string path) => FileVersionProvider.AddFileVersionToPath("/", path);
 }
 
 <!DOCTYPE html>
@@ -19,21 +14,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    @if (!string.IsNullOrEmpty(bsTheme)) {
-        <link rel="stylesheet" href="@AppendVersion(bsTheme)" bs-theme-link />
-    }
-    @if (!string.IsNullOrEmpty(dxTheme)) {
-        <link rel="stylesheet" href="@AppendVersion(dxTheme)" dx-theme-link />
-    }
-    @if (!string.IsNullOrEmpty(hlTheme)) {
-        <link rel="stylesheet" href="@hlTheme" hl-theme-link />
-    }
 
     @DxResourceManager.RegisterScripts()
+    @DxResourceManager.RegisterTheme(Themes.ActiveTheme.CurrentTheme)
+
     <link href="css/site.css" rel="stylesheet" />
     <link href="switcher-resources/css/theme-switcher.css" rel="stylesheet" />
     <link href="switcher-resources/css/themes.css" rel="stylesheet" />
     <link href="switcher.styles.css" rel="stylesheet" />
+    <script src="switcher-resources/page-helper.js"></script>
     <HeadOutlet />
 </head>
 <body>

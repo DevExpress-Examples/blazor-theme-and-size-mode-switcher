@@ -1,0 +1,214 @@
+body {
+    --dxbl-icon-width: 1rem;
+    --dxbl-icon-height: 1rem;
+    --dxbl-icon-opacity: 0.7;
+    --dxbl-treeview-sidebar-tree-ctp-badge-color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity));
+}
+
+/* Toolbar */
+.tb-icon {
+    --dxbl-icon-bold: url("../images/icons/bold.svg");
+    --dxbl-icon-italic: url("../images/icons/italic.svg");
+    --dxbl-icon-underline: url("../images/icons/underline.svg");
+    --dxbl-icon-align-left: url("../images/icons/align-left.svg");
+    --dxbl-icon-align-center: url("../images/icons/align-center.svg");
+    --dxbl-icon-align-right: url("../images/icons/align-right.svg");
+    --dxbl-icon-undo: url("../images/icons/undo.svg");
+    --dxbl-icon-redo: url("../images/icons/redo.svg");
+    --dxbl-icon-paste: url("../images/icons/paste.svg");
+    --dxbl-icon-info: url("../images/icons/info.svg");
+    --dxbl-icon-save: url("../images/icons/save.svg");
+    --dxbl-icon-settings: url("../images/icons/settings.svg");
+    --dxbl-icon-refresh: url("../images/icons/refresh.svg");
+    --dxbl-icon-paragraph: url("../images/icons/paragraph.svg");
+    --dxbl-icon-watermark: url("../images/icons/watermark.svg");
+    --dxbl-icon-alert: url("../images/icons/alert.svg");
+    --dxbl-icon-font: url("../images/icons/font.svg");
+}
+
+/* Editors */
+.editor-icon {
+    --dxbl-icon-chevron-right: url("../images/icons/chevron-right.svg");
+    --dxbl-icon-chevron-left: url("../images/icons/chevron-left.svg");
+    --dxbl-icon-chevron-right-small: url("../images/icons/chevron-right-small.svg");
+    --dxbl-icon-chevron-left-small: url("../images/icons/chevron-left-small.svg");
+    --dxbl-icon-dollar: url("../images/icons/dollar.svg");
+    --dxbl-icon-euro: url("../images/icons/euro.svg");
+    --dxbl-icon-add: url("../images/icons/add.svg");
+    --dxbl-icon-mail: url("../images/icons/mail.svg");
+    --dxbl-icon-city: url("../images/icons/city.svg");
+    --dxbl-icon-birthdate: url("../images/icons/birthdate.svg");
+}
+
+.popup-icon-user {
+    --dxbl-icon-popup-user: url("../images/icons/popup-user.svg");
+}
+
+.popup-icon-position {
+    --dxbl-icon-popup-position: url("../images/icons/popup-position.svg");
+}
+
+/* Scheduler */
+.demo-resnavigator-icon {
+    --dxbl-icon-scheduler-navigator: url("../images/icons/scheduler-navigator.svg");
+}
+
+.dx-icon-toolbar {
+    --dxbl-icon-scheduler-edit: url("../images/icons/scheduler-edit.svg");
+    --dxbl-icon-scheduler-add: url("../images/icons/scheduler-add.svg");
+    --dxbl-icon-scheduler-delete: url("../images/icons/scheduler-delete.svg");
+    --dxbl-icon-drag-appointment-btw-resources: url("../images/icons/scheduler-drag-between-resources.svg");
+    --dxbl-icon-drag-and-sizing: url("../images/icons/scheduler-drag-and-resize.svg");
+    --dxbl-icon-tooltip: url("../images/icons/scheduler-no-tooltip.svg");
+}
+
+.dx-icon-time {
+    --dxbl-icon-time: url("../images/icons/time.svg");
+}
+
+.dx-icon-accepted {
+    --dxbl-icon-accepted: url("../images/icons/accept.svg");
+}
+
+.dx-icon-tentative {
+    --dxbl-icon-tentative: url("../images/icons/quest.svg");
+}
+
+.drop-file-icon {
+    --dxbl-icon-drop-file: url("../images/icons/drop-file.svg");
+}
+
+/* Grid */
+.grid-icon-column-chooser,
+.treelist-icon-column-chooser,
+.treelist-toolbar-column-chooser,
+.grid-toolbar-column-chooser {
+    --dxbl-toolbar-column-chooser: url("../images/icons/column-chooser.svg");
+}
+
+.file-system-icon-folder {
+    --dxbl-file-system-icon-folder: url("../images/icons/folder-color.svg");
+}
+
+.file-system-icon-file {
+    --dxbl-file-system-icon-file: url("../images/icons/document-color.svg");
+}
+
+.grid-toolbar-export {
+    --dxbl-grid-toolbar-export: url("../images/icons/export.svg");
+}
+
+.grid-toolbar-delete {
+    --dxbl-grid-toolbar-delete: url("../images/icons/grid-toolbar-delete.svg");
+}
+
+.grid-toolbar-edit {
+    --dxbl-grid-toolbar-edit: url("../images/icons/grid-toolbar-edit.svg");
+}
+
+.grid-toolbar-cancel {
+    --dxbl-grid-toolbar-cancel: url("../images/icons/undo.svg");
+}
+
+.grid-toolbar-save {
+    --dxbl-grid-toolbar-save: url("../images/icons/save.svg");
+}
+
+.grid-toolbar-new {
+    --dxbl-grid-toolbar-new: url("../images/icons/grid-toolbar-new.svg");
+}
+
+.grid-icon-delete {
+    --grid-icon-delete: url("../images/icons/delete.svg");
+}
+
+.grid-icon-add {
+    --dxbl-grid-icon-add: url("../images/icons/add.svg");
+}
+
+.btn-icon-undo {
+    --dxbl-btn-icon-undo: url("../images/icons/undo.svg");
+}
+
+.btn-icon-redo {
+    --dxbl-btn-icon-redo: url("../images/icons/redo.svg");
+}
+
+.btn-icon-like {
+    --dxbl-btn-icon-like: url("../images/icons/like.svg");
+}
+
+/* Riddon */
+.rb-icon {
+    --dxbl-icon-rb-undo: url("../images/icons/ribbon/berry/undo.svg");
+    --dxbl-icon-rb-redo: url("../images/icons/ribbon/berry/redo.svg");
+    --dxbl-icon-rb-clipboard: url("../images/icons/ribbon/berry/clipboard.svg");
+    --dxbl-icon-rb-paint: url("../images/icons/ribbon/berry/paint.svg");
+    --dxbl-icon-rb-bold: url("../images/icons/ribbon/berry/bold.svg");
+    --dxbl-icon-rb-italic: url("../images/icons/ribbon/berry/italic.svg");
+    --dxbl-icon-rb-underline: url("../images/icons/ribbon/berry/underline.svg");
+    --dxbl-icon-rb-bullets: url("../images/icons/ribbon/berry/bullets.svg");
+    --dxbl-icon-rb-align-left: url("../images/icons/ribbon/berry/align-left.svg");
+    --dxbl-icon-rb-align-right: url("../images/icons/ribbon/berry/align-right.svg");
+    --dxbl-icon-rb-align-center: url("../images/icons/ribbon/berry/align-center.svg");
+    --dxbl-icon-rb-align-justify: url("../images/icons/ribbon/berry/align-justify.svg");
+    --dxbl-icon-rb-search: url("../images/icons/ribbon/berry/search.svg");
+    --dxbl-icon-rb-dictate: url("../images/icons/ribbon/berry/mic.svg");
+    --dxbl-icon-rb-page-break: url("../images/icons/ribbon/berry/page-break.svg");
+    --dxbl-icon-rb-table: url("../images/icons/ribbon/berry/table.svg");
+    --dxbl-icon-rb-picture: url("../images/icons/ribbon/berry/picture.svg");
+    --dxbl-icon-rb-link: url("../images/icons/ribbon/berry/link.svg");
+    --dxbl-icon-rb-bookmarks: url("../images/icons/ribbon/berry/bookmarks.svg");
+    --dxbl-icon-rb-page-numbers: url("../images/icons/ribbon/berry/page-numbers.svg");
+    --dxbl-icon-rb-symbol: url("../images/icons/ribbon/berry/pi.svg");
+    --dxbl-icon-rb-emoji: url("../images/icons/ribbon/berry/emoji.svg");
+    --dxbl-icon-rb-font: url("../images/icons/ribbon/berry/font.svg");
+    --dxbl-icon-rb-copy: url("../images/icons/ribbon/berry/copy.svg");
+    --dxbl-icon-rb-cut: url("../images/icons/ribbon/berry/cut.svg");
+    --dxbl-icon-rb-document-blank: url("../images/icons/ribbon/berry/document-blank.svg");
+    --dxbl-icon-rb-folder-open: url("../images/icons/ribbon/berry/folder-open.svg");
+    --dxbl-icon-rb-print: url("../images/icons/ribbon/berry/print.svg");
+    --dxbl-icon-rb-share: url("../images/icons/ribbon/berry/share.svg");
+    --dxbl-icon-rb-save: url("../images/icons/ribbon/berry/save.svg");
+}
+
+/* Tabs */
+.tabs-icon {
+    --dxbl-tabs-icon-home: url("../images/icons/home.svg");
+    --dxbl-tabs-icon-support: url("../images/icons/support.svg");
+    --dxbl-tabs-icon-products: url("../images/icons/products.svg");
+}
+
+/* Demo Page */
+dxbl-check {
+    --dxbl-demo-page-margin-right: 0.5rem;
+}
+
+.icon-doc {
+    --dxbl-demo-page-icon-doc-width: var(--dxbl-image-width);
+    --dxbl-demo-page-icon-doc-height: var(--dxbl-image-height);
+}
+
+.dxbl-treeview.sidebar-tree .dxbl-treeview-item-content > .dxbl-treeview-item-container > .dxbl-badge {
+    --dxbl-treeview-sidebar-tree-badge-margin: 0;
+}
+
+.demo-group {
+    --dxbl-demo-group-color: #495057;
+    --dxbl-demo-group-border-bottom-color: #E9ECEF;
+}
+
+.theme-blazing-dark .demo-group {
+    --dxbl-demo-group-color: rgb(222, 226, 230);
+    --dxbl-demo-group-border-bottom-color: #6C757D;
+}
+
+.theme-default-dark .demo-group {
+    --dxbl-demo-group-color: rgb(222, 226, 230);
+}
+
+.theme-purple .demo-group,
+.theme-office-white .demo-group {
+    --dxbl-demo-group-color: #495057;
+    --dxbl-demo-group-border-bottom-color: #6C757D;
+}

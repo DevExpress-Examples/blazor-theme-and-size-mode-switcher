@@ -1,4 +1,3 @@
-using switcher.Pages;
 using switcher.Data;
 using switcher;
 using switcher.ThemeSwitcher;

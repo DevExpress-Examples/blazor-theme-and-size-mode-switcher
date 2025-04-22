@@ -3,7 +3,7 @@
 @inject PersistentComponentState ApplicationState
 
 @rendermode InteractiveServer
-<ThemeJsChangeDispatcher InitialThemeName="blazor-berry"></ThemeJsChangeDispatcher>
+<ThemeJsChangeDispatcher InitialThemeName="@BlazorThemes.BlazingBerry.Name" />
 <div class="@GetHeaderContainerCss()">
     <div class="btn-container d-flex">
         <DxButton Click="@ToggleThemeSwitcherPanel" CssClass="@GetThemeSwitcherCssClass()" SizeMode="SizeMode.Large"
