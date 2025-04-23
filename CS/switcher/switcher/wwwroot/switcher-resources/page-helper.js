@@ -37,7 +37,6 @@ var PageHelper = (function() {
         return getCookie(cookieName);
     }
     function setThemeName(cookieName, themeName) {
-        console.log('theme set');
         var date = new Date();
         date.setFullYear(date.getFullYear() + 1);
         setCookie(cookieName, themeName, date);
