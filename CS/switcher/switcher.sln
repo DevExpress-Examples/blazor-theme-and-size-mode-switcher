@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "switcher", "switcher\switcher.csproj", "{84CEBC50-4513-490B-B138-2994138270BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sw", "sw\sw.csproj", "{6DC12F0F-57ED-4DD3-8730-5E5DF972B636}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,12 @@ Global
 		{911173B4-D12E-4303-81D2-7E508B112B0D}.DebugWasm|Any CPU.Build.0 = Debug|Any CPU
 		{911173B4-D12E-4303-81D2-7E508B112B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{911173B4-D12E-4303-81D2-7E508B112B0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC12F0F-57ED-4DD3-8730-5E5DF972B636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC12F0F-57ED-4DD3-8730-5E5DF972B636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC12F0F-57ED-4DD3-8730-5E5DF972B636}.DebugWasm|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC12F0F-57ED-4DD3-8730-5E5DF972B636}.DebugWasm|Any CPU.Build.0 = Debug|Any CPU
+		{6DC12F0F-57ED-4DD3-8730-5E5DF972B636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC12F0F-57ED-4DD3-8730-5E5DF972B636}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

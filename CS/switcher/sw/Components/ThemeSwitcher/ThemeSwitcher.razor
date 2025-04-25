@@ -1,0 +1,78 @@
+﻿@implements IDisposable
+@inject DxThemesService ThemesService
+@inject PersistentComponentState ApplicationState
+
+@rendermode InteractiveServer
+<ThemeJsChangeDispatcher InitialThemeName="@DxThemes.BlazingBerry.Name" />
+<div class="@GetHeaderContainerCss()">
+    <div class="btn-container d-flex">
+        <DxButton Click="@ToggleThemeSwitcherPanel" CssClass="@GetThemeSwitcherCssClass()" SizeMode="SizeMode.Large"
+                  RenderStyle="ButtonRenderStyle.Secondary" RenderStyleMode="ButtonRenderStyleMode.Outline" IconCssClass="theme-icon"
+                  aria-label="Themes"
+                  aria-haspopup="True"
+                  aria-expanded="@(ThemeSwitcherShown.ToString())">
+        </DxButton>
+    </div>
+    <ThemeSwitcherContainer @bind-Shown="@ThemeSwitcherShown" @bind-ThemeName="@ThemeName" />
+</div>
+
+@code {
+    string _themeName;
+    bool _themeSwitcherShown;
+    PersistingComponentStateSubscription _persistingSubscription;
+
+    protected string ThemeName {
+        get { return _themeName; }
+        set {
+            if (_themeName != value) {
+                _themeName = value;
+                ThemesService.SetActiveThemeByName(value);
+            }
+        }
+    }
+    
+    protected bool IsBootstrapNative {
+        get { return ThemesService.ActiveTheme.IsBootstrapNative; }
+    }
+
+    bool ThemeSwitcherShown {
+        get { return _themeSwitcherShown; }
+        set {
+            if (_themeSwitcherShown != value) {
+                _themeSwitcherShown = value;
+            }
+        }
+    }
+    protected override void OnInitialized() {
+        _persistingSubscription = ApplicationState.RegisterOnPersisting(PersistData);
+        if (ApplicationState.TryTakeFromJson<string>("ThemeName", out var themeName) && themeName != null)
+            ThemeName = themeName;
+        else
+            ThemeName = ThemesService.ActiveTheme?.Name ?? string.Empty;
+    }
+    
+    void ToggleThemeSwitcherPanel() {
+        ThemeSwitcherShown = !ThemeSwitcherShown;
+    }
+    
+    string GetThemeSwitcherCssClass() {
+        return "themeswitcher-button theme-settings " + ThemeSwitcherShown;
+    }
+    
+    string GetHeaderContainerCss() {
+        List<string> cssClasses = new List<string>();
+        cssClasses.Add("theme-" + ThemeName.Replace(" ", "-"));
+        if (IsBootstrapNative)
+            cssClasses.Add("theme-external");
+        return string.Join(" ", cssClasses);
+    }
+    
+    Task PersistData() {
+        ApplicationState.PersistAsJson("ThemeName", ThemeName);
+        return Task.CompletedTask;
+    }
+    
+    void IDisposable.Dispose() {
+        _persistingSubscription.Dispose();
+    }
+}
