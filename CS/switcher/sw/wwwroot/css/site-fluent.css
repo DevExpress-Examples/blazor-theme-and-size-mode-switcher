@@ -1,0 +1,33 @@
+﻿body {
+    margin: 0;
+}
+
+
+.w-100 {
+    width: 100%;
+}
+
+.text-danger {
+    color: var(--DS-color-surface-danger-default-rest);
+}
+
+.p-4 {
+    padding: 1.5rem;
+}
+
+.navigation-drawer {
+    --dxbl-drawer-separator-border-width: 0;
+}
+
+.menu-item {
+    --dxbl-menu-item-color: #fff;
+    --dxbl-menu-item-image-color: #fff;
+}
+
+.menu-item a {
+    color: #fff;
+}
+
+[data-fluent-darkmode] .dxbl-theme-fluent .welcome-card {
+    color: var(--DS-primary-70);
+}

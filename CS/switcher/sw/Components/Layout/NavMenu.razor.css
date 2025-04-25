@@ -1,0 +1,57 @@
+﻿::deep .menu.display-mobile {
+    margin-bottom: 2rem;
+}
+
+::deep .menu {
+    --dxbl-menu-bottom-left-border-radius: 0;
+    --dxbl-menu-bottom-right-border-radius: 0;
+    --dxbl-menu-top-left-border-radius: 0;
+    --dxbl-menu-top-right-border-radius: 0;
+
+    background-color: inherit;
+}
+
+::deep .menu .dxbl-menu-item-list {
+    gap: 0.5rem;
+}
+
+::deep .menu-item {
+    color: var(--bs-white, #fff);
+}
+
+::deep .icon {
+    width: 1rem;
+    height: 1rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 0.5rem;
+    background-color: currentcolor;
+}
+
+::deep .home-icon {
+    -webkit-mask-image: url("images/home.svg");
+    mask-image: url("images/home.svg");
+}
+
+::deep .weather-icon {
+    -webkit-mask-image: url("images/weather.svg");
+    mask-image: url("images/weather.svg");
+}
+
+::deep .counter-icon {
+    -webkit-mask-image: url("images/counter.svg");
+    mask-image: url("images/counter.svg");
+}
+
+
+@media (max-width: 768px) {
+    #sidebar {
+        min-width: inherit;
+        max-width: inherit;
+        display: block;
+    }
+
+    .logo {
+        text-align: inherit;
+    }
+}

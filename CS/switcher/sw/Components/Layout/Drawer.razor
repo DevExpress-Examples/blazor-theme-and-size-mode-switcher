@@ -1,0 +1,46 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<div>
+    <DxDrawer PanelWidth="@Width"
+              CssClass="@(CssClass + " mobile")"
+              Mode="@DrawerMode.Overlap"
+              IsOpen="@ToggledSidebar"
+              HeaderTemplate="@DrawerHeader"
+              FooterTemplate="@DrawerFooter"
+              ApplyBackgroundShading="false"
+              ClosedCssClass="panel-closed">
+        <BodyTemplate>
+            @DrawerBody
+        </BodyTemplate>
+        <TargetContent>
+            <DxDrawer PanelWidth="@Width"
+                      CssClass="@CssClass"
+                      Mode="@DrawerMode.Shrink"
+                      IsOpen="@(!ToggledSidebar)"
+                      HeaderTemplate="@DrawerHeader"
+                      FooterTemplate="@DrawerFooter"
+                      OpenCssClass="panel-open" >
+                <BodyTemplate>
+                    @DrawerBody
+                </BodyTemplate>
+                <TargetContent>
+                    <div class="navigation-drawer-shading" />
+                    @DrawerTarget
+                </TargetContent>
+            </DxDrawer>
+        </TargetContent>
+    </DxDrawer>
+</div>
+
+@code {
+    string Width => "240px";
+    string CssClass => "navigation-drawer";
+
+    [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
+    public bool ToggledSidebar { get; set; }
+    [Parameter] public RenderFragment? DrawerTarget { get; set; }
+    [Parameter] public RenderFragment? DrawerBody { get; set; }
+    [Parameter] public RenderFragment? DrawerHeader { get; set; }
+    [Parameter] public RenderFragment? DrawerFooter { get; set; }
+}

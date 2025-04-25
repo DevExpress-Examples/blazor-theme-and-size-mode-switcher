@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IFileVersionProvider FileVersionProvider
+@inject DxThemesService ThemesService
+
+@{
+    string? InitialThemeName = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeCookieKey];
+    ThemesService.SetActiveThemeByName(InitialThemeName);
+}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="@(ThemesService.IsBootstrapDarkActive ? "dark" : null)" data-fluent-darkmode="@(ThemesService.IsFluentDarkModeActive ? "" : null)">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <base href="/"/>
+    @DxResourceManager.RegisterTheme(ThemesService.ActiveTheme.CurrentTheme)
+    @DxResourceManager.RegisterScripts()
+    <link href=@AppendVersion("css/site.css") rel="stylesheet"/>
+    <link href=@AppendVersion("sw.styles.css") rel="stylesheet"/>
+    <link href="switcher-resources/css/theme-switcher.css" rel="stylesheet" />
+    <link href="switcher-resources/css/themes.css" rel="stylesheet" />
+    <script src="switcher-resources/js/page-helper.js"></script>
+    <HeadOutlet/>
+</head>
+<body class="@(ThemesService.IsFluentActive ? "dxbl-theme-fluent" : null)">
+<Routes></Routes>
+<script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
+
+@code{
+    private string AppendVersion(string path) => FileVersionProvider.AddFileVersionToPath("/", path);
+}
