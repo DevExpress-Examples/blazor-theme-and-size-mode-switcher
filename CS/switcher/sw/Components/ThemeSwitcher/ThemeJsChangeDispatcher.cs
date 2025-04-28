@@ -35,7 +35,7 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
 
         await DxThemesService.SetTheme(theme.CurrentTheme);
 
-        await _module.InvokeVoidAsync("ThemeController.switchBsThemeMode", "theme.BootstrapThemeMode", DotNetObjectReference.Create(this));
+        await _module.InvokeVoidAsync("ThemeController.switchBsThemeMode", theme.BootstrapThemeMode, DotNetObjectReference.Create(this));
         await JsRuntime.InvokeVoidAsync("PageHelper.themes.setThemeName", sw.Services.DxThemesService.ThemeCookieKey, theme.Name);
     }
 

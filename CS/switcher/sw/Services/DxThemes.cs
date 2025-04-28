@@ -13,12 +13,12 @@ public interface IThemeLoadNotifier {
 
 public static class BlazorThemes {
     public static readonly ITheme FluentLight = Themes.Fluent.Clone(properties => {
-        properties.AddFilePaths($"css/site-fluent.css");
+        properties.AddFilePaths($"css/site-fluent.css", $"switcher-resources/css/fluent-light.min.css");
     });
 
     public static readonly ITheme FluentDark = Themes.Fluent.Clone(properties => {
         properties.Mode = ThemeMode.Dark;
-        properties.AddFilePaths($"css/site-fluent.css");
+        properties.AddFilePaths($"css/site-fluent.css", $"switcher-resources/css/fluent-dark.min.css");
     });
 
     public static readonly ITheme BlazingBerry = Themes.BlazingBerry;
@@ -59,8 +59,6 @@ public static class DxThemes {
 }
 
 public class DxThemesService {
-    public event Action? StateChanged;
-
     public const string ThemeCookieKey = "DXBZCurrentTheme";
     public List<ThemeSet> ThemeSets { get; } = CreateSets();
     public Theme ActiveTheme { get; private set; } = DxThemes.BlazingBerry;
@@ -99,7 +97,7 @@ public class DxThemesService {
         [
             new ThemeSet("DevExpress Themes", DxThemes.BlazingBerry, DxThemes.BlazingDark, DxThemes.Purple, DxThemes.OfficeWhite),
             new ThemeSet("Bootstrap Themes", DxThemes.Bootstrap, DxThemes.BootstrapDark),
-            new ThemeSet("Fluent Themes", DxThemes.FluentDark, DxThemes.FluentLight)
+            new ThemeSet("Fluent Themes", DxThemes.FluentLight, DxThemes.FluentDark)
         ];
     }
 }
