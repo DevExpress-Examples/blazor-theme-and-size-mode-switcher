@@ -24,6 +24,7 @@
     flex-flow: row wrap;
     border: none;
     color: inherit;
+    display: flex;
 }
 
 .blazor-themes .list-group-item {

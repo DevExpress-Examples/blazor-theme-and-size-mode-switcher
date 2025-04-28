@@ -2,7 +2,7 @@ using DevExpress.Blazor;
 using DevExpress.Blazor.Internal;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using sw.Services;
+using switcher.Services;
 
 public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatcher, IAsyncDisposable {
     [Parameter] public string InitialThemeName { get; set; }
@@ -36,7 +36,7 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
         await DxThemesService.SetTheme(theme.CurrentTheme);
 
         await _module.InvokeVoidAsync("ThemeController.switchBsThemeMode", theme.BootstrapThemeMode, DotNetObjectReference.Create(this));
-        await JsRuntime.InvokeVoidAsync("PageHelper.themes.setThemeName", sw.Services.DxThemesService.ThemeCookieKey, theme.Name);
+        await JsRuntime.InvokeVoidAsync("PageHelper.themes.setThemeName", switcher.Services.DxThemesService.ThemeCookieKey, theme.Name);
     }
 
     [JSInvokable]
