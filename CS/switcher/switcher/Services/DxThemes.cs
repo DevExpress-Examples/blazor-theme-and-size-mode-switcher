@@ -11,51 +11,35 @@ public interface IThemeLoadNotifier {
     Task NotifyThemeLoadedAsync(Theme theme);
 }
 
-public static class BlazorThemes {
-    public static readonly ITheme FluentLight = Themes.Fluent.Clone(properties => {
-        properties.AddFilePaths($"css/site-fluent.css", $"switcher-resources/css/fluent-light.min.css");
-    });
-
-    public static readonly ITheme FluentDark = Themes.Fluent.Clone(properties => {
-        properties.Mode = ThemeMode.Dark;
-        properties.AddFilePaths($"css/site-fluent.css", $"switcher-resources/css/fluent-dark.min.css");
-    });
-
-    public static readonly ITheme BlazingBerry = Themes.BlazingBerry;
-    public static readonly ITheme BlazingDark = Themes.BlazingDark;
-    public static readonly ITheme Purple = Themes.Purple;
-    public static readonly ITheme OfficeWhite = Themes.OfficeWhite;
-
-    public static readonly ITheme Bootstrap = Themes.BootstrapExternal.Clone(properties => {
-        properties.Name = "bootstrap";
-        properties.AddFilePaths($"css/bootstrap/bootstrap.min.css");
-    });
-
-    public static readonly ITheme BootstrapDark = Themes.BootstrapExternal.Clone(properties => {
-        properties.Name = "bootstrap-dark";
-        properties.AddFilePaths($"css/bootstrap/bootstrap.min.css");
-    });
-}
-
-public class Theme(string name, ITheme theme) {
-    public string Name { get; } = name;
-    public string Title { get { return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(Name.Replace("-", " ")); } }
-    public string IconCssClass { get { return Name.ToLower(); } }
+public class Theme : ITheme {
+    private ITheme _theme;
+    public Theme(ITheme theme) {
+        _theme = theme;
+    }
+    public List<string> GetFilePaths() {
+        var paths = _theme.GetFilePaths();
+        if(IsFluent)
+            paths.AddRange(["css/site-fluent.css", $"switcher-resources/css/fluent-{(IsDarkMode ? "dark" : "light")}.min.css"]);
+        if(IsBootstrapNative)
+            paths.Add("css/bootstrap/bootstrap.min.css");
+        return paths;
+    }
+    public string Name { get; init; }
+    public string Title => CultureInfo.InvariantCulture.TextInfo.ToTitleCase(Name.Replace("-", " "));
+    public bool IsDarkMode { get; set; }
+    public bool IsFluent { get; set; }
     public bool IsBootstrapNative { get; set; }
-    public string BootstrapThemeMode { get; set; } = "light";
-    public string GetCssClass(bool isActive) => isActive ? "active" : "text-body";
-    public ITheme CurrentTheme { get; set; } = theme;
 }
 
 public static class DxThemes {
-    public static readonly Theme FluentLight = new("fluent-light", BlazorThemes.FluentLight);
-    public static readonly Theme FluentDark = new("fluent-dark", BlazorThemes.FluentDark);
-    public static readonly Theme BlazingBerry = new("blazing-berry", BlazorThemes.BlazingBerry);
-    public static readonly Theme BlazingDark = new("blazing-dark", BlazorThemes.BlazingDark);
-    public static readonly Theme Purple = new("purple", BlazorThemes.Purple);
-    public static readonly Theme OfficeWhite = new("office-white", BlazorThemes.OfficeWhite);
-    public static readonly Theme Bootstrap = new("default", BlazorThemes.Bootstrap) { IsBootstrapNative = true };
-    public static readonly Theme BootstrapDark = new("default-dark", BlazorThemes.BootstrapDark) { IsBootstrapNative = true, BootstrapThemeMode = "dark"};
+    public static readonly Theme BlazingBerry = new(Themes.BlazingBerry) { Name = "blazing-berry" };
+    public static readonly Theme BlazingDark = new(Themes.BlazingDark) { Name = "blazing-dark" };
+    public static readonly Theme Purple = new(Themes.Purple) { Name = "purple" };
+    public static readonly Theme OfficeWhite = new(Themes.OfficeWhite) { Name = "office-white" };
+    public static readonly Theme Bootstrap = new(Themes.BootstrapExternal) { Name = "default", IsBootstrapNative = true };
+    public static readonly Theme BootstrapDark = new(Themes.BootstrapExternal) { Name = "default-dark", IsBootstrapNative = true, IsDarkMode = true };
+    public static readonly Theme FluentLight = new(Themes.Fluent) { Name = "fluent-light", IsFluent = true};
+    public static readonly Theme FluentDark = new(Themes.Fluent.Clone(x => x.Mode = ThemeMode.Dark)) { Name = "fluent-dark", IsFluent = true, IsDarkMode = true };
 }
 
 public class DxThemesService {
@@ -63,10 +47,10 @@ public class DxThemesService {
     public List<ThemeSet> ThemeSets { get; } = CreateSets();
     public Theme ActiveTheme { get; private set; } = DxThemes.BlazingBerry;
     public Theme DefaultTheme => DxThemes.BlazingBerry;
-    public bool IsFluentActive => ActiveTheme == DxThemes.FluentLight || ActiveTheme == DxThemes.FluentDark;
-    public bool IsBootstrapDarkActive => ActiveTheme == DxThemes.BootstrapDark;
-    public bool IsFluentDarkModeActive => ActiveTheme == DxThemes.FluentDark;
-    public bool IsActiveThemeDark => IsBootstrapDarkActive || IsFluentDarkModeActive;
+    public bool IsActiveThemeDark => ActiveTheme.IsDarkMode;
+    public bool IsFluentActive => ActiveTheme.IsFluent;
+    public bool IsBootstrapDarkActive => ActiveTheme.IsBootstrapNative && IsActiveThemeDark;
+    public bool IsFluentDarkModeActive => IsFluentActive && IsActiveThemeDark;
     public IThemeLoadNotifier ThemeLoadNotifier { get; set; }
     public IThemeChangeRequestDispatcher ThemeChangeRequestDispatcher { get; set; }
 
