@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "switcher", "switcher\switcher.csproj", "{CEE70418-4160-450A-9111-237A6C986553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "switcher", "switcher\switcher.csproj", "{84CEBC50-4513-490B-B138-2994138270BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,6 +12,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84CEBC50-4513-490B-B138-2994138270BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84CEBC50-4513-490B-B138-2994138270BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84CEBC50-4513-490B-B138-2994138270BC}.DebugWasm|Any CPU.ActiveCfg = Debug|Any CPU
+		{84CEBC50-4513-490B-B138-2994138270BC}.DebugWasm|Any CPU.Build.0 = Debug|Any CPU
+		{84CEBC50-4513-490B-B138-2994138270BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84CEBC50-4513-490B-B138-2994138270BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{621D779C-2600-4885-A43C-C4300AA0EA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{621D779C-2600-4885-A43C-C4300AA0EA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{621D779C-2600-4885-A43C-C4300AA0EA56}.DebugWasm|Any CPU.ActiveCfg = DebugWasm|Any CPU
@@ -24,12 +30,6 @@ Global
 		{911173B4-D12E-4303-81D2-7E508B112B0D}.DebugWasm|Any CPU.Build.0 = Debug|Any CPU
 		{911173B4-D12E-4303-81D2-7E508B112B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{911173B4-D12E-4303-81D2-7E508B112B0D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEE70418-4160-450A-9111-237A6C986553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEE70418-4160-450A-9111-237A6C986553}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEE70418-4160-450A-9111-237A6C986553}.DebugWasm|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEE70418-4160-450A-9111-237A6C986553}.DebugWasm|Any CPU.Build.0 = Debug|Any CPU
-		{CEE70418-4160-450A-9111-237A6C986553}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEE70418-4160-450A-9111-237A6C986553}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

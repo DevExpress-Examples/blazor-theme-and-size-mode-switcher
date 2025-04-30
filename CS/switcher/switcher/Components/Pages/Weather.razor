@@ -7,11 +7,11 @@
 <PageTitle>Weather</PageTitle>
 <h1>Weather</h1>
 
-@if(forecasts == null){
+@if(forecasts == null) {
     <p>
         <em>Loading...</em>
     </p>
-} else{
+} else {
     <DxGrid Data="@forecasts">
         <Columns>
             <DxGridDataColumn Caption="Date" FieldName="Date"/>

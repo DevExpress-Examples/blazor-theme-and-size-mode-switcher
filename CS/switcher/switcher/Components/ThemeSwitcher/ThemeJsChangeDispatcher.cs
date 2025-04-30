@@ -35,9 +35,14 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
 
         await DxThemesService.SetTheme(theme);
 
-        var bootstrapThemeMode = theme is { IsBootstrapNative: true, IsDarkMode: true } ? "dark" : "light";
-        await _module.InvokeVoidAsync("ThemeController.switchBsThemeMode", bootstrapThemeMode, DotNetObjectReference.Create(this));
-        await JsRuntime.InvokeVoidAsync("PageHelper.themes.setThemeName", switcher.Services.DxThemesService.ThemeCookieKey, theme.Name);
+        await _module.InvokeVoidAsync(
+        "ThemeController.switchTheme",
+        theme.IsBootstrapNative, 
+        theme.IsFluent, 
+        theme.IsDarkMode, 
+        theme.Name,
+        switcher.Services.DxThemesService.ThemeCookieKey,
+        DotNetObjectReference.Create(this));
     }
 
     [JSInvokable]
