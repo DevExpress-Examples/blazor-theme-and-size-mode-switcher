@@ -1,0 +1,43 @@
+﻿body {
+    margin: 0;
+}
+
+
+.w-100 {
+    width: 100%;
+}
+
+.text-danger {
+    color: var(--DS-color-surface-danger-default-rest);
+}
+
+.p-4 {
+    padding: 1.5rem;
+}
+
+.navigation-drawer {
+    --dxbl-drawer-separator-border-width: 0;
+}
+
+.menu-item {
+    --dxbl-menu-item-color: #fff;
+    --dxbl-menu-item-image-color: #fff;
+}
+
+[data-fluent-darkmode] .dxbl-theme-fluent .welcome-card {
+    color: var(--DS-primary-70);
+}
+
+.icon {
+    --icon-width: 1.25rem;
+    --icon-height: 1.25rem;
+    --icon-back-mask-image: url("/images/back-fluent.svg");
+    --icon-close-mask-image: url("/images/close-fluent.svg");
+    --icon-menu-mask-image: url("/images/menu-fluent.svg");
+    --icon-docs-mask-image: url("/images/doc-fluent.svg");
+    --icon-demos-mask-image: url("/images/demos-fluent.svg");
+    --icon-home-mask-image: url("/images/home-fluent.svg");
+    --icon-weather-mask-image: url("/images/weather-fluent.svg");
+    --icon-counter-mask-image: url("/images/counter-fluent.svg");
+}
+

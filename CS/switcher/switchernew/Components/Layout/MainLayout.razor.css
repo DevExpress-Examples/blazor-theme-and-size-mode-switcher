@@ -1,0 +1,59 @@
+﻿﻿.page {
+    height: 100%;
+    font-family: var(--bs-font-sans-serif, var(--DS-font-family-sans-serif));
+}
+
+.logo {
+    text-align: center;
+}
+
+::deep .icon-back {
+    --icon-mask-image: var(--icon-back-mask-image);
+}
+
+::deep .icon-close {
+    --icon-mask-image: var(--icon-close-mask-image);
+}
+
+::deep .icon-menu {
+    --icon-mask-image: var(--icon-menu-mask-image);
+}
+
+
+::deep .docs-icon {
+    --icon-mask-image: var(--icon-docs-mask-image);
+}
+
+::deep .demos-icon {
+    --icon-mask-image: var(--icon-demos-mask-image);
+}
+
+::deep .footer-button:hover .demos-icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+::deep .footer-button:hover .docs-icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+::deep .menu-button:hover .icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+::deep .menu-button-nav:hover .icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+.panel-open .menu-button {
+    display: inline-flex;
+}
+
+.nav-buttons-container {
+    display: flex;
+    gap: 10px;
+    padding: 2rem 1rem;
+}
+
+.nav-buttons-container ::deep .menubutton-float-end {
+    margin-left: auto;
+}

@@ -1,0 +1,18 @@
+﻿.nav-buttons-container .dxbl-btn.dxbl-btn-icon-only {
+    --dxbl-btn-padding-x: 0.75rem;
+    --dxbl-btn-padding-y: 0.25rem;
+}
+
+.icon {
+    --icon-width: 1rem;
+    --icon-height: 1rem;
+    --icon-back-mask-image: url("/images/back.svg");
+    --icon-close-mask-image: url("/images/close.svg");
+    --icon-menu-mask-image: url("/images/menu.svg");
+    --icon-docs-mask-image: url("/images/doc.svg");
+    --icon-demos-mask-image: url("/images/demos.svg");
+    --icon-home-mask-image: url("/images/home.svg");
+    --icon-weather-mask-image: url("/images/weather.svg");
+    --icon-counter-mask-image: url("/images/counter.svg");
+}
+
