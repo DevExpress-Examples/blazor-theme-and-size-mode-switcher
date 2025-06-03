@@ -20,8 +20,12 @@ public class Theme : ITheme {
         var paths = _theme.GetFilePaths();
         if(IsFluent)
             paths.AddRange(["css/site-fluent.css", $"switcher-resources/css/fluent-{(IsDarkMode ? "dark" : "light")}.min.css"]);
-        if(IsBootstrapNative)
+        if(IsBootstrapNative){
+            if(!Name.StartsWith("default")){
+                paths.Add($"css/bootstrap/{Name}/bootstrap.min.css");
+            }
             paths.Add("css/bootstrap/bootstrap.min.css");
+        }
         return paths;
     }
     public string Name { get; init; }
@@ -40,6 +44,7 @@ public static class DxThemes {
     public static readonly Theme BootstrapDark = new(Themes.BootstrapExternal) { Name = "default-dark", IsBootstrapNative = true, IsDarkMode = true };
     public static readonly Theme FluentLight = new(Themes.Fluent) { Name = "fluent-light", IsFluent = true};
     public static readonly Theme FluentDark = new(Themes.Fluent.Clone(x => x.Mode = ThemeMode.Dark)) { Name = "fluent-dark", IsFluent = true, IsDarkMode = true };
+    public static readonly Theme MyTheme = new(Themes.BootstrapExternal) { Name = "my-theme", IsBootstrapNative = true };
 }
 
 public class DxThemesService {
@@ -80,7 +85,7 @@ public class DxThemesService {
         return
         [
             new ThemeSet("DevExpress Themes", DxThemes.BlazingBerry, DxThemes.BlazingDark, DxThemes.Purple, DxThemes.OfficeWhite),
-            new ThemeSet("Bootstrap Themes", DxThemes.Bootstrap, DxThemes.BootstrapDark),
+            new ThemeSet("Bootstrap Themes", DxThemes.Bootstrap, DxThemes.BootstrapDark, DxThemes.MyTheme),
             new ThemeSet("Fluent Themes", DxThemes.FluentLight, DxThemes.FluentDark)
         ];
     }

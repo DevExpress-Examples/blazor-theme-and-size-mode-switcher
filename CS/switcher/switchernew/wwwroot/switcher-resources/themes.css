@@ -1,4 +1,4 @@
-﻿.blazor-themes a.blazing-berry:before {
+.blazor-themes a.blazing-berry:before {
     background: #5c2d91;
 }
 
@@ -75,18 +75,22 @@
     background: #008cba;
 }
 
-.theme-external {
-    font-size: 0.875rem;
-}
-
-.blazor-themes a.fluent-light:before {
+.blazor-themes a.light-blue:before {
     background: #0f6cbd;
 }
 
-.blazor-themes a.fluent-dark:before {
-    background: #282828;
+.blazor-themes a.dark-blue:before {
+    background: #0f6cbd;
 }
 
-.blazor-themes a.my-theme:before {
-    background: red;
+.blazor-themes a.light-purple:before {
+    background: #a939ae;
+}
+
+.blazor-themes a.dark-purple:before {
+    background: #a939ae;
+}
+
+.theme-external {
+    font-size: 0.875rem;
 }

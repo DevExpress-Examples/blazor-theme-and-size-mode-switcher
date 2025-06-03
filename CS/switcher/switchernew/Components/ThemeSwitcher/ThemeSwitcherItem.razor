@@ -1,0 +1,17 @@
+﻿@inject DxThemesService ThemesService
+@rendermode InteractiveServer
+
+<li class="themeswitcher-color @Theme.Name @Theme.GetCssClass(ThemesService.ActiveTheme == Theme)" style="--themeswitcher-color: @Theme.MenuBackgroundColor">
+    <a
+        @onclick:preventDefault
+        @onclick="Anchor_Click">@Theme.Title</a>
+</li>
+
+@code {
+    [Parameter] public Theme Theme { get; set; }
+    [Parameter] public EventCallback<Theme> Click { get; set; }
+
+    async Task Anchor_Click() {
+        await Click.InvokeAsync(Theme);
+    }
+}
