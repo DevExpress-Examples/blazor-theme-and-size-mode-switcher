@@ -37,7 +37,8 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
         if(_pendingTheme != null) return;
         _pendingTheme = theme;
 
-        await DxThemesService.SetTheme(theme.ApplyStoredState(ThemesService.ThemeState));
+        var state = theme.ApplyStoredState(ThemesService.ThemeState);
+        await DxThemesService.SetTheme(state);
         
         await _module.InvokeVoidAsync(
         "ThemeController.switchTheme", 
@@ -47,15 +48,6 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
         switchernew.Services.DxThemesService.ThemeCookieKey,
         switchernew.Services.DxThemesService.ThemeStateCookieKey,
         DotNetObjectReference.Create(this));
-
-        // await _module.InvokeVoidAsync(
-        // "ThemeController.switchTheme",
-        // theme.IsBootstrapNative, 
-        // theme.IsFluent, 
-        // theme.IsDarkMode, 
-        // theme.Name,
-        // switchernew.Services.DxThemesService.ThemeCookieKey,
-        // DotNetObjectReference.Create(this));
     }
 
     [JSInvokable]

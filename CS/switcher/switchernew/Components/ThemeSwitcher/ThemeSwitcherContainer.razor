@@ -67,6 +67,15 @@
                     }
                 </ul>
             </div>
+            
+            <div class="themeswitcher-content">
+                <div class="themeswitcher-title">User Defined Themes</div>
+                <ul class="themeswitcher-colors">
+                    @foreach(var theme in ThemesService.UserDefinedThemes) {
+                        <ThemeSwitcherItem Theme="theme" Click="ThemeSwitcherItem_Click"/>
+                    }
+                </ul>
+            </div>
 
         </DxScrollView>
     </div>
@@ -92,6 +101,7 @@
     }
 
     async Task ThemeSwitcherItem_Click(Theme theme) {
+        ThemesService.ThemeState.CustomAccentColor = null;
         ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(theme);
         await ToggleThemeSwitcherPanel(false);
     }

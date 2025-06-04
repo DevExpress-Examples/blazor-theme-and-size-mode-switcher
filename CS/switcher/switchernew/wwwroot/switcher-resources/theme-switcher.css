@@ -1,7 +1,11 @@
+ol, ul {
+    margin-top: 0;
+}
+
 .dxbl-image.theme-icon {
     width: 1rem;
     height: 1rem;
-    background-color: var(--DS-color-content-neutral-default-rest, var(--bs-body-color));
+    background-color: var(--DS-color-content-neutral-default-rest, var(--bs-body-color, black));
     mask-image: url("../images/theme.svg");
     -webkit-mask-image: url("../images/theme.svg");
     mask-repeat: no-repeat;
@@ -24,92 +28,6 @@
 
 .theme-settings:hover .theme-icon {
     background-color: currentColor;
-}
-
-.blazor-themes {
-    border-radius: 0;
-    border: none;
-}
-
-.blazor-themes,
-.blazor-themes div,
-.blazor-themes .list-group,
-.blazor-themes .themeswitcher-group {
-    background-color: inherit;
-}
-
-.blazor-themes .list-group {
-    flex-flow: row wrap;
-    border: none;
-    color: inherit;
-    display: flex;
-}
-
-.blazor-themes .list-group-item {
-    flex: 1 0 100%;
-    font-size: 1em;
-    white-space: nowrap;
-    padding: .5rem .75rem;
-    border-radius: 0;
-}
-
-.blazor-themes .list-group-item-action:not(.active):not(:hover) {
-    background: none;
-}
-
-.blazor-themes .list-group-item-action {
-    flex: 1 0 50%;
-    max-width: 50%;
-    font-weight: 500;
-    border-color: transparent;
-}
-
-.blazor-themes .themeswitcher-group {
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-    z-index: 3;
-    color: inherit;
-    border: none;
-    margin-bottom: 0;
-}
-
-.blazor-themes .themeswitcher-group:not(:first-child):before,
-.blazor-themes .themeswitcher-group::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    left: 0;
-    border-top: 1px solid currentColor;
-    opacity: 0.15;
-}
-
-.blazor-themes .themeswitcher-group:not(:first-child):before {
-    top: 0;
-}
-
-.blazor-themes .themeswitcher-group::after {
-    bottom: 0;
-}
-
-.blazor-themes .themeswitcher-item > span {
-    opacity: 0.8;
-}
-
-.blazor-themes a.list-group-item-action:before {
-    content: "";
-    display: inline;
-    margin: 0 .75rem 0 .5rem;
-    padding-right: 1.2em;
-}
-
-.blazor-themes a:before {
-    border: 1px solid #fff;
-}
-
-@keyframes show_theme_switcher {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
 }
 
 .themeswitcher-container {
@@ -290,8 +208,8 @@
 
 .themeswitcher-container {
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-    color: var(--DS-color-content-neutral-default-rest);
-    background-color: var(--DS-color-surface-neutral-default-rest, var(--bs-body-bg));
+    color: var(--DS-color-content-neutral-default-rest, var(--bs-body-color, black));
+    background-color: var(--DS-color-surface-neutral-default-rest, var(--bs-body-bg, white));
     position: absolute;
     top: calc(3.5rem + 1px);
     right: 0;

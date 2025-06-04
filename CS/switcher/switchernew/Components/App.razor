@@ -32,7 +32,6 @@
     @foreach (string path in theme.GetFilePaths()){
         <link rel="stylesheet" href="@path" data-theme-id="@theme.Name"/>
     }
-    <link href="switcher-resources/themes.css" rel="stylesheet"/>
     <link href="switcher-resources/theme-switcher.css" rel="stylesheet"/>
     <link href=@AppendVersion("css/site.css") rel="stylesheet"/>
     <link href=@AppendVersion("switchernew.styles.css") rel="stylesheet"/>
