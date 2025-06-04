@@ -8,7 +8,7 @@
     var storedThemeName = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeCookieKey];
     var storedThemeState = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeStateCookieKey];
     var themeState = new ThemeState();
-    if (storedThemeState != null)
+    if(storedThemeState != null)
         themeState = JsonSerializer.Deserialize<ThemeState>(storedThemeState);
 
     ThemesService.SetActiveThemeByName(storedThemeName);
@@ -23,21 +23,19 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <base href="/"/>
-    @* @DxResourceManager.RegisterTheme(ThemesService.ActiveTheme) *@
-    @* @DxResourceManager.RegisterScripts() *@
-    <link href=@AppendVersion("css/site.css") rel="stylesheet"/>
-    <link href=@AppendVersion("switchernew.styles.css") rel="stylesheet"/>
-    <link href="switcher-resources/theme-switcher.css" rel="stylesheet" />
-    <link href="switcher-resources/themes.css" rel="stylesheet" />
-    @foreach (string style in theme.GetStyles()) {
+    @foreach (string style in theme.GetStyles()){
         <style data-theme-id="@theme.Name">
             @style
         </style>
     }
 
-    @foreach (string path in theme.GetFilePaths()) {
-        <link rel="stylesheet" href="@path" data-theme-id="@theme.Name" />
+    @foreach (string path in theme.GetFilePaths()){
+        <link rel="stylesheet" href="@path" data-theme-id="@theme.Name"/>
     }
+    <link href="switcher-resources/themes.css" rel="stylesheet"/>
+    <link href="switcher-resources/theme-switcher.css" rel="stylesheet"/>
+    <link href=@AppendVersion("css/site.css") rel="stylesheet"/>
+    <link href=@AppendVersion("switchernew.styles.css") rel="stylesheet"/>
     <HeadOutlet/>
 </head>
 <body>

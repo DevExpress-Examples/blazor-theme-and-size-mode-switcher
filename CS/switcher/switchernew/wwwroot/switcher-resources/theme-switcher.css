@@ -1,7 +1,7 @@
 .dxbl-image.theme-icon {
     width: 1rem;
     height: 1rem;
-    background-color: var(--bs-body-color);
+    background-color: var(--DS-color-content-neutral-default-rest, var(--bs-body-color));
     mask-image: url("../images/theme.svg");
     -webkit-mask-image: url("../images/theme.svg");
     mask-repeat: no-repeat;
@@ -137,7 +137,7 @@
 
 .themeswitcher-title {
     display: block;
-    background-color: var(--bs-body-bg);
+    background-color: var(--DS-color-surface-neutral-default-rest, var(--bs-body-bg));
     font-weight: 700;
     font-size: 16px;
     line-height: 100%;
@@ -289,6 +289,8 @@
 }
 
 .themeswitcher-container {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    color: var(--DS-color-content-neutral-default-rest);
     background-color: var(--DS-color-surface-neutral-default-rest, var(--bs-body-bg));
     position: absolute;
     top: calc(3.5rem + 1px);

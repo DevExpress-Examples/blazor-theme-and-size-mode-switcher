@@ -1,5 +1,7 @@
 ﻿body {
     margin: 0;
+    color: var(--DS-color-content-neutral-default-rest, var(--bs-primary));
+    background-color: var(--DS-color-surface-neutral-default-rest, var(--bs-body-bg));
 }
 
 
@@ -24,6 +26,10 @@
     --dxbl-menu-item-image-color: #fff;
 }
 
+.menu-item a {
+    color: #fff;
+}
+
 [data-fluent-darkmode] .dxbl-theme-fluent .welcome-card {
     color: var(--DS-primary-70);
 }
@@ -31,13 +37,13 @@
 .icon {
     --icon-width: 1.25rem;
     --icon-height: 1.25rem;
-    --icon-back-mask-image: url("/images/back-fluent.svg");
-    --icon-close-mask-image: url("/images/close-fluent.svg");
-    --icon-menu-mask-image: url("/images/menu-fluent.svg");
-    --icon-docs-mask-image: url("/images/doc-fluent.svg");
-    --icon-demos-mask-image: url("/images/demos-fluent.svg");
-    --icon-home-mask-image: url("/images/home-fluent.svg");
-    --icon-weather-mask-image: url("/images/weather-fluent.svg");
-    --icon-counter-mask-image: url("/images/counter-fluent.svg");
+    --icon-back-mask-image: url("../images/back-fluent.svg");
+    --icon-close-mask-image: url("../images/close-fluent.svg");
+    --icon-menu-mask-image: url("../images/menu-fluent.svg");
+    --icon-docs-mask-image: url("../images/doc-fluent.svg");
+    --icon-demos-mask-image: url("../images/demos-fluent.svg");
+    --icon-home-mask-image: url("../images/home-fluent.svg");
+    --icon-weather-mask-image: url("../images/weather-fluent.svg");
+    --icon-counter-mask-image: url("../images/counter-fluent.svg");
 }
 

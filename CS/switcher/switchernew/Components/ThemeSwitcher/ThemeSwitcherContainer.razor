@@ -5,7 +5,7 @@
 @rendermode InteractiveServer
 
 @if(IsLoaded) {
-    <div class="themeswitcher-container shadow @StateCssClass">
+    <div class="themeswitcher-container @StateCssClass">
         <DxScrollView>
             <div class="themeswitcher-content">
                 <div class="themeswitcher-title">DevExpress Fluent</div>
@@ -107,7 +107,7 @@
             return;
 
         ThemesService.ThemeState.CustomAccentColor = color;
-        ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(ThemesService.CustomFluentDemoTheme);
+        ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(ThemesService.CustomFluentTheme);
         await ToggleThemeSwitcherPanel(false);
     }
 
@@ -116,7 +116,7 @@
     }
     
     private bool IsCustomThemeSelected() {
-        return ThemesService.ActiveTheme == ThemesService.CustomFluentDemoTheme;
+        return ThemesService.ActiveTheme == ThemesService.CustomFluentTheme;
     }
 
     public async Task NotifyThemeLoadedAsync(Theme theme) {

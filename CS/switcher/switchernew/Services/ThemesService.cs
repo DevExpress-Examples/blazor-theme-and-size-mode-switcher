@@ -11,75 +11,6 @@ public interface IThemeLoadNotifier {
     Task NotifyThemeLoadedAsync(Theme theme);
 }
 
-public class Theme : ITheme {
-    public ITheme DxTheme { get; set; }
-    public string Title { get; }
-    public string Name { get; init; }
-    // public string Title => CultureInfo.InvariantCulture.TextInfo.ToTitleCase(Name.Replace("-", " "));
-    public string MenuBackgroundColor { get; }
-    public bool IsDarkMode { get; set; }
-    public bool IsFluent { get; set; }
-    public bool IsBootstrapNative { get; set; }
-    public string BootstrapThemeMode { get; init; } = "light";
-    private ThemeFluentAccentColor? FluentAccentColor { get; }
-    public static string GetCssClass(bool isActive) => isActive ? "active" : null;
-    
-    public Theme(string name, string title) {
-        Name = name;
-        Title = title;
-    }
-    
-    public Theme(ITheme theme, string name, string title, string menuBackgroundColor) : this(name, title) {
-        DxTheme = theme;
-        MenuBackgroundColor = menuBackgroundColor;
-    }
-    
-    public Theme(string name, string title, string menuBackgroundColor, ThemeFluentAccentColor color) : this(null, name, title, menuBackgroundColor) {
-        FluentAccentColor = color;
-        IsFluent = true;
-    }
-    
-    public ITheme ApplyStoredState(ThemeState themeState) {
-        if(!IsFluent)
-            return DxTheme;
-
-        return DevExpress.Blazor.Themes.Fluent.Clone(properties => {
-            properties.Mode = themeState.Mode ?? DevExpress.Blazor.ThemeMode.Light;
-
-            if(FluentAccentColor != null)
-                properties.AccentColor = FluentAccentColor.Value;
-
-            if(themeState.CustomAccentColor != null)
-                properties.SetCustomAccentColor(themeState.CustomAccentColor);
-
-            properties.Name = $"{Name}{properties.Mode}{themeState.CustomAccentColor}";
-
-            properties.AddFilePaths(BlazorThemes.FluentCommonStylesPath);
-
-            if(properties.Mode == ThemeMode.Light)
-                properties.AddFilePaths(BlazorThemes.GetBootstrapFluentThemePath("fluent-light"), BlazorThemes.HighlightJsDefaultTheme);
-
-            if(properties.Mode == ThemeMode.Dark)
-                properties.AddFilePaths(BlazorThemes.GetBootstrapFluentThemePath("fluent-dark"), BlazorThemes.HighlightJsAndroidTheme);
-        });
-    }
-
-    public List<string> GetFilePaths() {
-        var paths = DxTheme.GetFilePaths();
-        if(IsFluent)
-            paths.AddRange(["css/theme-fluent.css", $"switcher-resources/css/fluent-{(IsDarkMode ? "dark" : "light")}.min.css"]);
-        else
-            paths.Add("css/theme-bs.css");
-        if(IsBootstrapNative){
-            if(!Name.StartsWith("default")){
-                paths.Add($"css/bootstrap/{Name}.min.css");
-            }
-            paths.AddRange(["css/bootstrap/bootstrap.min.css"]);
-        }
-        return paths;
-    }
-}
-
 public class ThemeState {
     public ThemeMode? Mode { get; set; } = ThemeMode.Light;
     public string? CustomAccentColor { get; set; }
@@ -146,7 +77,7 @@ public class DxThemesService {
         switchernew.Services.Themes.FluentStorm,
     ];
 
-    public Theme CustomFluentDemoTheme = new Theme("CustomFluent", String.Empty) { IsFluent = true };
+    public Theme CustomFluentTheme = new("CustomFluent", String.Empty) { IsFluent = true };
 
     public List<Theme> ClassicThemes =
     [
@@ -163,13 +94,15 @@ public class DxThemesService {
         switchernew.Services.Themes.BootstrapCerulean,
         switchernew.Services.Themes.BootstrapFlatly,
         switchernew.Services.Themes.BootstrapJournal,
-        switchernew.Services.Themes.BootstrapLumen
+        switchernew.Services.Themes.BootstrapLumen,
+        new("CustomBootstrap", "Custom Bootstrap", "#5c2d91", ThemeFluentAccentColor.Blue)
     ];
+    
 
     public List<Theme> Themes =>
         FluentThemes
             .Concat(ClassicThemes)
             .Concat(BootstrapThemes)
-            .Concat([CustomFluentDemoTheme])
+            .Concat([CustomFluentTheme])
             .ToList();
 }

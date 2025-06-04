@@ -51,7 +51,7 @@
 .nav-buttons-container {
     display: flex;
     gap: 10px;
-    padding: 2rem 1rem;
+    padding: 1rem;
 }
 
 .nav-buttons-container ::deep .menubutton-float-end {

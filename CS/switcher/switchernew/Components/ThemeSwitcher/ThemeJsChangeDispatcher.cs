@@ -1,3 +1,4 @@
+using System.Text.Json;
 using DevExpress.Blazor;
 using DevExpress.Blazor.Internal;
 using Microsoft.AspNetCore.Components;
@@ -38,7 +39,14 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
 
         await DxThemesService.SetTheme(theme.ApplyStoredState(ThemesService.ThemeState));
         
-        await _module.InvokeVoidAsync("ThemeController.switchBsThemeMode", theme.BootstrapThemeMode, switchernew.Services.DxThemesService.ThemeCookieKey, DotNetObjectReference.Create(this));
+        await _module.InvokeVoidAsync(
+        "ThemeController.switchTheme", 
+        theme.BootstrapThemeMode,
+        theme.Name,
+        JsonSerializer.Serialize(ThemesService.ThemeState),
+        switchernew.Services.DxThemesService.ThemeCookieKey,
+        switchernew.Services.DxThemesService.ThemeStateCookieKey,
+        DotNetObjectReference.Create(this));
 
         // await _module.InvokeVoidAsync(
         // "ThemeController.switchTheme",

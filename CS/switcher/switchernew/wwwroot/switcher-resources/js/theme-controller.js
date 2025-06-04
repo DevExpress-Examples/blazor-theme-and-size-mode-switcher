@@ -1,23 +1,19 @@
 "use strict";
 
 export const ThemeController = (function () {
-    function setCookie(name, value, date) {
-        document.cookie = escape(name) + '=' + escape(value.toString()) + '; expires=' + date.toGMTString() + '; path=/';
-    }
-
-    function setThemeName(cookieName, themeName) {
+    function setCookie(cookie, value) {
         var date = new Date();
         date.setFullYear(date.getFullYear() + 1);
-        setCookie(cookieName, themeName, date);
+        document.cookie = escape(cookie) + '=' + escape(value.toString()) + '; expires=' + date.toGMTString() + '; path=/';
     }
 
-    async function switchBsThemeMode(bsThemeMode, cookie, reference) {
+    async function switchTheme(bsThemeMode, name, themeState, cookie, stateCookie, reference) {
         document.querySelector("HTML").setAttribute("data-bs-theme", bsThemeMode);
-        const html = document.querySelector("HTML");
-        setThemeName(cookie, name);
+        setCookie(cookie, name);
+        setCookie(stateCookie, themeState);
 
         await reference.invokeMethodAsync("ThemeLoadedAsync");
     }
 
-    return { switchBsThemeMode }
+    return { switchTheme }
 })();
