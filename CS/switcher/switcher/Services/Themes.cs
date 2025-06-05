@@ -1,6 +1,6 @@
 ﻿using DevExpress.Blazor;
 
-namespace switchernew.Services;
+namespace switcher.Services;
 
 public class Theme : ITheme {
     public ITheme DxTheme { get; }

@@ -1,29 +1,44 @@
-﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
+﻿@using System.Text.Json
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IFileVersionProvider FileVersionProvider
 @inject DxThemesService ThemesService
 
 @{
-    string? InitialThemeName = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeCookieKey];
-    ThemesService.SetActiveThemeByName(InitialThemeName);
+    var storedThemeName = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeCookieKey];
+    var storedThemeState = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeStateCookieKey];
+    var themeState = new ThemeState();
+    if(storedThemeState != null)
+        themeState = JsonSerializer.Deserialize<ThemeState>(storedThemeState);
+
+    ThemesService.SetActiveThemeByName(storedThemeName);
+    ThemesService.SetThemeState(themeState);
+
+    var theme = ThemesService.ActiveTheme.ApplyStoredState(themeState);
 }
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="@(ThemesService.IsBootstrapDarkActive ? "dark" : null)" data-fluent-darkmode="@(ThemesService.IsFluentDarkModeActive ? "" : null)">
+<html lang="en" data-bs-theme="@ThemesService.ActiveTheme.BootstrapThemeMode">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <base href="/"/>
-    @DxResourceManager.RegisterTheme(ThemesService.ActiveTheme)
-    @DxResourceManager.RegisterScripts()
+    @foreach (string style in theme.GetStyles()){
+        <style data-theme-id="@theme.Name">
+            @style
+        </style>
+    }
+
+    @foreach (string path in theme.GetFilePaths()){
+        <link rel="stylesheet" href="@path" data-theme-id="@theme.Name"/>
+    }
+    <link href="switcher-resources/theme-switcher.css" rel="stylesheet"/>
     <link href=@AppendVersion("css/site.css") rel="stylesheet"/>
     <link href=@AppendVersion("switcher.styles.css") rel="stylesheet"/>
-    <link href="switcher-resources/css/theme-switcher.css" rel="stylesheet" />
-    <link href="switcher-resources/css/themes.css" rel="stylesheet" />
     <HeadOutlet/>
 </head>
-<body class="@(ThemesService.IsFluentActive ? "dxbl-theme-fluent" : null)">
-<Routes></Routes>
+<body>
+<Routes/>
 <script src="_framework/blazor.web.js"></script>
 </body>
 

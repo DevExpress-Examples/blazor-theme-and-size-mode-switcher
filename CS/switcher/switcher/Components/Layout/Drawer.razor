@@ -20,12 +20,12 @@
                       IsOpen="@(!ToggledSidebar)"
                       HeaderTemplate="@DrawerHeader"
                       FooterTemplate="@DrawerFooter"
-                      OpenCssClass="panel-open" >
+                      OpenCssClass="panel-open">
                 <BodyTemplate>
                     @DrawerBody
                 </BodyTemplate>
                 <TargetContent>
-                    <div class="navigation-drawer-shading" />
+                    <div class="navigation-drawer-shading"/>
                     @DrawerTarget
                 </TargetContent>
             </DxDrawer>
@@ -39,6 +39,7 @@
 
     [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
     public bool ToggledSidebar { get; set; }
+
     [Parameter] public RenderFragment? DrawerTarget { get; set; }
     [Parameter] public RenderFragment? DrawerBody { get; set; }
     [Parameter] public RenderFragment? DrawerHeader { get; set; }

@@ -3,8 +3,8 @@
 @inject PersistentComponentState ApplicationState
 
 @rendermode InteractiveServer
-<ThemeJsChangeDispatcher InitialThemeName="@DxThemes.BlazingBerry.Name" />
-<div class="@GetHeaderContainerCss()">
+<ThemeJsChangeDispatcher InitialThemeName="@Services.Themes.BlazingBerry.Name" InitialThemeState="@(new ThemeState())" />
+<div class="@GetHeaderContainerCss()" style="margin-left: auto;">
     <div class="btn-container d-flex">
         <DxButton Click="@ToggleThemeSwitcherPanel" CssClass="@GetThemeSwitcherCssClass()" SizeMode="SizeMode.Large"
                   RenderStyle="ButtonRenderStyle.Secondary" RenderStyleMode="ButtonRenderStyleMode.Outline" IconCssClass="theme-icon"

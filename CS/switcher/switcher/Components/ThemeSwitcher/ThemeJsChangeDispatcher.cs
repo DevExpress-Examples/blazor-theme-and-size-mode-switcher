@@ -1,3 +1,4 @@
+using System.Text.Json;
 using DevExpress.Blazor;
 using DevExpress.Blazor.Internal;
 using Microsoft.AspNetCore.Components;
@@ -6,6 +7,7 @@ using switcher.Services;
 
 public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatcher, IAsyncDisposable {
     [Parameter] public string InitialThemeName { get; set; }
+    [Parameter] public ThemeState InitialThemeState { get; set; }
 
     [Inject] private ISafeJSRuntime JsRuntime { get; set; }
 
@@ -20,6 +22,8 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
         ThemesService.ThemeChangeRequestDispatcher = this;
         if(ThemesService.ActiveTheme == null)
             ThemesService.SetActiveThemeByName(InitialThemeName);
+        if(ThemesService.ThemeState == null)
+            ThemesService.SetThemeState(InitialThemeState);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender) {
@@ -30,18 +34,19 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
     }
 
     public async void RequestThemeChange(Theme theme) {
-        if(_pendingTheme == theme) return;
+        if(_pendingTheme != null) return;
         _pendingTheme = theme;
 
-        await DxThemesService.SetTheme(theme);
-
+        var state = theme.ApplyStoredState(ThemesService.ThemeState);
+        await DxThemesService.SetTheme(state);
+        
         await _module.InvokeVoidAsync(
-        "ThemeController.switchTheme",
-        theme.IsBootstrapNative, 
-        theme.IsFluent, 
-        theme.IsDarkMode, 
+        "ThemeController.switchTheme", 
+        theme.BootstrapThemeMode,
         theme.Name,
+        JsonSerializer.Serialize(ThemesService.ThemeState),
         switcher.Services.DxThemesService.ThemeCookieKey,
+        switcher.Services.DxThemesService.ThemeStateCookieKey,
         DotNetObjectReference.Create(this));
     }
 

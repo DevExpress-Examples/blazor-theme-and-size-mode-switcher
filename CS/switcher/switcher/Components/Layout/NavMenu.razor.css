@@ -20,27 +20,19 @@
 }
 
 ::deep .icon {
-    width: 1rem;
-    height: 1rem;
-    background-position: center;
-    background-repeat: no-repeat;
     margin-left: 0.5rem;
-    background-color: currentcolor;
 }
 
 ::deep .home-icon {
-    -webkit-mask-image: url("images/home.svg");
-    mask-image: url("images/home.svg");
+    --icon-mask-image: var(--icon-home-mask-image);
 }
 
 ::deep .weather-icon {
-    -webkit-mask-image: url("images/weather.svg");
-    mask-image: url("images/weather.svg");
+    --icon-mask-image: var(--icon-weather-mask-image);
 }
 
 ::deep .counter-icon {
-    -webkit-mask-image: url("images/counter.svg");
-    mask-image: url("images/counter.svg");
+    --icon-mask-image: var(--icon-counter-mask-image);
 }
 
 

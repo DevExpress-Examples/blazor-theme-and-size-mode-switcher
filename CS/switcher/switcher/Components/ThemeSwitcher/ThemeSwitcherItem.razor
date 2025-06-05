@@ -1,11 +1,12 @@
 ﻿@inject DxThemesService ThemesService
 @rendermode InteractiveServer
 
-<a class="themeswitcher-item list-group-item list-group-item-action @(ThemesService.ActiveTheme == Theme ? "active" : "text-body") @Theme.Name.ToLower()"
-   @onclick:preventDefault
-   @onclick="Anchor_Click">
-    <span>@Theme.Title</span>
-</a>
+<li class="themeswitcher-color @Theme.Name @Theme.GetCssClass(ThemesService.ActiveTheme == Theme)" style="--themeswitcher-color: @Theme.MenuBackgroundColor">
+    <a
+        @onclick:preventDefault
+        @onclick="Anchor_Click">@Theme.Title</a>
+</li>
+
 @code {
     [Parameter] public Theme Theme { get; set; }
     [Parameter] public EventCallback<Theme> Click { get; set; }
