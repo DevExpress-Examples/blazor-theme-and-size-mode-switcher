@@ -5,12 +5,12 @@
 @implements IThemeLoadNotifier
 @rendermode InteractiveServer
 
-@if(IsLoaded) {
+@if(IsLoaded){
     <div class="themeswitcher-container @StateCssClass">
         <DxScrollViewer CssClass="blazor-scroll-view" VisibleElementVerticalAlign="@VerticalAlign.Top">
             <div class="themeswitcher-content">
                 <div class="themeswitcher-title">DevExpress Fluent</div>
-                <DxButtonGroup Enabled="ThemesService.ActiveTheme.IsFluent" CssClass="themeswitcher-fluent-mode"
+                <DxButtonGroup CssClass="themeswitcher-fluent-mode"
                                RenderStyle="ButtonRenderStyle.Secondary"
                                RenderStyleMode="ButtonRenderStyleMode.Contained"
                                SelectionMode="ButtonGroupSelectionMode.Single">
@@ -26,11 +26,11 @@
 
                 <div class="themeswitcher-subtitle">Preset Colors</div>
                 <ul class="themeswitcher-colors">
-                    @foreach(var theme in ThemesService.FluentThemes) {
+                    @foreach (var theme in ThemesService.FluentThemes){
                         <ThemeSwitcherItem Theme="theme" Click="ThemeSwitcherItem_Click"/>
                     }
                 </ul>
-                
+
                 <div class="themeswitcher-subtitle">Custom Color</div>
                 <div class="themeswitcher-custom-color @GetCustomColorPickerCss()">
                     <DxMaskedInput
@@ -46,27 +46,10 @@
                               IconCssClass="themeswitcher-custom-color-button-icon">
                         <div class="themeswitcher-custom-color-button-icon">
                         </div>
-                        <input type="color" value="@GetColorPickerText()" @onchange="(e) => OnFluentSetCustomAccentColor(e.Value.ToString())"/>
+                        <input type="color" value="@GetColorPickerText()"
+                               @onchange="(e) => OnFluentSetCustomAccentColor(e.Value.ToString())"/>
                     </DxButton>
                 </div>
-            </div>
-
-            <div class="themeswitcher-content">
-                <div class="themeswitcher-title">DevExpress Classic</div>
-                <ul class="themeswitcher-colors">
-                    @foreach(var theme in ThemesService.ClassicThemes) {
-                        <ThemeSwitcherItem Theme="theme" Click="ThemeSwitcherItem_Click"/>
-                    }
-                </ul>
-            </div>
-            
-            <div class="themeswitcher-content">
-                <div class="themeswitcher-title">Bootstrap</div>
-                <ul class="themeswitcher-colors">
-                    @foreach(var theme in ThemesService.BootstrapThemes) {
-                        <ThemeSwitcherItem Theme="theme" Click="ThemeSwitcherItem_Click"/>
-                    }
-                </ul>
             </div>
 
         </DxScrollViewer>
@@ -87,7 +70,7 @@
         base.OnInitialized();
         ThemesService.ThemeLoadNotifier = this;
     }
-    
+
     string GetCustomColorPickerCss() {
         return IsCustomThemeSelected() ? "active" : null;
     }
@@ -97,7 +80,7 @@
         ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(theme);
         await ToggleThemeSwitcherPanel(false);
     }
-    
+
     async Task OnFluentModeChange(ThemeMode mode) {
         ThemesService.ThemeState.Mode = mode;
         ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(ThemesService.ActiveTheme);
@@ -116,7 +99,7 @@
     private string? GetColorPickerText() {
         return IsCustomThemeSelected() ? ThemesService.ThemeState.CustomAccentColor : null;
     }
-    
+
     private bool IsCustomThemeSelected() {
         return ThemesService.ActiveTheme == ThemesService.CustomFluentTheme;
     }
@@ -127,14 +110,14 @@
     }
 
     async Task ToggleThemeSwitcherPanel(bool shown) {
-        if(shown != Shown) {
+        if(shown != Shown){
             Shown = shown;
             await ShownChanged.InvokeAsync(shown);
         }
     }
 
     protected override void OnAfterRender(bool firstRender) {
-        if(firstRender) {
+        if(firstRender){
             IsLoaded = true;
             if(Shown)
                 StateHasChanged();

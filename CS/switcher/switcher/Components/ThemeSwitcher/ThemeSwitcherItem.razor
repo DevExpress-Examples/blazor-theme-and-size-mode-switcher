@@ -1,7 +1,7 @@
 ﻿@inject DxThemesService ThemesService
 @rendermode InteractiveServer
 
-<li class="themeswitcher-color @Theme.Name @Theme.GetCssClass(ThemesService.ActiveTheme == Theme)" style="--themeswitcher-color: @Theme.MenuBackgroundColor">
+<li class="themeswitcher-color @Theme.Name @(ThemesService.ActiveTheme == Theme ? "active" : null)" style="--themeswitcher-color: @Theme.MenuBackgroundColor">
     <a
         @onclick:preventDefault
         @onclick="Anchor_Click">@Theme.Title</a>

@@ -7,8 +7,7 @@ export const ThemeController = (function () {
         document.cookie = escape(cookie) + '=' + escape(value.toString()) + '; expires=' + date.toGMTString() + '; path=/';
     }
 
-    async function switchTheme(bsThemeMode, name, themeState, cookie, stateCookie, reference) {
-        document.querySelector("HTML").setAttribute("data-bs-theme", bsThemeMode);
+    async function switchTheme(name, themeState, cookie, stateCookie, reference) {
         setCookie(cookie, name);
         setCookie(stateCookie, themeState);
 

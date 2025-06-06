@@ -3,7 +3,7 @@
 @inject PersistentComponentState ApplicationState
 
 @rendermode InteractiveServer
-<ThemeJsChangeDispatcher InitialThemeName="@Services.Themes.BlazingBerry.Name" InitialThemeState="@(new ThemeState())" />
+<ThemeJsChangeDispatcher InitialThemeName="@Services.Themes.FluentBlue.Name" InitialThemeState="@(new ThemeState())" />
 <div class="@GetHeaderContainerCss()" style="margin-left: auto;">
     <div class="btn-container d-flex">
         <DxButton Click="@ToggleThemeSwitcherPanel" CssClass="@GetThemeSwitcherCssClass()" SizeMode="SizeMode.Large"
@@ -29,10 +29,6 @@
                 ThemesService.SetActiveThemeByName(value);
             }
         }
-    }
-    
-    protected bool IsBootstrapNative {
-        get { return ThemesService.ActiveTheme.IsBootstrapNative; }
     }
 
     bool ThemeSwitcherShown {
@@ -60,11 +56,7 @@
     }
     
     string GetHeaderContainerCss() {
-        List<string> cssClasses = new List<string>();
-        cssClasses.Add("theme-" + ThemeName.Replace(" ", "-"));
-        if (IsBootstrapNative)
-            cssClasses.Add("theme-external");
-        return string.Join(" ", cssClasses);
+        return $"theme-{ThemeName.Replace(" ", "-")}";
     }
     
     Task PersistData() {

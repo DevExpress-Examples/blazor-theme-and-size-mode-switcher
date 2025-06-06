@@ -39,10 +39,9 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
 
         var state = theme.ApplyStoredState(ThemesService.ThemeState);
         await DxThemesService.SetTheme(state);
-        
+
         await _module.InvokeVoidAsync(
-        "ThemeController.switchTheme", 
-        theme.BootstrapThemeMode,
+        "ThemeController.switchTheme",
         theme.Name,
         JsonSerializer.Serialize(ThemesService.ThemeState),
         switcher.Services.DxThemesService.ThemeCookieKey,
@@ -52,7 +51,7 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
 
     [JSInvokable]
     public async Task ThemeLoadedAsync() {
-        if(ThemesService.ThemeLoadNotifier != null) {
+        if(ThemesService.ThemeLoadNotifier != null){
             await ThemesService.ThemeLoadNotifier.NotifyThemeLoadedAsync(_pendingTheme);
         }
 
@@ -60,9 +59,10 @@ public class ThemeJsChangeDispatcher : ComponentBase, IThemeChangeRequestDispatc
     }
 
     public async ValueTask DisposeAsync() {
-        try {
+        try{
             if(_module != null)
                 await _module.DisposeAsync();
-        } catch(JSDisconnectedException) { }
+        }
+        catch (JSDisconnectedException){}
     }
 }

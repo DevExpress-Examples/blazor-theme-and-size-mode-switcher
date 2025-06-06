@@ -31,10 +31,7 @@ public class DxThemesService {
 
     public void SetActiveThemeByName(string? themeName) {
         var theme = FindThemeByName(themeName);
-        if(theme != null)
-            ActiveTheme = theme;
-        else
-            ActiveTheme = DefaultTheme;
+        ActiveTheme = theme ?? DefaultTheme;
     }
 
     private Theme? FindThemeByName(string? themeName) {
@@ -60,30 +57,7 @@ public class DxThemesService {
         switcher.Services.Themes.FluentStorm,
     ];
 
-    public Theme CustomFluentTheme = new("CustomFluent", String.Empty) { IsFluent = true };
+    public Theme CustomFluentTheme = new("CustomFluent", String.Empty);
 
-    public List<Theme> ClassicThemes =
-    [
-        switcher.Services.Themes.BlazingBerry,
-        switcher.Services.Themes.BlazingDark,
-        switcher.Services.Themes.Purple,
-        switcher.Services.Themes.OfficeWhite
-    ];
-
-    public List<Theme> BootstrapThemes =
-    [
-        switcher.Services.Themes.BootstrapDefault,
-        switcher.Services.Themes.BootstrapDefaultDark,
-        switcher.Services.Themes.BootstrapCerulean,
-        switcher.Services.Themes.BootstrapFlatly,
-        switcher.Services.Themes.BootstrapJournal,
-        switcher.Services.Themes.BootstrapLumen
-    ];
-
-    public List<Theme> Themes =>
-        FluentThemes
-            .Concat(ClassicThemes)
-            .Concat(BootstrapThemes)
-            .Concat([CustomFluentTheme])
-            .ToList();
+    public List<Theme> Themes => FluentThemes.Append(CustomFluentTheme).ToList();
 }
