@@ -1,12 +1,13 @@
 ﻿@inject DxThemesService ThemesService
 @implements IDisposable
 @using System.Text.RegularExpressions
+@using DevExpress.Blazor.Internal
 @implements IThemeLoadNotifier
 @rendermode InteractiveServer
 
 @if(IsLoaded) {
     <div class="themeswitcher-container @StateCssClass">
-        <DxScrollView>
+        <DxScrollViewer CssClass="blazor-scroll-view" VisibleElementVerticalAlign="@VerticalAlign.Top">
             <div class="themeswitcher-content">
                 <div class="themeswitcher-title">DevExpress Fluent</div>
                 <DxButtonGroup Enabled="ThemesService.ActiveTheme.IsFluent" CssClass="themeswitcher-fluent-mode"
@@ -68,7 +69,7 @@
                 </ul>
             </div>
 
-        </DxScrollView>
+        </DxScrollViewer>
     </div>
 }
 
