@@ -67,15 +67,6 @@
                     }
                 </ul>
             </div>
-            
-            <div class="themeswitcher-content">
-                <div class="themeswitcher-title">User Defined Themes</div>
-                <ul class="themeswitcher-colors">
-                    @foreach(var theme in ThemesService.UserDefinedThemes) {
-                        <ThemeSwitcherItem Theme="theme" Click="ThemeSwitcherItem_Click"/>
-                    }
-                </ul>
-            </div>
 
         </DxScrollView>
     </div>
@@ -87,7 +78,7 @@
     [Parameter] public string ThemeName { get; set; }
     [Parameter] public EventCallback<string> ThemeNameChanged { get; set; }
 
-    string StateCssClass => IsLoaded ? ((Shown? "themeswitcher-container-shown" : "themeswitcher-container-hidden")) : "";
+    string StateCssClass => IsLoaded ? ((Shown ? "themeswitcher-container-shown" : "themeswitcher-container-hidden")) : "";
     bool IsLoaded { get; set; }
     const string hexRegexStr = "#([0-9a-fA-F]{6})";
 

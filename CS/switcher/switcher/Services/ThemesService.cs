@@ -80,15 +80,10 @@ public class DxThemesService {
         switcher.Services.Themes.BootstrapLumen
     ];
 
-    public List<Theme> UserDefinedThemes =
-    [
-        switcher.Services.Themes.BootstrapUserDefined
-    ];
-
     public List<Theme> Themes =>
         FluentThemes
             .Concat(ClassicThemes)
             .Concat(BootstrapThemes)
-            .Concat(UserDefinedThemes)
+            .Concat([CustomFluentTheme])
             .ToList();
 }

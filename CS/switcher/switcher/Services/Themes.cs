@@ -3,9 +3,9 @@
 namespace switcher.Services;
 
 public class Theme : ITheme {
-    public ITheme DxTheme { get; }
+    public ITheme? DxTheme { get; }
     public string Title { get; }
-    public List<string> GetFilePaths() => DxTheme.GetFilePaths();
+    public List<string> GetFilePaths() => DxTheme?.GetFilePaths() ?? [];
     public string Name { get; init; }
     public string MenuBackgroundColor { get; }
     public bool IsFluent { get; set; }
@@ -88,7 +88,4 @@ public static class Themes {
     public static readonly Theme BootstrapFlatly = new("flatly", "Flatly", "#DBE4EC");
     public static readonly Theme BootstrapJournal = new("journal", "Journal", "#EB6864");
     public static readonly Theme BootstrapLumen = new("lumen", "Lumen", "#158CBA");
-
-    // user defined
-    public static readonly Theme BootstrapUserDefined = new("user-defined", "User Defined", "red");
 }
