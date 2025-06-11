@@ -13,6 +13,10 @@ export const ThemeController = (function () {
 
         await reference.invokeMethodAsync("ThemeLoadedAsync");
     }
+    
+    function setSizeMode(sizeMode, cookie) {
+        setCookie(cookie, sizeMode);
+    }
 
-    return { switchTheme }
+    return { switchTheme, setSizeMode }
 })();

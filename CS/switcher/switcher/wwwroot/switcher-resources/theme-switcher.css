@@ -194,6 +194,15 @@ ol, ul {
     border-radius: 2px;
 }
 
+.themeswitcher-sizing {
+    padding: 8px;
+    margin: 0 4px;
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
 .themeswitcher-icon-fluent-mode-light, .themeswitcher-icon-fluent-mode-dark {
     width: 1.25rem;
     height: 1.25rem;

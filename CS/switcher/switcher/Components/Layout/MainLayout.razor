@@ -1,32 +1,33 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
-@inject DxThemesService ThemesService
 
-<div class="page">
-    <Drawer DrawerHeader="drawerHeader" DrawerFooter="drawerFooter">
-        <DrawerBody>
-            <div class="w-100">
-                <NavMenu></NavMenu>
-            </div>
-        </DrawerBody>
-        <DrawerTarget>
-            <div class="nav-buttons-container">
-                <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
-                    <DxButton RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button" IconCssClass="icon icon-menu"></DxButton>
-                </NavLink>
-                @if(new Uri(NavigationManager.Uri).LocalPath != "/"){
-                    <NavLink href="@UrlGenerator.GetUrl("/", ToggledSidebar)" class="button-link hidden">
-                        <DxButton Text="Back to Home" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button-nav" IconCssClass="icon icon-back"></DxButton>
+<SizeModeContainer>
+    <div class="page">
+        <Drawer DrawerHeader="drawerHeader" DrawerFooter="drawerFooter">
+            <DrawerBody>
+                <div class="w-100">
+                    <NavMenu></NavMenu>
+                </div>
+            </DrawerBody>
+            <DrawerTarget>
+                <div class="nav-buttons-container">
+                    <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
+                        <DxButton RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button" IconCssClass="icon icon-menu"></DxButton>
                     </NavLink>
-                }
-                <ThemeSwitcher />
-            </div>
-            <div class="container p-4">
-                @Body
-            </div>
-        </DrawerTarget>
-    </Drawer>
-</div>
+                    @if(new Uri(NavigationManager.Uri).LocalPath != "/"){
+                        <NavLink href="@UrlGenerator.GetUrl("/", ToggledSidebar)" class="button-link hidden">
+                            <DxButton Text="Back to Home" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button-nav" IconCssClass="icon icon-back"></DxButton>
+                        </NavLink>
+                    }
+                    <ThemeSwitcher />
+                </div>
+                <div class="container p-4">
+                    @Body
+                </div>
+            </DrawerTarget>
+        </Drawer>
+    </div>
+</SizeModeContainer>
 
 @code {
 

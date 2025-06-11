@@ -1,0 +1,24 @@
+﻿@inject SizeModeService SizeModeService
+@namespace DevExpress.Blazor
+@implements IDisposable
+
+<CascadingValue Name="ParentSizeMode" Value="SizeModeService.SizeMode">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        SizeModeService.SizeModeChanged += SizeModeChanged;
+    }
+
+    private void SizeModeChanged(object? sender, EventArgs e) {
+        InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose() {
+        SizeModeService.SizeModeChanged -= SizeModeChanged;
+    }
+}

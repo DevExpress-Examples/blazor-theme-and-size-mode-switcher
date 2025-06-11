@@ -3,14 +3,17 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IFileVersionProvider FileVersionProvider
 @inject DxThemesService ThemesService
+@inject SizeModeService SizeModeService
 
 @{
+    var storedSizeMode = HttpContextAccessor.HttpContext?.Request.Cookies[SizeModeService.SizeModeCookieKey];
     var storedThemeName = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeCookieKey];
     var storedThemeState = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeStateCookieKey];
     var themeState = new ThemeState();
     if(storedThemeState != null)
         themeState = JsonSerializer.Deserialize<ThemeState>(storedThemeState);
 
+    SizeModeService.Initialize(storedSizeMode);
     ThemesService.SetActiveThemeByName(storedThemeName);
     ThemesService.SetThemeState(themeState);
 
@@ -35,10 +38,10 @@
     <link href="switcher-resources/theme-switcher.css" rel="stylesheet"/>
     <link href=@AppendVersion("css/site.css") rel="stylesheet"/>
     <link href=@AppendVersion("switcher.styles.css") rel="stylesheet"/>
-    <HeadOutlet/>
+    <HeadOutlet @rendermode="InteractiveServer"/>
 </head>
 <body>
-<Routes/>
+<Routes @rendermode="InteractiveServer"/>
 <script src="_framework/blazor.web.js"></script>
 </body>
 

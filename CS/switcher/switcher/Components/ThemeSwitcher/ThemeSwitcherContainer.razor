@@ -1,7 +1,8 @@
-﻿@inject DxThemesService ThemesService
-@implements IDisposable
-@using System.Text.RegularExpressions
+﻿@using System.Text.RegularExpressions
 @using DevExpress.Blazor.Internal
+@inject DxThemesService ThemesService
+@inject SizeModeService SizeModeService
+@implements IDisposable
 @implements IThemeLoadNotifier
 @rendermode InteractiveServer
 
@@ -50,17 +51,36 @@
                                @onchange="(e) => OnFluentSetCustomAccentColor(e.Value.ToString())"/>
                     </DxButton>
                 </div>
-            </div>
 
+                <div class="themeswitcher-subtitle">Size Mode</div>
+                <div class="themeswitcher-sizing">
+                    <DxComboBox Data="@SizeModes"
+                                TextFieldName="Item1"
+                                ValueFieldName="Item2"
+                                ValueChanged="@((SizeMode sm) => OnSizeModeChange(sm))"
+                                Value="SizeMode"/>
+                </div>
+            </div>
         </DxScrollViewer>
     </div>
 }
 
 @code {
+    [Inject] private ISafeJSRuntime JsRuntime { get; set; }
     [Parameter] public bool Shown { get; set; }
     [Parameter] public EventCallback<bool> ShownChanged { get; set; }
     [Parameter] public string ThemeName { get; set; }
     [Parameter] public EventCallback<string> ThemeNameChanged { get; set; }
+    
+    private IJSObjectReference _module;
+
+    SizeMode SizeMode;
+    IEnumerable<Tuple<string, SizeMode>> SizeModes =
+    [
+        new("Small", SizeMode.Small),
+        new("Medium", SizeMode.Medium),
+        new("Large", SizeMode.Large)
+    ];
 
     string StateCssClass => IsLoaded ? ((Shown ? "themeswitcher-container-shown" : "themeswitcher-container-hidden")) : "";
     bool IsLoaded { get; set; }
@@ -116,12 +136,20 @@
         }
     }
 
-    protected override void OnAfterRender(bool firstRender) {
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
         if(firstRender){
+            _module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./switcher-resources/js/theme-controller.js");
+            SizeMode = SizeModeService.SizeMode;
             IsLoaded = true;
             if(Shown)
                 StateHasChanged();
         }
+    }
+
+    async Task OnSizeModeChange(SizeMode sizeMode) {
+        SizeMode = sizeMode;
+        SizeModeService.SetSizeMode(sizeMode);
+        await _module.InvokeVoidAsync("ThemeController.setSizeMode", sizeMode.ToString(), SizeModeService.SizeModeCookieKey);
     }
 
     public void Dispose() {
