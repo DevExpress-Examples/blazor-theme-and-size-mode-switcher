@@ -1,0 +1,34 @@
+﻿@inject ThemesService ThemesService
+@rendermode InteractiveServer
+
+<li class="themeswitcher-color @Name @(isActive ? "active" : "")" style="--themeswitcher-color: @ItemColor">
+    <a
+    @onclick:preventDefault
+    @onclick="Anchor_Click">@Title</a>
+</li>
+
+@code {
+    [Parameter] public MyTheme Theme { get; set; }
+    [Parameter] public string ItemColor { get; set; }
+    [Parameter] public EventCallback<MyTheme> Click { get; set; }
+
+    ITheme iTheme;
+    string Title;
+    string Name;
+    bool isActive;
+
+    protected override void OnInitialized()
+    {
+        iTheme = Theme.GetTheme();
+        Name = Theme.ToString();
+        Title = Theme.ToString().Replace("_"," ");
+    }
+
+    protected override void OnParametersSet() {
+        isActive = iTheme == ThemesService.ActiveTheme;
+    }
+
+    async Task Anchor_Click() {
+        await Click.InvokeAsync(Theme);
+    }
+}

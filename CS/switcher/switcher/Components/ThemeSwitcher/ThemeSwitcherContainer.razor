@@ -1,0 +1,65 @@
+﻿@using DevExpress.Blazor
+@inject ThemesService ThemesService
+
+@rendermode InteractiveServer
+
+
+<div class="theme-@ThemesService.ActiveTheme?.Name themeswitcher-container @StateCssClass">
+    <div class="themeswitcher-content">
+        <div class="themeswitcher-title">DevExpress Fluent</div>
+        <ul class="themeswitcher-colors">
+            <ThemeSwitcherItem Theme="MyTheme.Fluent_Light"
+                               ItemColor="#0f6cbd"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Fluent_Dark"
+                               ItemColor="#282828"
+                               Click="OnThemeChange" />
+        </ul>
+    </div>
+    <div class="themeswitcher-content">
+        <div class="themeswitcher-title">DevExpress Classic</div>
+        <ul class="themeswitcher-colors">
+            <ThemeSwitcherItem Theme="MyTheme.Blazing_Berry"
+                               ItemColor="#5c2d91"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Blazing_Dark"
+                               ItemColor="#46444a"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Purple"
+                               ItemColor="#7989ff"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Office_White"
+                               ItemColor="#fe7109"
+                               Click="OnThemeChange" />
+        </ul>
+    </div>
+    <div class="themeswitcher-content">
+        <div class="themeswitcher-title">Bootstrap</div>
+        <ul class="themeswitcher-colors">
+            <ThemeSwitcherItem Theme="MyTheme.Bootstrap"
+                               ItemColor="#5c2d91"
+                               Click="OnThemeChange" />
+        </ul>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public bool Shown { get; set; }
+    [Parameter] public EventCallback<bool> ShownChanged { get; set; }
+
+    string StateCssClass => Shown ? "themeswitcher-container-shown" : "themeswitcher-container-hidden";
+
+    async Task OnThemeChange(MyTheme theme) {
+        await ThemesService.SetActiveThemeAsync(theme);
+        await ToggleThemeSwitcherPanel(false);
+    }
+
+
+    async Task ToggleThemeSwitcherPanel(bool shown) {
+        if (shown != Shown) {
+            Shown = shown;
+            await ShownChanged.InvokeAsync(shown);
+        }
+    }
+}

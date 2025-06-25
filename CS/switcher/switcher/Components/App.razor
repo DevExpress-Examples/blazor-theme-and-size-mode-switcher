@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using DevExpress.Blazor
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IFileVersionProvider FileVersionProvider
+@inject ThemesService ThemesService
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+
+    <script src=@AppendVersion("switcher-resources/js/cookies-manager.js")></script>
+    <link href=@AppendVersion("switcher-resources/theme-switcher.css") rel="stylesheet" />
+
+    @DxResourceManager.RegisterTheme(InitialTheme)
+
+    <link href=@AppendVersion("css/site.css") rel="stylesheet" />
+    <link href=@AppendVersion("switcher.styles.css") rel="stylesheet" />
+
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
+
+@code {
+    private ITheme InitialTheme;
+    private string AppendVersion(string path) => FileVersionProvider.AddFileVersionToPath("/", path);
+
+    protected override void OnInitialized() {
+        InitialTheme = ThemesService.GetThemeFromCookies(HttpContextAccessor);
+    }
+}
