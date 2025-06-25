@@ -12,8 +12,8 @@ builder.Services.AddDevExpressBlazor(options => {
 });
 builder.Services.AddMvc();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSingleton<SizeModeService>();
-builder.Services.AddScoped<DxThemesService>();
+builder.Services.AddScoped<ThemesService>();
+builder.Services.AddTransient<CookiesService>();
 
 var app = builder.Build();
 if(!app.Environment.IsDevelopment()){

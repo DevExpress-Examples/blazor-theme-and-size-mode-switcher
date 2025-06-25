@@ -1,0 +1,30 @@
+﻿@inject ThemesService ThemesService
+@inject PersistentComponentState ApplicationState
+
+@rendermode InteractiveServer
+
+<div style="margin-left: auto;">
+    <div class="btn-container d-flex">
+        <DxButton Click="@ToggleThemeSwitcherPanel"
+                  CssClass="@GetThemeSwitcherCssClass()" SizeMode="SizeMode.Large"
+                  RenderStyle="ButtonRenderStyle.Secondary"
+                  RenderStyleMode="ButtonRenderStyleMode.Outline" IconCssClass="theme-icon"
+                  aria-label="Themes"
+                  aria-haspopup="True"
+                  aria-expanded="@(ThemeSwitcherShown.ToString())">
+        </DxButton>
+    </div>
+    <ThemeSwitcherContainer @bind-Shown="@ThemeSwitcherShown" />
+</div>
+
+@code {
+    bool ThemeSwitcherShown { get; set; }
+
+    void ToggleThemeSwitcherPanel() {
+        ThemeSwitcherShown = !ThemeSwitcherShown;
+    }
+
+    string GetThemeSwitcherCssClass() {
+        return "themeswitcher-button theme-settings " + ThemeSwitcherShown;
+    }
+}

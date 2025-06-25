@@ -1,52 +1,38 @@
-﻿@using System.Text.Json
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
+﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using DevExpress.Blazor
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IFileVersionProvider FileVersionProvider
-@inject DxThemesService ThemesService
-@inject SizeModeService SizeModeService
-
-@{
-    var storedSizeMode = HttpContextAccessor.HttpContext?.Request.Cookies[SizeModeService.SizeModeCookieKey];
-    var storedThemeName = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeCookieKey];
-    var storedThemeState = HttpContextAccessor.HttpContext?.Request.Cookies[DxThemesService.ThemeStateCookieKey];
-    var themeState = new ThemeState();
-    if(storedThemeState != null)
-        themeState = JsonSerializer.Deserialize<ThemeState>(storedThemeState);
-
-    SizeModeService.Initialize(storedSizeMode);
-    ThemesService.SetActiveThemeByName(storedThemeName);
-    ThemesService.SetThemeState(themeState);
-
-    var theme = ThemesService.ActiveTheme.ApplyStoredState(themeState);
-}
+@inject ThemesService ThemesService
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <base href="/"/>
-    @foreach (string style in theme.GetStyles()){
-        <style data-theme-id="@theme.Name">
-            @style
-        </style>
-    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
 
-    @foreach (string path in theme.GetFilePaths()){
-        <link rel="stylesheet" href="@path" data-theme-id="@theme.Name"/>
-    }
-    <link href="switcher-resources/theme-switcher.css" rel="stylesheet"/>
-    <link href=@AppendVersion("css/site.css") rel="stylesheet"/>
-    <link href=@AppendVersion("switcher.styles.css") rel="stylesheet"/>
-    <HeadOutlet @rendermode="InteractiveServer"/>
+    <script src=@AppendVersion("switcher-resources/js/cookies-manager.js")></script>
+    <link href=@AppendVersion("switcher-resources/theme-switcher.css") rel="stylesheet" />
+
+    @DxResourceManager.RegisterTheme(InitialTheme)
+
+    <link href=@AppendVersion("css/site.css") rel="stylesheet" />
+    <link href=@AppendVersion("switcher.styles.css") rel="stylesheet" />
+
+    <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 <body>
-<Routes @rendermode="InteractiveServer"/>
-<script src="_framework/blazor.web.js"></script>
+    <Routes @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
 </body>
 
 </html>
 
-@code{
+@code {
+    private ITheme InitialTheme;
     private string AppendVersion(string path) => FileVersionProvider.AddFileVersionToPath("/", path);
+
+    protected override void OnInitialized() {
+        InitialTheme = ThemesService.GetThemeFromCookies(HttpContextAccessor);
+    }
 }

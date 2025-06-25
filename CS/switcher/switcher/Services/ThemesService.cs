@@ -1,63 +1,52 @@
-﻿using System.Text.Json;
-using DevExpress.Blazor;
+﻿using DevExpress.Blazor;
 
-namespace switcher.Services;
+namespace switcher.Services {
+    public class ThemesService {
+        protected CookiesService _cookiesService;
+        protected IThemeChangeService _dxThemeChangeService;
 
-public interface IThemeChangeRequestDispatcher {
-    void RequestThemeChange(Theme theme);
-}
+        public const string ThemeCookieKey = "DXCurrentTheme";
+        public ITheme ActiveTheme { get; private set; }
+        public ITheme DefaultTheme { get; private set; } = ThemesCollection.FluentLight;
 
-public interface IThemeLoadNotifier {
-    Task NotifyThemeLoadedAsync(Theme theme);
-}
+        public ThemesService(CookiesService cs, IThemeChangeService dxThemeSerice) {
+            _cookiesService = cs;
+            _dxThemeChangeService = dxThemeSerice;
+        }
 
-public class ThemeState {
-    public ThemeMode? Mode { get; set; } = ThemeMode.Light;
-    public string? CustomAccentColor { get; set; }
+        public ITheme GetThemeFromCookies(IHttpContextAccessor httpContextAccessor) {
+            var themeName = _cookiesService.GetCookie(httpContextAccessor, ThemeCookieKey);
+            var iTheme = string.IsNullOrEmpty(themeName) ? DefaultTheme : themeName.GetTheme();
+            ActiveTheme = iTheme;
+            return iTheme;
+        }
+        public async Task SetActiveThemeAsync(MyTheme theme) {
+            var themeName = Enum.GetName(typeof(MyTheme), theme);
+            await _cookiesService.SetCookie(ThemeCookieKey, themeName);
 
-    public override string ToString() {
-        return JsonSerializer.Serialize(this);
-    }
-}
-
-public class DxThemesService {
-    public const string ThemeCookieKey = "DXBZCurrentTheme";
-    public const string ThemeStateCookieKey = $"{ThemeCookieKey}_Opts";
-    public Theme ActiveTheme { get; private set; } = switcher.Services.Themes.FluentBlue;
-    public Theme DefaultTheme => switcher.Services.Themes.FluentBlue;
-    public ThemeState ThemeState { get; private set; }
-    public IThemeLoadNotifier ThemeLoadNotifier { get; set; }
-    public IThemeChangeRequestDispatcher ThemeChangeRequestDispatcher { get; set; }
-
-    public void SetActiveThemeByName(string? themeName) {
-        var theme = FindThemeByName(themeName);
-        ActiveTheme = theme ?? DefaultTheme;
+            var iTheme = theme.GetTheme();
+            ActiveTheme = iTheme;
+            await _dxThemeChangeService.SetTheme(ActiveTheme);
+        }
     }
 
-    private Theme? FindThemeByName(string? themeName) {
-        return Themes.SingleOrDefault(theme => theme.Name == themeName);
+    public static class Extensions {
+        public static ITheme GetTheme(this MyTheme theme) {
+            return theme switch {
+                MyTheme.Fluent_Light => ThemesCollection.FluentLight,
+                MyTheme.Fluent_Dark => ThemesCollection.FluentDark,
+                MyTheme.Blazing_Berry => ThemesCollection.BlazingBerry,
+                MyTheme.Blazing_Dark => ThemesCollection.BlazingDark,
+                MyTheme.Purple => ThemesCollection.Purple,
+                MyTheme.Office_White => ThemesCollection.OfficeWhite,
+                MyTheme.Bootstrap => ThemesCollection.BootstrapDefault
+            };
+        }
+        public static ITheme GetTheme(this string themeName) {
+            var theme = MyTheme.Fluent_Light;
+            if (Enum.TryParse<MyTheme>(themeName, out MyTheme result))
+                theme = result;
+            return theme.GetTheme();
+        }
     }
-
-    public void SetThemeState(ThemeState themeState) {
-        ThemeState = themeState;
-    }
-
-    public List<Theme> FluentThemes =
-    [
-        switcher.Services.Themes.FluentBlue,
-        switcher.Services.Themes.FluentCoolBlue,
-        switcher.Services.Themes.FluentDesert,
-        switcher.Services.Themes.FluentMint,
-        switcher.Services.Themes.FluentMoss,
-        switcher.Services.Themes.FluentOrchid,
-        switcher.Services.Themes.FluentPurple,
-        switcher.Services.Themes.FluentRose,
-        switcher.Services.Themes.FluentRust,
-        switcher.Services.Themes.FluentSteel,
-        switcher.Services.Themes.FluentStorm,
-    ];
-
-    public Theme CustomFluentTheme = new("CustomFluent", String.Empty);
-
-    public List<Theme> Themes => FluentThemes.Append(CustomFluentTheme).ToList();
 }

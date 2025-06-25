@@ -1,158 +1,65 @@
-﻿@using System.Text.RegularExpressions
-@using DevExpress.Blazor.Internal
-@inject DxThemesService ThemesService
-@inject SizeModeService SizeModeService
-@implements IDisposable
-@implements IThemeLoadNotifier
+﻿@using DevExpress.Blazor
+@inject ThemesService ThemesService
+
 @rendermode InteractiveServer
 
-@if(IsLoaded){
-    <div class="themeswitcher-container @StateCssClass">
-        <DxScrollViewer CssClass="blazor-scroll-view" VisibleElementVerticalAlign="@VerticalAlign.Top">
-            <div class="themeswitcher-content">
-                <div class="themeswitcher-title">DevExpress Fluent</div>
-                <DxButtonGroup CssClass="themeswitcher-fluent-mode"
-                               RenderStyle="ButtonRenderStyle.Secondary"
-                               RenderStyleMode="ButtonRenderStyleMode.Contained"
-                               SelectionMode="ButtonGroupSelectionMode.Single">
-                    <Items>
-                        <DxButtonGroupItem Click="() => OnFluentModeChange(ThemeMode.Light)"
-                                           Selected="ThemesService.ThemeState.Mode == ThemeMode.Light" Text="Light"
-                                           IconCssClass="themeswitcher-icon-fluent-mode-light"/>
-                        <DxButtonGroupItem Click="() => OnFluentModeChange(ThemeMode.Dark)"
-                                           Selected="ThemesService.ThemeState.Mode == ThemeMode.Dark" Text="Dark"
-                                           IconCssClass="themeswitcher-icon-fluent-mode-dark"/>
-                    </Items>
-                </DxButtonGroup>
 
-                <div class="themeswitcher-subtitle">Preset Colors</div>
-                <ul class="themeswitcher-colors">
-                    @foreach (var theme in ThemesService.FluentThemes){
-                        <ThemeSwitcherItem Theme="theme" Click="ThemeSwitcherItem_Click"/>
-                    }
-                </ul>
-
-                <div class="themeswitcher-subtitle">Custom Color</div>
-                <div class="themeswitcher-custom-color @GetCustomColorPickerCss()">
-                    <DxMaskedInput
-                        ValueChanged="e => OnFluentSetCustomAccentColor(e)"
-                        T="string"
-                        Mask="#([0-9a-fA-F]{6})"
-                        MaskMode="MaskMode.RegEx"
-                        NullText="#hex"
-                        Value="@GetColorPickerText()"/>
-                    <DxButton CssClass="themeswitcher-custom-color-button"
-                              RenderStyle="ButtonRenderStyle.Secondary"
-                              RenderStyleMode="ButtonRenderStyleMode.Contained"
-                              IconCssClass="themeswitcher-custom-color-button-icon">
-                        <div class="themeswitcher-custom-color-button-icon">
-                        </div>
-                        <input type="color" value="@GetColorPickerText()"
-                               @onchange="(e) => OnFluentSetCustomAccentColor(e.Value.ToString())"/>
-                    </DxButton>
-                </div>
-
-                <div class="themeswitcher-subtitle">Size Mode</div>
-                <div class="themeswitcher-sizing">
-                    <DxComboBox Data="@SizeModes"
-                                TextFieldName="Item1"
-                                ValueFieldName="Item2"
-                                ValueChanged="@((SizeMode sm) => OnSizeModeChange(sm))"
-                                Value="SizeMode"/>
-                </div>
-            </div>
-        </DxScrollViewer>
+<div class="theme-@ThemesService.ActiveTheme?.Name themeswitcher-container @StateCssClass">
+    <div class="themeswitcher-content">
+        <div class="themeswitcher-title">DevExpress Fluent</div>
+        <ul class="themeswitcher-colors">
+            <ThemeSwitcherItem Theme="MyTheme.Fluent_Light"
+                               ItemColor="#0f6cbd"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Fluent_Dark"
+                               ItemColor="#282828"
+                               Click="OnThemeChange" />
+        </ul>
     </div>
-}
+    <div class="themeswitcher-content">
+        <div class="themeswitcher-title">DevExpress Classic</div>
+        <ul class="themeswitcher-colors">
+            <ThemeSwitcherItem Theme="MyTheme.Blazing_Berry"
+                               ItemColor="#5c2d91"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Blazing_Dark"
+                               ItemColor="#46444a"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Purple"
+                               ItemColor="#7989ff"
+                               Click="OnThemeChange" />
+            <ThemeSwitcherItem Theme="MyTheme.Office_White"
+                               ItemColor="#fe7109"
+                               Click="OnThemeChange" />
+        </ul>
+    </div>
+    <div class="themeswitcher-content">
+        <div class="themeswitcher-title">Bootstrap</div>
+        <ul class="themeswitcher-colors">
+            <ThemeSwitcherItem Theme="MyTheme.Bootstrap"
+                               ItemColor="#5c2d91"
+                               Click="OnThemeChange" />
+        </ul>
+    </div>
+</div>
+
 
 @code {
-    [Inject] private ISafeJSRuntime JsRuntime { get; set; }
     [Parameter] public bool Shown { get; set; }
     [Parameter] public EventCallback<bool> ShownChanged { get; set; }
-    [Parameter] public string ThemeName { get; set; }
-    [Parameter] public EventCallback<string> ThemeNameChanged { get; set; }
-    
-    private IJSObjectReference _module;
 
-    SizeMode SizeMode;
-    IEnumerable<Tuple<string, SizeMode>> SizeModes =
-    [
-        new("Small", SizeMode.Small),
-        new("Medium", SizeMode.Medium),
-        new("Large", SizeMode.Large)
-    ];
+    string StateCssClass => Shown ? "themeswitcher-container-shown" : "themeswitcher-container-hidden";
 
-    string StateCssClass => IsLoaded ? ((Shown ? "themeswitcher-container-shown" : "themeswitcher-container-hidden")) : "";
-    bool IsLoaded { get; set; }
-    const string hexRegexStr = "#([0-9a-fA-F]{6})";
-
-    protected override void OnInitialized() {
-        base.OnInitialized();
-        ThemesService.ThemeLoadNotifier = this;
-    }
-
-    string GetCustomColorPickerCss() {
-        return IsCustomThemeSelected() ? "active" : null;
-    }
-
-    async Task ThemeSwitcherItem_Click(Theme theme) {
-        ThemesService.ThemeState.CustomAccentColor = null;
-        ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(theme);
+    async Task OnThemeChange(MyTheme theme) {
+        await ThemesService.SetActiveThemeAsync(theme);
         await ToggleThemeSwitcherPanel(false);
     }
 
-    async Task OnFluentModeChange(ThemeMode mode) {
-        ThemesService.ThemeState.Mode = mode;
-        ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(ThemesService.ActiveTheme);
-        await ToggleThemeSwitcherPanel(false);
-    }
-
-    async Task OnFluentSetCustomAccentColor(string color) {
-        if(string.IsNullOrEmpty(color) || !Regex.IsMatch(color, hexRegexStr))
-            return;
-
-        ThemesService.ThemeState.CustomAccentColor = color;
-        ThemesService.ThemeChangeRequestDispatcher?.RequestThemeChange(ThemesService.CustomFluentTheme);
-        await ToggleThemeSwitcherPanel(false);
-    }
-
-    private string? GetColorPickerText() {
-        return IsCustomThemeSelected() ? ThemesService.ThemeState.CustomAccentColor : null;
-    }
-
-    private bool IsCustomThemeSelected() {
-        return ThemesService.ActiveTheme == ThemesService.CustomFluentTheme;
-    }
-
-    public async Task NotifyThemeLoadedAsync(Theme theme) {
-        ThemeName = theme.Name;
-        await ThemeNameChanged.InvokeAsync(ThemeName);
-    }
 
     async Task ToggleThemeSwitcherPanel(bool shown) {
-        if(shown != Shown){
+        if (shown != Shown) {
             Shown = shown;
             await ShownChanged.InvokeAsync(shown);
         }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender) {
-        if(firstRender){
-            _module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./switcher-resources/js/theme-controller.js");
-            SizeMode = SizeModeService.SizeMode;
-            IsLoaded = true;
-            if(Shown)
-                StateHasChanged();
-        }
-    }
-
-    async Task OnSizeModeChange(SizeMode sizeMode) {
-        SizeMode = sizeMode;
-        SizeModeService.SetSizeMode(sizeMode);
-        await _module.InvokeVoidAsync("ThemeController.setSizeMode", sizeMode.ToString(), SizeModeService.SizeModeCookieKey);
-    }
-
-    public void Dispose() {
-        ThemesService.ThemeLoadNotifier = null;
     }
 }
