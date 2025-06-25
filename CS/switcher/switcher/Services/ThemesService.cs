@@ -4,14 +4,17 @@ namespace switcher.Services {
     public class ThemesService {
         protected CookiesService _cookiesService;
         protected IThemeChangeService _dxThemeChangeService;
+        protected IHttpContextAccessor _httpContextAccessor;
 
         public const string ThemeCookieKey = "DXCurrentTheme";
         public ITheme ActiveTheme { get; private set; }
         public ITheme DefaultTheme { get; private set; } = ThemesCollection.FluentLight;
 
-        public ThemesService(CookiesService cs, IThemeChangeService dxThemeSerice) {
+        public ThemesService(CookiesService cs, IThemeChangeService dxThemeSerice, IHttpContextAccessor httpContextAccessor) {
             _cookiesService = cs;
             _dxThemeChangeService = dxThemeSerice;
+            _httpContextAccessor = httpContextAccessor;
+            GetThemeFromCookies(httpContextAccessor);
         }
 
         public ITheme GetThemeFromCookies(IHttpContextAccessor httpContextAccessor) {
