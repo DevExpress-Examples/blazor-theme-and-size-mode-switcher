@@ -4,25 +4,74 @@ This example demonstrates how to add a Theme Switcher to your application. Users
 
 ![Blazor - Theme Switcher](images/blazor-theme-switcher.png)
 
+## Configure Available Themes
+
+The theme switcher in this example includes the following themes:
+
+* DevExpress Fluent (Light Blue and Dark Blue)
+* DevExpress Classic (Blazing Berry, Blazing Dark, Purple, and Office White)
+* Bootstrap External
+
+Create a `Themes.cs` file and configure themes as follows:
+
+1. For Classic themes, choose a theme from the built-in DevExpress Blazor [Themes](https://docs.devexpress.com/Blazor/DevExpress.Blazor.Themes) collection:
+
+    ```cs
+    public static readonly ITheme BlazingBerry = Themes.BlazingBerry;
+    public static readonly ITheme BlazingDark = Themes.BlazingDark;
+    public static readonly ITheme Purple = Themes.Purple;
+    public static readonly ITheme OfficeWhite = Themes.OfficeWhite;
+    ```
+1. For Fluent themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add theme stylesheets and change the theme mode:
+
+    ```cs
+    public static readonly ITheme FluentLight = Themes.Fluent.Clone(props => {
+        props.AddFilePaths("css/theme-fluent.css");
+    });
+    public static readonly ITheme FluentDark = Themes.Fluent.Clone(props => {
+        props.Mode = ThemeMode.Dark;
+        props.AddFilePaths("css/theme-fluent.css");
+    });
+    ```
+1. For Bootstrap theme, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add a required Bootstrap theme stylesheet and a custom one:
+
+    ```cs
+    public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
+        props.Name = "Bootstrap";
+        props.AddFilePaths("https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css");
+        props.AddFilePaths("css/theme-bs.css");
+    });
+    ```
+1. Declare an enumeration with themes:
+
+    ```cs
+    public enum MyTheme {
+        Fluent_Light,
+        Fluent_Dark,
+
+        Blazing_Berry,
+        Blazing_Dark,
+        Purple,
+        Office_White,
+
+        Bootstrap
+    }
+    ```
+
 ## Add a Theme Switcher to an Application
 
 Follow the steps below to add a Theme Switcher to your application:
 
 1. Copy this example's [ThemeSwitcher](./CS/switcher/switcher/Components/ThemeSwitcher) folder to your project.
-2. In the [_Imports.razor](./CS/switcher/switcher/Components/_Imports.razor) file, import the `{ProjectName}.Components.ThemeSwitcher` namespace and files located in the *ThemeSwitcher* folder:
 
-    ```cs
-    @using {ProjectName}.Components.ThemeSwitcher
-    ```
-
-3. Copy the example's [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) folder to your application's *wwwroot* folder. The *switcher-resources* folder has the following structure:
+2. Copy the example's [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) folder to your application's *wwwroot* folder. The *switcher-resources* folder has the following structure:
 
     * **js/cookies-manager.js**  
     Contains a function that stores the theme in a cookie variable.
     * **theme-switcher.css**  
     Contains CSS rules that define the Theme Switcher's appearance and behavior.
 
-4. Add the following services to your application (copy the corresponding files):
+3. Add the following services to your application (copy the corresponding files):
 
     * [ThemeService.cs](./CS/switcher/switcher/Services/ThemesService.cs)  
     Implements [IThemeChangeService](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService) to switch themes at runtime and uses the [SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to apply the selected theme. 
@@ -30,6 +79,13 @@ Follow the steps below to add a Theme Switcher to your application:
     Creates a list of themes for the theme switcher using the built-in DevExpres Blazor [Themes](https://docs.devexpress.com/Blazor/DevExpress.Blazor.Themes) collection (for Classic themes) and the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method for Fluent and Bootstrap themes.
     * [CookiesService.cs](./CS/switcher/switcher/Services/CookiesService.cs)  
     Manages cookies.
+
+2. In the [_Imports.razor](./CS/switcher/switcher/Components/_Imports.razor) file, import `{ProjectName}.Components.ThemeSwitcher` and `{ProjectName}.Services` namespaces:
+
+    ```cs
+    @using {ProjectName}.Components.ThemeSwitcher
+    @using {ProjectName}.Services
+    ```
 
 5. Register `ThemesService` and `CookiesService` in the [Program.cs](./CS/switcher/switcher/Program.cs#L13-L16) file. Ensure that this file also contains `Mvc` and `HttpContextAccessor` services:
 
@@ -58,9 +114,6 @@ Follow the steps below to add a Theme Switcher to your application:
             <link href=@AppendVersion("switcher-resources/theme-switcher.css") rel="stylesheet" />
 
             @DxResourceManager.RegisterTheme(InitialTheme)
-
-            <link href=@AppendVersion("css/site.css") rel="stylesheet" />
-            <link href=@AppendVersion("switcher.styles.css") rel="stylesheet" />
             @* ... *@
         </head>
         ```
@@ -102,7 +155,7 @@ public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(
 });
 ```
 
-## Bootstrap Color Theme Modes
+## Change Bootstrap Theme Color Modes
 
 If you plan to use dark Bootstrap themes, you need to implement custom logic that applies a `data-bs-theme` attribute to the root <html> element:
 * `data-bs-theme="light"` for light themes
