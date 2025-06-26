@@ -6,16 +6,16 @@ This example demonstrates how to add a Theme Switcher to your application. Users
 
 ## Add a Theme Switcher to an Application
 
-Follow the steps below to add a Theme Switcher into your application:
+Follow the steps below to add a Theme Switcher to your application:
 
 1. Copy this example's [ThemeSwitcher](./CS/switcher/switcher/Components/ThemeSwitcher) folder to your project.
-2. In the *_Imports.razor* file, import the `{ProjectName}.Components.ThemeSwitcher` namespace and files located in the *ThemeSwitcher* folder:
+2. In the [_Imports.razor](./CS/switcher/switcher/Components/_Imports.razor) file, import the `{ProjectName}.Components.ThemeSwitcher` namespace and files located in the *ThemeSwitcher* folder:
 
     ```cs
     @using {ProjectName}.Components.ThemeSwitcher
     ```
 
-3. Copy this example's [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) folder to your application's *wwwroot* folder. The *switcher-resources* folder has the following structure:
+3. Copy the example's [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) folder to your application's *wwwroot* folder. The *switcher-resources* folder has the following structure:
 
     * **js/cookies-manager.js**  
     Contains a function that stores the theme in a cookie variable.
@@ -40,7 +40,7 @@ Follow the steps below to add a Theme Switcher into your application:
     builder.Services.AddTransient<CookiesService>();
     ```
 
-6. Add the following markup/code to the [App.razor](./CS/switcher/switcher/Components/App.razor) file:
+6. Add the following code to the [App.razor](./CS/switcher/switcher/Components/App.razor) file:
 
     * Inject services with the [&#91;Inject&#93; attribute](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.injectattribute):
 
@@ -49,7 +49,7 @@ Follow the steps below to add a Theme Switcher into your application:
         @inject ThemesService ThemesService
         ```
     
-    * Add links to scripts and stylesheets to the file's `<head>` section and call the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup:
+    * Add script and stylesheet links to the file's `<head>` section and call the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup:
 
         ```html
         <head>
@@ -76,7 +76,8 @@ Follow the steps below to add a Theme Switcher into your application:
         }
         ```
 
-7. Declare the Theme Switcher component in the [MainLayout.razor](./CS/switcher/switcher/Components/Layout/MainLayout.razor#L22) file:    
+7. Declare the Theme Switcher component in the [MainLayout.razor](./CS/switcher/switcher/Components/Layout/MainLayout.razor#L22) file:
+
     ```razor
     <Drawer>
     @* ... *@
@@ -87,7 +88,7 @@ Follow the steps below to add a Theme Switcher into your application:
 
 ## Add Specific Stylesheets
 
-Our DevExpress Blazor themes affect DevExpress components. In case you need to apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
+Our DevExpress Blazor themes affect DevExpress components only. In case you need to apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
 
 > Bootstrap themes require external theme-specific stylesheets. Once you register a Bootstrap theme, call the `Clone()` method and add an appropriate stylesheet using theme properties.
 
