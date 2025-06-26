@@ -1,159 +1,121 @@
-<!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/227836631/25.1.3%2B)
-[![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T845557)
-[![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
-[![](https://img.shields.io/badge/💬_Leave_Feedback-feecdd?style=flat-square)](#does-this-example-address-your-development-requirementsobjectives)
-<!-- default badges end -->
-# How to implement a Theme Switcher in Blazor applications
+# Implement a Theme Switcher in Blazor Applications
 
-This example demonstrates how to add a Theme Switcher to your application. The switcher in this example is the same as in [DevExpress Blazor Demos](https://demos.devexpress.com/blazor/). It allows users to switch between [DevExpress built-in themes](https://docs.devexpress.com/Blazor/401523/common-concepts/customize-appearance/themes) and external Bootstrap themes (the default theme and [free Bootswatch options](https://bootswatch.com/)).
-
+This example demonstrates how to add a Theme Switcher to your application. Users can switch between DevExpress Fluent and Classic themes and an external Bootstrap theme. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change themes at runtime.
 
 ![Blazor - Theme Switcher](images/blazor-theme-switcher.png)
-
-The example's solution targets .NET 8, but you can also integrate this Theme Switcher in projects that target .NET 6 and .NET 7.
 
 ## Add a Theme Switcher to an Application
 
 Follow the steps below to add a Theme Switcher into your application:
 
-1. Copy this example's [ThemeSwitcher](./CS/switcher/switcher/ThemeSwitcher) folder to your project.
-2. In the *_Imports.razor* file, import the `switcher.ThemeSwitcher` namespace and files located in the *ThemeSwitcher* folder:
+1. Copy this example's [ThemeSwitcher](./CS/switcher/switcher/Components/ThemeSwitcher) folder to your project.
+2. In the *_Imports.razor* file, import the `{ProjectName}.Components.ThemeSwitcher` namespace and files located in the *ThemeSwitcher* folder:
 
     ```cs
-    @using <YourProjectName>.ThemeSwitcher
-    @using switcher.ThemeSwitcher
+    @using {ProjectName}.Components.ThemeSwitcher
     ```
 
 3. Copy this example's [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) folder to your application's *wwwroot* folder. The *switcher-resources* folder has the following structure:
 
-    * **css/themes**  
-    Includes nested folders whose names correspond to external Bootstrap themes. Each nested folder stores an external theme's stylesheet (*bootstrap.min.css*). Note that built-in DevExpress themes are added to the application with DevExpress Blazor components and stored separately in the **DevExpress.Blazor.Themes** NuGet package.
-
-    * **css/themes.css**  
-    Contains CSS rules used to draw colored squares for each theme in the Theme Switcher.
-    * **css/theme-switcher.css**  
+    * **js/cookies-manager.js**  
+    Contains a function that stores the theme in a cookie variable.
+    * **theme-switcher.css**  
     Contains CSS rules that define the Theme Switcher's appearance and behavior.
-    * **theme-controller.js**  
-    Contains functions that add and remove links to theme stylesheets.
-    * **theme.svg**  
-    An icon displayed in the Theme Switcher.
 
-4. In the layout file, use the [HttpContextAccessor](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontextaccessor?view=aspnetcore-8.0) class to obtain the current theme from cookies:
-    ```html
-    @using Microsoft.AspNetCore.Mvc.ViewFeatures
-    @inject IFileVersionProvider FileVersionProvider
-    @inject ThemeService Themes
-    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-    @{
-        string? InitialThemeName = HttpContextAccessor.HttpContext?.Request.Cookies["ActiveTheme"];
-        Themes.SetActiveThemeByName(InitialThemeName);
-        var bsTheme = Themes.GetBootstrapThemeCssUrl(Themes.ActiveTheme);
-        var dxTheme = Themes.GetThemeCssUrl(Themes.ActiveTheme);
-        var hlTheme = Themes.GetHighlightJSThemeCssUrl(Themes.ActiveTheme);
+4. Add the following services to your application (copy the corresponding files):
 
-        string AppendVersion(string path) => FileVersionProvider.AddFileVersionToPath("/", path);
-    }
-    ```
-5. In the `head` section of the layout file, replace a link to a theme stylesheet with the following code:
-    ```html
-    <head>
-       @if (!string.IsNullOrEmpty(bsTheme)) {
-            <link rel="stylesheet" href="@AppendVersion(bsTheme)" bs-theme-link />
-        }
-        @if (!string.IsNullOrEmpty(dxTheme)) {
-            <link rel="stylesheet" href="@AppendVersion(dxTheme)" dx-theme-link />
-        }
-        @if (!string.IsNullOrEmpty(hlTheme)) {
-            <link rel="stylesheet" href="@hlTheme" hl-theme-link />
-        }
-    </head>
-    ```
-6. Register the Theme Switcher's styles in the `head` section of the layout file:
-    ```html
-    <head>
-       <link href="switcher-resources/css/theme-switcher.css" rel="stylesheet" />
-       <link href="switcher-resources/css/themes.css" rel="stylesheet" />
-       @* ... *@
-    </head>
-    ```
-7. Add the following `div` element to the `body` section of the layout file:
-    ```html
-    <body>
-       <div id="switcher-container" data-permanent></div>
-        @* ... *@
-    </body>
-    ```
-8. Register `Mvc` and `ThemeService` in the `Program.cs` file:
+    * [ThemeService.cs](./CS/switcher/switcher/Services/ThemesService.cs)  
+    Implements [IThemeChangeService](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService) to switch themes at runtime and uses the [SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to apply the selected theme. 
+    * [Themes.cs](./CS/switcher/switcher/Services/Themes.cs)  
+    Creates a list of themes for the theme switcher using the built-in DevExpres Blazor [Themes](https://docs.devexpress.com/Blazor/DevExpress.Blazor.Themes) collection (for Classic themes) and the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method for Fluent and Bootstrap themes.
+    * [CookiesService.cs](./CS/switcher/switcher/Services/CookiesService.cs)  
+    Manages cookies.
+
+5. Register `ThemesService` and `CookiesService` in the [Program.cs](./CS/switcher/switcher/Program.cs#L13-L16) file. Ensure that this file also contains `Mvc` and `HttpContextAccessor` services:
+
     ```cs
     builder.Services.AddMvc();
-    builder.Services.AddScoped<ThemeService>();
+    builder.Services.AddHttpContextAccessor();
+    builder.Services.AddScoped<ThemesService>();
+    builder.Services.AddTransient<CookiesService>();
     ```
-9. Declare the Theme Switcher component in the *MainLayout.razor* file:    
+
+6. Add the following markup/code to the [App.razor](./CS/switcher/switcher/Components/App.razor) file:
+
+    * Inject services with the [&#91;Inject&#93; attribute](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.injectattribute):
+
+        ```html
+        @inject IHttpContextAccessor HttpContextAccessor
+        @inject ThemesService ThemesService
+        ```
+    
+    * Add links to scripts and stylesheets to the file's `<head>` section and call the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup:
+
+        ```html
+        <head>
+            @* ... *@
+            <script src=@AppendVersion("switcher-resources/js/cookies-manager.js")></script>
+            <link href=@AppendVersion("switcher-resources/theme-switcher.css") rel="stylesheet" />
+
+            @DxResourceManager.RegisterTheme(InitialTheme)
+
+            <link href=@AppendVersion("css/site.css") rel="stylesheet" />
+            <link href=@AppendVersion("switcher.styles.css") rel="stylesheet" />
+            @* ... *@
+        </head>
+        ```
+
+    * Obtain the theme from cookies during component initialization:
+
+        ```razor
+        @code {
+            private ITheme InitialTheme;
+            protected override void OnInitialized() {
+                InitialTheme = ThemesService.GetThemeFromCookies(HttpContextAccessor);
+            }
+        }
+        ```
+
+7. Declare the Theme Switcher component in the [MainLayout.razor](./CS/switcher/switcher/Components/Layout/MainLayout.razor#L22) file:    
     ```razor
-    <ThemeSwitcher />
+    <Drawer>
+    @* ... *@
+        <ThemeSwitcher />
+    @* ... *@
+    </Drawer>
     ``` 
-10. *For .NET 6 and .NET 7 applications.* Remove the `@rendermode InteractiveServer` directive from [ThemeSwitcher.razor](./CS/switcher/switcher/ThemeSwitcher/ThemeSwitcher.razor#L2), [ThemeSwitcherContainer.razor](./CS/switcher/switcher/ThemeSwitcher/ThemeSwitcherContainer.razor#L4), and [ThemeSwitcherItem.razor](./CS/switcher/switcher/ThemeSwitcher/ThemeSwitcherItem.razor#L2) files. 
 
-## Add Themes to the Theme Switcher
+## Add Specific Stylesheets
 
-Follow the steps below to add an external Bootstrap theme to the Theme Switcher:
+Our DevExpress Blazor themes affect DevExpress components. In case you need to apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
 
-1. In the **wwwroot/css/themes** folder, create a new folder for this theme. The folder and theme names should match.
+> Bootstrap themes require external theme-specific stylesheets. Once you register a Bootstrap theme, call the `Clone()` method and add an appropriate stylesheet using theme properties.
 
-2. Add the theme's stylesheet (*bootstrap.min.css*) to the newly created folder.
+```cs
+public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
+    props.Name = "Bootstrap";
+    // Links a Bootstrap theme stylesheet
+    props.AddFilePaths("https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css");
+    // Links a custom stylesheet
+    props.AddFilePaths("css/theme-bs.css");
+});
+```
 
-3. Add the following CSS rule to the *wwwroot/css/themes.css* file:
+## Bootstrap Color Theme Modes
 
-    ```css
-    .blazor-themes a.<your-theme-name>:before {
-        background: <theme-main-color>;
-    }
-    ```
+If you plan to use dark Bootstrap themes, you need to implement custom logic that applies a `data-bs-theme` attribute to the root <html> element:
+* `data-bs-theme="light"` for light themes
+* `data-bs-theme="dark"` for dark themes
 
-4. In *ThemeService.cs*, add the theme name to the **Bootstrap Themes** theme set:
-
-
-    ```cs
-    private static List<ThemeSet> CreateSets(ThemeService config) {
-        return new List<ThemeSet>() {
-            new ThemeSet("DevExpress Themes", NEW_BLAZOR_THEMES),
-            new ThemeSet("Bootstrap Themes", "<your-theme-name>", "default", "default-dark", "cerulean")
-        };
-    }
-    ```
-
-## Remove Themes from the Theme Switcher
-
-Follow the steps below to remove a built-in DevExpress or external Bootstrap theme from the Theme Switcher:
-
-1. Open *ThemeService.cs* and remove the theme name from the **DevExpress Themes** or **Bootstrap Themes** theme set:
-
-    ```cs
-    private static List<ThemeSet> CreateSets(ThemeService config) {
-        return new List<ThemeSet>() {
-            new ThemeSet("DevExpress Themes", NEW_BLAZOR_THEMES),
-            new ThemeSet("Bootstrap Themes", /*"<your-theme-name>"*/, "default", "default-dark", "cerulean")
-        };
-    }
-    ```
-
-2. Remove the CSS rule that corresponds to this theme from the *wwwroot/css/themes.css* file.
-
-    ```css
-    /* .blazor-themes a.<your-theme-name>:before {
-        background: <theme-main-color>;
-    }*/
-    ```
-
-3. *For an external Bootstrap theme.* Delete the *wwwroot/css/themes/\<your-theme-name\>* folder.
+Refer to the following article for more information: [Color Modes](https://getbootstrap.com/docs/5.3/customize/color-modes/).
 
 ## Files to Review
 
-* [ThemeSwitcher](./CS/switcher/switcher/ThemeSwitcher) (folder)
+* [ThemeSwitcher](./CS/switcher/switcher/Components/ThemeSwitcher) (folder)
 * [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) (folder)
-* [App.razor](./CS/switcher/switcher/App.razor)
-* [MainLayout.razor](./CS/switcher/switcher/Layout/MainLayout.razor)
+* [Services](./CS/switcher/switcher/Services) (folder)
+* [App.razor](./CS/switcher/switcher/Components/App.razor)
+* [MainLayout.razor](./CS/switcher/switcher/Components/Layout/MainLayout.razor)
 * [Program.cs](./CS/switcher/switcher/Program.cs)
 
 ## Documentation
