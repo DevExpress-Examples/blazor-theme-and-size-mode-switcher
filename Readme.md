@@ -6,7 +6,7 @@ This example demonstrates how to add a Theme Switcher to your application. Users
 
 ## Configure Available Themes
 
-The theme switcher in this example includes the following themes:
+The theme switcher includes the following themes:
 
 * DevExpress Fluent (Light Blue and Dark Blue)
 * DevExpress Classic (Blazing Berry, Blazing Dark, Purple, and Office White)
@@ -22,7 +22,7 @@ Create a `Themes.cs` file and configure themes as follows:
     public static readonly ITheme Purple = Themes.Purple;
     public static readonly ITheme OfficeWhite = Themes.OfficeWhite;
     ```
-1. For Fluent themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add theme stylesheets and change the theme mode:
+1. For Fluent themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add theme stylesheets and change theme mode:
 
     ```cs
     public static readonly ITheme FluentLight = Themes.Fluent.Clone(props => {
@@ -33,7 +33,7 @@ Create a `Themes.cs` file and configure themes as follows:
         props.AddFilePaths("css/theme-fluent.css");
     });
     ```
-1. For Bootstrap theme, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add a required Bootstrap theme stylesheet and a custom one:
+1. For Bootstrap themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add a Bootstrap theme stylesheet. Use the same approach if you want to apply your own stylesheets.
 
     ```cs
     public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
@@ -105,7 +105,7 @@ Follow the steps below to add a Theme Switcher to your application:
         @inject ThemesService ThemesService
         ```
     
-    * Add script and stylesheet links to the file's `<head>` section and call the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup:
+    * Add script and stylesheet links to the file's `<head>` section and call the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme on application startup:
 
         ```html
         <head>
