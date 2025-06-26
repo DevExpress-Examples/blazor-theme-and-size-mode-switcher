@@ -10,7 +10,8 @@ The theme switcher includes the following themes:
 
 * DevExpress Fluent (Light Blue and Dark Blue)
 * DevExpress Classic (Blazing Berry, Blazing Dark, Purple, and Office White)
-* Bootstrap External
+* [Bootstrap External](https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css)
+
 
 Create a `Themes.cs` file and configure themes as follows:
 
