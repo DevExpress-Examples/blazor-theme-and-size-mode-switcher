@@ -43,7 +43,8 @@ Create a `Themes.cs` file and configure themes as follows:
         props.AddFilePaths("css/theme-bs.css");
     });
     ```
-1. Declare an enumeration with themes:
+1. Create a list of themes:
+
 
     ```cs
     public enum MyTheme {
@@ -140,7 +141,8 @@ Follow the steps below to add a Theme Switcher to your application:
     </Drawer>
     ``` 
 
-## Add Specific Stylesheets
+## Add Stylesheets to a Theme (Apply Styles to Non-DevExpress UI Elements)
+
 
 Our DevExpress Blazor themes affect DevExpress components only. In case you need to apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
 
