@@ -1,6 +1,7 @@
 # Implement a Theme Switcher in Blazor Applications
 
-This example demonstrates how to add a Theme Switcher to your application. Users can switch between DevExpress Fluent and Classic themes and an external Bootstrap theme. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change themes at runtime.
+This example demonstrates how to add a Theme Switcher to your application. Users can switch between DevExpress Fluent and Classic themes and external Bootstrap themes. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change the theme at runtime.
+
 
 ![Blazor - Theme Switcher](images/blazor-theme-switcher.png)
 
@@ -13,7 +14,8 @@ The theme switcher includes the following themes:
 * [Bootstrap External](https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css)
 
 
-Create a `Themes.cs` file and configure themes as follows:
+Create a `Themes.cs` file and configure themes:
+
 
 1. For Classic themes, choose a theme from the built-in DevExpress Blazor [Themes](https://docs.devexpress.com/Blazor/DevExpress.Blazor.Themes) collection:
 
@@ -144,9 +146,11 @@ Follow the steps below to add a Theme Switcher to your application:
 ## Add Stylesheets to a Theme (Apply Styles to Non-DevExpress UI Elements)
 
 
-Our DevExpress Blazor themes affect DevExpress components only. In case you need to apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
+Our DevExpress Blazor themes affect DevExpress components only. To apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
 
-> Bootstrap themes require external theme-specific stylesheets. Once you register a Bootstrap theme, call the `Clone()` method and add an appropriate stylesheet using theme properties.
+
+> Bootstrap themes require external theme-specific stylesheets. Once you register a Bootstrap theme, call the `Clone()` method and add the stylesheet using theme properties.
+
 
 ```cs
 public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
@@ -160,7 +164,8 @@ public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(
 
 ## Change Bootstrap Theme Color Modes
 
-If you plan to use dark Bootstrap themes, you need to implement custom logic that applies a `data-bs-theme` attribute to the root <html> element:
+If you want to use dark Bootstrap themes, implement custom logic that applies a `data-bs-theme` attribute to the root <html> element:
+
 * `data-bs-theme="light"` for light themes
 * `data-bs-theme="dark"` for dark themes
 
