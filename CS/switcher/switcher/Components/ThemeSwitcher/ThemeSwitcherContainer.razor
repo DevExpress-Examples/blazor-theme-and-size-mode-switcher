@@ -1,44 +1,49 @@
-﻿@using DevExpress.Blazor
-@inject ThemesService ThemesService
+﻿@inject ThemesService ThemesService
 
 @rendermode InteractiveServer
-
 
 <div class="theme-@ThemesService.ActiveTheme?.Name themeswitcher-container @StateCssClass">
     <div class="themeswitcher-content">
         <div class="themeswitcher-title">DevExpress Fluent</div>
         <ul class="themeswitcher-colors">
-            <ThemeSwitcherItem Theme="MyTheme.Fluent_Light"
+            <ThemeSwitcherItem Title="Fluent Light"
+                               Theme="ThemesCollection.FluentLight"
                                ItemColor="#0f6cbd"
-                               Click="OnThemeChange" />
-            <ThemeSwitcherItem Theme="MyTheme.Fluent_Dark"
+                               Click="OnThemeChange"/>
+            <ThemeSwitcherItem Title="Fluent Dark"
+                               Theme="ThemesCollection.FluentDark"
                                ItemColor="#282828"
-                               Click="OnThemeChange" />
+                               Click="OnThemeChange"/>
         </ul>
     </div>
     <div class="themeswitcher-content">
         <div class="themeswitcher-title">DevExpress Classic</div>
         <ul class="themeswitcher-colors">
-            <ThemeSwitcherItem Theme="MyTheme.Blazing_Berry"
+            <ThemeSwitcherItem Title="Blazing Berry"
+                               Theme="ThemesCollection.BlazingBerry"
                                ItemColor="#5c2d91"
-                               Click="OnThemeChange" />
-            <ThemeSwitcherItem Theme="MyTheme.Blazing_Dark"
+                               Click="OnThemeChange"/>
+            <ThemeSwitcherItem Title="Blazing Dark"
+                               Theme="ThemesCollection.BlazingDark"
                                ItemColor="#46444a"
-                               Click="OnThemeChange" />
-            <ThemeSwitcherItem Theme="MyTheme.Purple"
+                               Click="OnThemeChange"/>
+            <ThemeSwitcherItem Title="Blazing Purple"
+                               Theme="ThemesCollection.Purple"
                                ItemColor="#7989ff"
-                               Click="OnThemeChange" />
-            <ThemeSwitcherItem Theme="MyTheme.Office_White"
+                               Click="OnThemeChange"/>
+            <ThemeSwitcherItem Title="Office White"
+                               Theme="ThemesCollection.OfficeWhite"
                                ItemColor="#fe7109"
-                               Click="OnThemeChange" />
+                               Click="OnThemeChange"/>
         </ul>
     </div>
     <div class="themeswitcher-content">
         <div class="themeswitcher-title">Bootstrap</div>
         <ul class="themeswitcher-colors">
-            <ThemeSwitcherItem Theme="MyTheme.Bootstrap"
+            <ThemeSwitcherItem Title="Bootstrap"
+                               Theme="ThemesCollection.BootstrapDefault"
                                ItemColor="#5c2d91"
-                               Click="OnThemeChange" />
+                               Click="OnThemeChange"/>
         </ul>
     </div>
 </div>
@@ -50,7 +55,7 @@
 
     string StateCssClass => Shown ? "themeswitcher-container-shown" : "themeswitcher-container-hidden";
 
-    async Task OnThemeChange(MyTheme theme) {
+    async Task OnThemeChange(ITheme theme) {
         await ThemesService.SetActiveThemeAsync(theme);
         await ToggleThemeSwitcherPanel(false);
     }

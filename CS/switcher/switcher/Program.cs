@@ -9,6 +9,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddDevExpressBlazor(options => {
     options.SizeMode = DevExpress.Blazor.SizeMode.Medium;
+    options.Theme = ThemesCollection.FluentLight;
 });
 builder.Services.AddMvc();
 builder.Services.AddHttpContextAccessor();

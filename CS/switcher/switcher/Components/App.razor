@@ -14,7 +14,7 @@
     <script src=@AppendVersion("switcher-resources/js/cookies-manager.js")></script>
     <link href=@AppendVersion("switcher-resources/theme-switcher.css") rel="stylesheet" />
 
-    @DxResourceManager.RegisterTheme(InitialTheme)
+    @DxResourceManager.RegisterTheme(Theme)
 
     <link href=@AppendVersion("css/site.css") rel="stylesheet" />
     <link href=@AppendVersion("switcher.styles.css") rel="stylesheet" />
@@ -29,10 +29,10 @@
 </html>
 
 @code {
-    private ITheme InitialTheme;
+    private ITheme Theme;
     private string AppendVersion(string path) => FileVersionProvider.AddFileVersionToPath("/", path);
 
     protected override void OnInitialized() {
-        InitialTheme = ThemesService.GetThemeFromCookies(HttpContextAccessor);
+        Theme = ThemesService.GetThemeFromCookies(HttpContextAccessor);
     }
 }
