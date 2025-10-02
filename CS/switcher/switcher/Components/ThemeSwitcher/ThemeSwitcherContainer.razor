@@ -1,8 +1,8 @@
 ﻿@using DevExpress.Blazor
+@using System.Text.RegularExpressions
 @inject ThemesService ThemesService
 
 @rendermode InteractiveServer
-
 
 <div class="theme-@ThemesService.ActiveTheme?.Name themeswitcher-container @StateCssClass">
     <div class="themeswitcher-content">
@@ -15,6 +15,23 @@
                                ItemColor="#282828"
                                Click="OnThemeChange" />
         </ul>
+        <div class="themeswitcher-subtitle">Fluent Custom Color</div>
+        <div class="themeswitcher-custom-color active">
+            <DxMaskedInput ValueChanged="e => OnFluentSetCustomAccentColor(e)"
+                           T="string"
+                           Mask="#([0-9a-fA-F]{6})"
+                           MaskMode="MaskMode.RegEx"
+                           NullText="#hex"
+                           Value="@GetColorPickerText()" />
+            <DxButton CssClass="themeswitcher-custom-color-button"
+                      RenderStyle="ButtonRenderStyle.Secondary"
+                      RenderStyleMode="ButtonRenderStyleMode.Contained"
+                      IconCssClass="themeswitcher-custom-color-button-icon">
+                <div class="themeswitcher-custom-color-button-icon">
+                </div>
+                <input type="color" value="@GetColorPickerText()" @onchange="(e) => OnFluentSetCustomAccentColor(e.Value?.ToString())" />
+            </DxButton>
+        </div>
     </div>
     <div class="themeswitcher-content">
         <div class="themeswitcher-title">DevExpress Classic</div>
@@ -43,23 +60,43 @@
     </div>
 </div>
 
-
 @code {
     [Parameter] public bool Shown { get; set; }
     [Parameter] public EventCallback<bool> ShownChanged { get; set; }
 
+    const string hexRegexStr = "#([0-9a-fA-F]{6})";
+    string? CustomAccentColor = "";
+
     string StateCssClass => Shown ? "themeswitcher-container-shown" : "themeswitcher-container-hidden";
 
     async Task OnThemeChange(MyTheme theme) {
+        CustomAccentColor = null;
         await ThemesService.SetActiveThemeAsync(theme);
         await ToggleThemeSwitcherPanel(false);
     }
 
+    async Task OnFluentSetCustomAccentColor(string? color) {
+        if (string.IsNullOrEmpty(color) || !Regex.IsMatch(color, hexRegexStr))
+            return;
+        CustomAccentColor = color;
+
+        MyTheme theme = MyTheme.Fluent_Light;
+        if (ThemesService.ActiveTheme is DxThemeFluent fluent && fluent.Mode == ThemeMode.Dark) {
+            theme = MyTheme.Fluent_Dark;
+        }
+
+        await ThemesService.SetActiveThemeAsync(theme, color);
+        await ToggleThemeSwitcherPanel(false);
+    }
 
     async Task ToggleThemeSwitcherPanel(bool shown) {
         if (shown != Shown) {
             Shown = shown;
             await ShownChanged.InvokeAsync(shown);
         }
+    }
+
+    private string? GetColorPickerText() {
+        return string.IsNullOrEmpty(CustomAccentColor) ? null : CustomAccentColor;
     }
 }

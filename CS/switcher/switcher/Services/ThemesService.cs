@@ -1,4 +1,6 @@
 ﻿using DevExpress.Blazor;
+using Microsoft.JSInterop;
+using System.Text.Json;
 
 namespace switcher.Services {
     public class ThemesService {
@@ -6,50 +8,87 @@ namespace switcher.Services {
         protected IThemeChangeService _dxThemeChangeService;
         protected IHttpContextAccessor _httpContextAccessor;
 
-        public const string ThemeCookieKey = "DXCurrentTheme";
         public ITheme ActiveTheme { get; private set; }
-        public ITheme DefaultTheme { get; private set; } = ThemesCollection.FluentLight;
+        public ITheme DefaultTheme { get; } = ThemesCollection.FluentLight;
+        public const string ThemeCookieKey = "DXCurrentTheme";
 
-        public ThemesService(CookiesService cs, IThemeChangeService dxThemeSerice, IHttpContextAccessor httpContextAccessor) {
+        public ThemesService(CookiesService cs, IThemeChangeService dxThemeService, IHttpContextAccessor httpContextAccessor) {
             _cookiesService = cs;
-            _dxThemeChangeService = dxThemeSerice;
+            _dxThemeChangeService = dxThemeService;
             _httpContextAccessor = httpContextAccessor;
-            GetThemeFromCookies(httpContextAccessor);
+            ActiveTheme = GetThemeFromCookies(httpContextAccessor);
         }
 
         public ITheme GetThemeFromCookies(IHttpContextAccessor httpContextAccessor) {
-            var themeName = _cookiesService.GetCookie(httpContextAccessor, ThemeCookieKey);
-            var iTheme = string.IsNullOrEmpty(themeName) ? DefaultTheme : themeName.GetTheme();
-            ActiveTheme = iTheme;
-            return iTheme;
-        }
-        public async Task SetActiveThemeAsync(MyTheme theme) {
-            var themeName = Enum.GetName(typeof(MyTheme), theme);
-            await _cookiesService.SetCookie(ThemeCookieKey, themeName);
+            var cookieValue = _cookiesService.GetCookie(httpContextAccessor, ThemeCookieKey);
+            if (string.IsNullOrEmpty(cookieValue))
+                return DefaultTheme;
 
-            var iTheme = theme.GetTheme();
-            ActiveTheme = iTheme;
-            await _dxThemeChangeService.SetTheme(ActiveTheme);
+            ThemeCookie? cookie = null;
+            try {
+                cookie = JsonSerializer.Deserialize<ThemeCookie>(cookieValue);
+            }
+            catch {
+                return cookieValue.GetTheme();
+            }
+
+            if (cookie == null || string.IsNullOrEmpty(cookie.ThemeName))
+                return DefaultTheme;
+
+            var theme = cookie.ThemeName.GetTheme();
+
+            if (!string.IsNullOrEmpty(cookie.AccentColor) &&
+                (cookie.ThemeName == nameof(MyTheme.Fluent_Light) || cookie.ThemeName == nameof(MyTheme.Fluent_Dark))) {
+                return ApplyFluentAccent(cookie.ThemeName, cookie.AccentColor);
+            }
+
+            return theme;
         }
+
+        public async Task SetActiveThemeAsync(MyTheme theme, string? accentColor = null) {
+            string themeName = Enum.GetName(typeof(MyTheme), theme);
+
+            var cookie = new ThemeCookie(themeName, accentColor);
+            var cookieJson = JsonSerializer.Serialize(cookie);
+            await _cookiesService.SetCookie(ThemeCookieKey, cookieJson);
+
+            ITheme appliedTheme = (!string.IsNullOrEmpty(accentColor) &&
+                                   (theme == MyTheme.Fluent_Light || theme == MyTheme.Fluent_Dark))
+                                 ? ApplyFluentAccent(themeName, accentColor)
+                                 : theme.GetTheme();
+
+            ActiveTheme = appliedTheme;
+            await _dxThemeChangeService.SetTheme(appliedTheme);
+        }
+
+        private static ITheme ApplyFluentAccent(string themeName, string accentColor) {
+            var mode = themeName == nameof(MyTheme.Fluent_Dark) ? ThemeMode.Dark : ThemeMode.Light;
+            return Themes.Fluent.Clone(properties => {
+                properties.Mode = mode;
+                properties.AddFilePaths("css/theme-fluent.css");
+                properties.SetCustomAccentColor(accentColor);
+            });
+        }
+
+        private record ThemeCookie(string ThemeName, string? AccentColor);
     }
 
     public static class Extensions {
-        public static ITheme GetTheme(this MyTheme theme) {
-            return theme switch {
-                MyTheme.Fluent_Light => ThemesCollection.FluentLight,
-                MyTheme.Fluent_Dark => ThemesCollection.FluentDark,
-                MyTheme.Blazing_Berry => ThemesCollection.BlazingBerry,
-                MyTheme.Blazing_Dark => ThemesCollection.BlazingDark,
-                MyTheme.Purple => ThemesCollection.Purple,
-                MyTheme.Office_White => ThemesCollection.OfficeWhite,
-                MyTheme.Bootstrap => ThemesCollection.BootstrapDefault
-            };
-        }
+        public static ITheme GetTheme(this MyTheme theme) => theme switch {
+            MyTheme.Fluent_Light => ThemesCollection.FluentLight,
+            MyTheme.Fluent_Dark => ThemesCollection.FluentDark,
+            MyTheme.Blazing_Berry => ThemesCollection.BlazingBerry,
+            MyTheme.Blazing_Dark => ThemesCollection.BlazingDark,
+            MyTheme.Purple => ThemesCollection.Purple,
+            MyTheme.Office_White => ThemesCollection.OfficeWhite,
+            MyTheme.Bootstrap => ThemesCollection.BootstrapDefault,
+            _ => ThemesCollection.FluentLight
+        };
+
         public static ITheme GetTheme(this string themeName) {
-            var theme = MyTheme.Fluent_Light;
-            if (Enum.TryParse<MyTheme>(themeName, out MyTheme result))
-                theme = result;
-            return theme.GetTheme();
+            return Enum.TryParse<MyTheme>(themeName, out var result)
+                ? result.GetTheme()
+                : ThemesCollection.FluentLight;
         }
     }
 }
