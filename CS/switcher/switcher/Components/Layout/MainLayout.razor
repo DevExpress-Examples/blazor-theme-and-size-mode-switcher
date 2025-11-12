@@ -10,22 +10,24 @@
             </div>
         </DrawerBody>
         <DrawerTarget>
-            <div class="nav-buttons-container">
-                <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
-                    <DxButton RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button" IconCssClass="icon icon-menu"></DxButton>
-                </NavLink>
-                @if (new Uri(NavigationManager.Uri).LocalPath != "/") {
-                    <NavLink href="@UrlGenerator.GetUrl("/", ToggledSidebar)" class="button-link hidden">
-                        <DxButton Text="Back to Home" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button-nav" IconCssClass="icon icon-back"></DxButton>
+            <div class="drawer-content">
+                <div class="nav-buttons-container">
+                    <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)" class="menu-button-navlink">
+                        <DxButton RenderStyle="ButtonRenderStyle.Link" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button" IconCssClass="icon icon-menu"></DxButton>
                     </NavLink>
-                }
-                <div style="margin-left:auto; display:flex">
-                    <SizeChanger />
-                    <ThemeSwitcher />
+                    @if (new Uri(NavigationManager.Uri).LocalPath != "/") {
+                        <NavLink href="@UrlGenerator.GetUrl("/", ToggledSidebar)" class="button-link hidden">
+                            <DxButton Text="Back to Home" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button-nav" IconCssClass="icon icon-back"></DxButton>
+                        </NavLink>
+                    }
+                    <div style="margin-left:auto; display:flex">
+                        <SizeChanger />
+                        <ThemeSwitcher />
+                    </div>
                 </div>
-            </div>
-            <div class="container p-4">
-                @Body
+                <div class="page-content-container">
+                    @Body
+                </div>
             </div>
         </DrawerTarget>
     </Drawer>
@@ -39,7 +41,7 @@
     private RenderFragment drawerHeader => @<div class="navigation-drawer-header">
         <img class="logo" src="images/logo.svg" alt="DevExpress logo" />
         <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
-            <DxButton RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button-nav" IconCssClass="@(ToggledSidebar ? "icon icon-close" : "icon icon-menu")"></DxButton>
+            <DxButton RenderStyleMode="@ButtonRenderStyleMode.Text" RenderStyle="ButtonRenderStyle.Light" CssClass="menu-button-nav" IconCssClass="@(ToggledSidebar ? "icon icon-close" : "icon icon-menu")"></DxButton>
         </NavLink>
     </div>;
 

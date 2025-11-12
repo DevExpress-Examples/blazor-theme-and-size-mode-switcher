@@ -62,7 +62,7 @@ html, body {
     .title.title-secondary {
         padding-top: 0.313rem;
         padding-bottom: 0;
-        color: var(--bs-secondary-color, var(--DS-color-content-neutral-default-rest));
+        color: var(--bs-secondary-color, var(--dxds-color-content-neutral-default-rest));
     }
 
 .title-header-text {

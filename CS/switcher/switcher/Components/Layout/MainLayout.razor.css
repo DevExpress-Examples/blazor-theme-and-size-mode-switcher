@@ -1,10 +1,13 @@
-﻿.page {
+﻿﻿.page {
     height: 100%;
-    font-family: var(--bs-font-sans-serif, var(--DS-font-family-sans-serif));
+    font-family: var(--bs-font-sans-serif, var(--dxds-font-family-sans-serif));
+    min-height: 0;
 }
 
 .logo {
     text-align: center;
+    height: 1.5rem;
+    width: 9rem;
 }
 
 ::deep .icon-back {
@@ -36,6 +39,10 @@
     background-color: var(--dxbl-btn-hover-color);
 }
 
+::deep .back-button:first-child {
+    padding-left: 0;
+}
+
 ::deep .menu-button:hover .icon {
     background-color: var(--dxbl-btn-hover-color);
 }
@@ -51,9 +58,18 @@
 .nav-buttons-container {
     display: flex;
     gap: 10px;
-    padding: 1rem;
 }
 
-.nav-buttons-container ::deep .menubutton-float-end {
-    margin-left: auto;
+    .nav-buttons-container ::deep .menubutton-float-end {
+        margin-left: auto;
+    }
+
+.page-content-container {
+    flex-grow: 1;
+}
+
+::deep .drawer-content {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
 }
