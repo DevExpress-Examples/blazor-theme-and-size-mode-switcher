@@ -4,14 +4,14 @@ using System.Text.Json;
 
 namespace switcher.Services {
     public class ThemesService {
+        public const string ThemeCookieKey = "DXCurrentTheme";
+
         protected CookiesService _cookiesService;
         protected IThemeChangeService _dxThemeChangeService;
 
         public ITheme ActiveTheme { get => _dxThemeChangeService.ActiveTheme; }
-        public ITheme DefaultTheme { get; } = ThemesCollection.FluentLight();
-        public const string ThemeCookieKey = "DXCurrentTheme";
 
-        public ThemesService(CookiesService cs, IThemeChangeService dxThemeService, IHttpContextAccessor httpContextAccessor) {
+        public ThemesService(CookiesService cs, IThemeChangeService dxThemeService) {
             _cookiesService = cs;
             _dxThemeChangeService = dxThemeService;
         }
@@ -20,13 +20,13 @@ namespace switcher.Services {
             var cookieValue = _cookiesService.GetCookie(httpContextAccessor, ThemeCookieKey);
             ThemeCookie? cookie = cookieValue.TryDeserialize();
             if (cookie == null || string.IsNullOrEmpty(cookie.ThemeName))
-                return DefaultTheme;
+                return ThemesCollection.FluentLight();
 
             return cookie.GetTheme();
         }
 
         public async Task SetActiveThemeAsync(ITheme theme, string? accentColor = null) {
-            var nameWithoutAccent = theme.Name.Split('_')[0];
+            var nameWithoutAccent = theme.Name.Split(' ')[0];
             var cookie = new ThemeCookie(nameWithoutAccent, accentColor);
             await _cookiesService.SetCookie(ThemeCookieKey, JsonSerializer.Serialize(cookie));
 
