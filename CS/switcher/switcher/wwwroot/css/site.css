@@ -11,6 +11,7 @@ html, body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    font-size: var(--global-size);
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -41,12 +42,12 @@ html, body {
     z-index: 1000;
 }
 
-#blazor-error-ui .dismiss {
-    cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
-}
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
 
 .title {
     display: flex;
@@ -55,11 +56,11 @@ html, body {
     padding-bottom: 0.625rem;
 }
 
-.title.title-secondary {
-    padding-top: 0.313rem;
-    padding-bottom: 0;
-    color: var(--bs-secondary-color, var(--DS-color-content-neutral-default-rest));
-}
+    .title.title-secondary {
+        padding-top: 0.313rem;
+        padding-bottom: 0;
+        color: var(--bs-secondary-color, var(--DS-color-content-neutral-default-rest));
+    }
 
 .title-header-text {
     font-size: 2.5rem;
@@ -94,13 +95,13 @@ html, body {
 }
 
 .icon {
-    width: var(--icon-width);
-    height: var(--icon-height);
+    width: var(--icon-width, 1rem);
+    height: var(--icon-height, 1rem);
     background-color: currentcolor;
     mask-position: center center;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-image: var(--icon-mask-image);
     mask-image: var(--icon-mask-image);
+    mask-size: cover;
 }
-

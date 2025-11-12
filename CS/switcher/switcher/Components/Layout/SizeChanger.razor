@@ -1,0 +1,29 @@
+@rendermode InteractiveServer
+@inject SizeManager SizeManager
+
+<style>
+    :root {
+        --global-size: @SizeManager.GetFontSizeString();
+    }
+</style>
+
+<DxDropDownButton RenderStyle="ButtonRenderStyle.Secondary"
+                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                  Text="@FormatSizeText(SizeManager.ActiveSizeMode)"
+                  ItemClick="OnSizeChange"
+>
+    <Items>
+        @foreach (var sizeMode in sizeModes) {
+            <DxDropDownButtonItem Text="@FormatSizeText(sizeMode)" Id="@sizeMode.ToString()"  />
+        }                
+    </Items>
+</DxDropDownButton>
+
+@code {
+    List<SizeMode> sizeModes = Enum.GetValues<SizeMode>().ToList();
+    string FormatSizeText(SizeMode size) => size + " size";
+
+    protected async Task OnSizeChange(DropDownButtonItemClickEventArgs args) {
+        await SizeManager.SetSizeMode(Enum.Parse<SizeMode>(args.ItemInfo.Id));
+    }
+}
