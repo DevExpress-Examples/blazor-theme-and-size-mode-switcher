@@ -7,86 +7,66 @@ namespace switcher.Services {
         protected CookiesService _cookiesService;
         protected IThemeChangeService _dxThemeChangeService;
 
-        public ITheme ActiveTheme { get; private set; }
-        public ITheme DefaultTheme { get; } = ThemesCollection.FluentLight;
+        public ITheme ActiveTheme { get => _dxThemeChangeService.ActiveTheme; }
+        public ITheme DefaultTheme { get; } = ThemesCollection.FluentLight();
         public const string ThemeCookieKey = "DXCurrentTheme";
 
         public ThemesService(CookiesService cs, IThemeChangeService dxThemeService, IHttpContextAccessor httpContextAccessor) {
             _cookiesService = cs;
             _dxThemeChangeService = dxThemeService;
-            ActiveTheme = GetThemeFromCookies(httpContextAccessor);
         }
 
         public ITheme GetThemeFromCookies(IHttpContextAccessor httpContextAccessor) {
             var cookieValue = _cookiesService.GetCookie(httpContextAccessor, ThemeCookieKey);
-            if (string.IsNullOrEmpty(cookieValue))
-                return DefaultTheme;
-
-            ThemeCookie? cookie = null;
-            try {
-                cookie = JsonSerializer.Deserialize<ThemeCookie>(cookieValue);
-            }
-            catch {
-                return cookieValue.GetTheme();
-            }
-
+            ThemeCookie? cookie = cookieValue.TryDeserialize();
             if (cookie == null || string.IsNullOrEmpty(cookie.ThemeName))
                 return DefaultTheme;
 
-            var theme = cookie.ThemeName.GetTheme();
-
-            if (!string.IsNullOrEmpty(cookie.AccentColor) &&
-                (cookie.ThemeName == nameof(MyTheme.Fluent_Light) || cookie.ThemeName == nameof(MyTheme.Fluent_Dark))) {
-                return ApplyFluentAccent(cookie.ThemeName, cookie.AccentColor);
-            }
-
-            return theme;
+            return cookie.GetTheme();
         }
 
-        public async Task SetActiveThemeAsync(MyTheme theme, string? accentColor = null) {
-            string themeName = Enum.GetName(typeof(MyTheme), theme);
+        public async Task SetActiveThemeAsync(ITheme theme, string? accentColor = null) {
+            var nameWithoutAccent = theme.Name.Split('_')[0];
+            var cookie = new ThemeCookie(nameWithoutAccent, accentColor);
+            await _cookiesService.SetCookie(ThemeCookieKey, JsonSerializer.Serialize(cookie));
 
-            var cookie = new ThemeCookie(themeName, accentColor);
-            var cookieJson = JsonSerializer.Serialize(cookie);
-            await _cookiesService.SetCookie(ThemeCookieKey, cookieJson);
-
-            ITheme appliedTheme = (!string.IsNullOrEmpty(accentColor) &&
-                                   (theme == MyTheme.Fluent_Light || theme == MyTheme.Fluent_Dark))
-                                 ? ApplyFluentAccent(themeName, accentColor)
-                                 : theme.GetTheme();
-
-            ActiveTheme = appliedTheme;
-            await _dxThemeChangeService.SetTheme(appliedTheme);
+            var newTheme = nameWithoutAccent.GetTheme(accentColor);
+            await _dxThemeChangeService.SetTheme(newTheme);
         }
 
-        private static ITheme ApplyFluentAccent(string themeName, string accentColor) {
-            var mode = themeName == nameof(MyTheme.Fluent_Dark) ? ThemeMode.Dark : ThemeMode.Light;
-            return Themes.Fluent.Clone(properties => {
-                properties.Mode = mode;
-                properties.AddFilePaths("css/theme-fluent.css");
-                properties.SetCustomAccentColor(accentColor);
-            });
-        }
-
-        private record ThemeCookie(string ThemeName, string? AccentColor);
     }
+    public record ThemeCookie(string ThemeName, string? AccentColor);
 
     public static class Extensions {
-        public static ITheme GetTheme(this MyTheme theme) => theme switch {
-            MyTheme.Fluent_Light => ThemesCollection.FluentLight,
-            MyTheme.Fluent_Dark => ThemesCollection.FluentDark,
-            MyTheme.Blazing_Berry => ThemesCollection.BlazingBerry,
-            MyTheme.Blazing_Dark => ThemesCollection.BlazingDark,
+        public static ITheme GetTheme(this MyTheme theme, string? accent = null) => theme switch {
+            MyTheme.FluentLight => ThemesCollection.FluentLight(accent),
+            MyTheme.FluentDark => ThemesCollection.FluentDark(accent),
+            MyTheme.BlazingBerry => ThemesCollection.BlazingBerry,
+            MyTheme.BlazingDark => ThemesCollection.BlazingDark,
             MyTheme.Purple => ThemesCollection.Purple,
-            MyTheme.Office_White => ThemesCollection.OfficeWhite,
+            MyTheme.OfficeWhite => ThemesCollection.OfficeWhite,
             MyTheme.Bootstrap => ThemesCollection.BootstrapDefault,
-            _ => ThemesCollection.FluentLight
+            _ => ThemesCollection.FluentLight()
         };
 
-        public static ITheme GetTheme(this string themeName) {
+        public static ITheme GetTheme(this string themeName, string? accent = null) {
             return Enum.TryParse<MyTheme>(themeName, out var result)
-                ? result.GetTheme()
-                : ThemesCollection.FluentLight;
+                ? result.GetTheme(accent)
+                : ThemesCollection.FluentLight();
+        }
+        public static ITheme GetTheme(this ThemeCookie cookie) {
+            return cookie.ThemeName.GetTheme(cookie.AccentColor);
+        }
+
+        public static ThemeCookie TryDeserialize(this string s) {
+            if (string.IsNullOrEmpty(s))
+                return null;
+            ThemeCookie? cookie = null;
+            try {
+                cookie = JsonSerializer.Deserialize<ThemeCookie>(s);
+            }
+            catch {}
+            return cookie;
         }
     }
 }

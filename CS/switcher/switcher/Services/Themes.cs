@@ -3,24 +3,32 @@
 namespace switcher.Services;
 
 public enum MyTheme {
-    Fluent_Light,
-    Fluent_Dark,
+    FluentLight,
+    FluentDark,
 
-    Blazing_Berry,
-    Blazing_Dark,
+    BlazingBerry,
+    BlazingDark,
     Purple,
-    Office_White,
+    OfficeWhite,
 
     Bootstrap
 }
 public static class ThemesCollection {
-    public static readonly ITheme FluentLight = Themes.Fluent.Clone(props => {
-        props.AddFilePaths("css/theme-fluent.css");
-    });
-    public static readonly ITheme FluentDark = Themes.Fluent.Clone(props => {
-        props.Mode = ThemeMode.Dark;
-        props.AddFilePaths("css/theme-fluent.css");
-    });
+    public static ITheme FluentLight(string? accent = null) { 
+        return Themes.Fluent.Clone(props => {
+            props.Name = "FluentLight" + accent?.PadLeft(8);
+            props.SetCustomAccentColor(accent);
+            props.AddFilePaths("css/theme-fluent.css");
+        });
+    }
+    public static ITheme FluentDark(string? accent = null) {
+        return Themes.Fluent.Clone(props => {
+            props.Name = "FluentDark" + accent?.PadLeft(8);
+            props.SetCustomAccentColor(accent);
+            props.Mode = ThemeMode.Dark;
+            props.AddFilePaths("css/theme-fluent.css");
+        });
+    }
 
     public static readonly ITheme BlazingBerry = Themes.BlazingBerry.Clone(props => {
         props.AddFilePaths("css/theme-bs.css");
