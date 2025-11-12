@@ -22,10 +22,18 @@ public static class ThemesCollection {
         props.AddFilePaths("css/theme-fluent.css");
     });
 
-    public static readonly ITheme BlazingBerry = Themes.BlazingBerry;
-    public static readonly ITheme BlazingDark = Themes.BlazingDark;
-    public static readonly ITheme Purple = Themes.Purple;
-    public static readonly ITheme OfficeWhite = Themes.OfficeWhite;
+    public static readonly ITheme BlazingBerry = Themes.BlazingBerry.Clone(props => {
+        props.AddFilePaths("css/theme-bs.css");
+    });
+    public static readonly ITheme BlazingDark = Themes.BlazingDark.Clone(props => {
+        props.AddFilePaths("css/theme-bs.css");
+    });
+    public static readonly ITheme Purple = Themes.Purple.Clone(props => {
+        props.AddFilePaths("css/theme-bs.css");
+    });
+    public static readonly ITheme OfficeWhite = Themes.OfficeWhite.Clone(props => {
+        props.AddFilePaths("css/theme-bs.css");
+    });
 
     public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
         props.Name = "Bootstrap";

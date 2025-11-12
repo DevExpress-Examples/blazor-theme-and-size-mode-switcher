@@ -1,18 +1,20 @@
-﻿::deep .navigation-drawer {
-    height: 100vh;
-    max-height: 100%;
+﻿.drawer-container {
+    height: 100%;
 }
 
-::deep .panel-open:not(.mobile) .menu-button {
+::deep .panel-open:not(.mobile) .menu-button-navlink:has(+ .back-button-navlink) {
     display: none;
 }
 
+::deep .panel-open:not(.mobile) .menu-button-navlink:not(:has(+ .back-button-navlink)) {
+    visibility: hidden;
+}
+
 ::deep .navigation-drawer > .dxbl-drawer-panel {
-    background-image: linear-gradient(180deg, var(--bs-primary, var(--DS-primary-90)) 0%, var(--bs-black, #000) 150%);
+    background-image: linear-gradient(180deg, var(--bs-primary, var(--dxds-primary-90)) 0%, var(--bs-black, #000) 150%);
 }
 
 ::deep .navigation-drawer > .dxbl-drawer-content {
-    height: 100vh;
     overflow: auto;
 }
 
@@ -22,11 +24,11 @@
     background: none;
 }
 
-::deep .navigation-drawer > .dxbl-drawer-panel > .dxbl-drawer-header > .navigation-drawer-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
+    ::deep .navigation-drawer > .dxbl-drawer-panel > .dxbl-drawer-header > .navigation-drawer-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
 
 ::deep .navigation-drawer > .dxbl-drawer-panel > .dxbl-drawer-body {
     --dxbl-drawer-panel-body-padding-x: 0;
@@ -54,8 +56,12 @@
 }
 
 @media (max-width: 768px) {
-    ::deep .panel-open:not(.mobile) .menu-button {
+    ::deep .panel-open:not(.mobile) .menu-button-navlink:has(+ .back-button-navlink) {
         display: inline-flex;
+    }
+
+    ::deep .panel-open:not(.mobile) .menu-button-navlink:not(:has(+ .back-button-navlink)) {
+        visibility: visible;
     }
 
     ::deep .navigation-drawer > .dxbl-drawer-panel {
