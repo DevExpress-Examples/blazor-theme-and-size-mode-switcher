@@ -1,14 +1,18 @@
 using DevExpress.Blazor;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.JSInterop;
 
 namespace switcher.Services {
     public class SizeManager {
         protected CookiesService _cookiesService;
+        protected IJSRuntime _jsRuntime { get; set; }
         const string SizeModeCookieKey = "DXSizeMode";
         
         public SizeMode ActiveSizeMode;
 
-        public SizeManager(CookiesService cs, IHttpContextAccessor httpContextAccessor) {
+        public SizeManager(CookiesService cs, IHttpContextAccessor httpContextAccessor, IJSRuntime js) {
             _cookiesService = cs;
+            _jsRuntime = js;
             var sizeMode = _cookiesService.GetCookie(httpContextAccessor, SizeModeCookieKey);
             if (string.IsNullOrEmpty(sizeMode))
                 ActiveSizeMode = SizeMode.Medium;
@@ -19,6 +23,10 @@ namespace switcher.Services {
         public async Task SetSizeMode(SizeMode sizeMode) {
             ActiveSizeMode = sizeMode;
             await _cookiesService.SetCookie(SizeModeCookieKey, sizeMode.ToString());
+            await SetSizeInJS();
+        }
+        public async Task SetSizeInJS() {
+            await _jsRuntime.InvokeVoidAsync("setSize", GetFontSizeString());
         }
 
         public string GetFontSizeString() {

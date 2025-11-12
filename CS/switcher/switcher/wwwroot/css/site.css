@@ -3,6 +3,9 @@
 * {
     box-sizing: border-box;
 }
+:root {
+    --global-size: 16px;
+}
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
