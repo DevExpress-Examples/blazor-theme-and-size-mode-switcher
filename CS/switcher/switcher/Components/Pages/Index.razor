@@ -10,7 +10,7 @@
         <Items>
             <DxGridLayoutItem Area="header" CssClass="title">
                 <Template>
-                    <div class="title-header-text">Hello World!</div>
+                    <div class="title-header-text">Hello, @ActiveTheme.Name!</div>
                     <div class="title-content-text">Welcome to your new DevExpress Blazor Application</div>
                 </Template>
             </DxGridLayoutItem>
@@ -41,4 +41,6 @@
     [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
     public bool ToggledSidebar { get; set; }
 
+    [CascadingParameter(Name = "DXActiveTheme")]
+    public ITheme ActiveTheme { get; set; }
 }
