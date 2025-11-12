@@ -19,7 +19,10 @@
                         <DxButton Text="Back to Home" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button-nav" IconCssClass="icon icon-back"></DxButton>
                     </NavLink>
                 }
-                <ThemeSwitcher />
+                <div style="margin-left:auto; display:flex">
+                    <SizeChanger />
+                    <ThemeSwitcher />
+                </div>
             </div>
             <div class="container p-4">
                 @Body

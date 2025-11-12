@@ -6,7 +6,6 @@ namespace switcher.Services {
     public class ThemesService {
         protected CookiesService _cookiesService;
         protected IThemeChangeService _dxThemeChangeService;
-        protected IHttpContextAccessor _httpContextAccessor;
 
         public ITheme ActiveTheme { get; private set; }
         public ITheme DefaultTheme { get; } = ThemesCollection.FluentLight;
@@ -15,7 +14,6 @@ namespace switcher.Services {
         public ThemesService(CookiesService cs, IThemeChangeService dxThemeService, IHttpContextAccessor httpContextAccessor) {
             _cookiesService = cs;
             _dxThemeChangeService = dxThemeService;
-            _httpContextAccessor = httpContextAccessor;
             ActiveTheme = GetThemeFromCookies(httpContextAccessor);
         }
 

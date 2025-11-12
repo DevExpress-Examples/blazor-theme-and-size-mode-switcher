@@ -7,12 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
        .AddInteractiveServerComponents();
 
-builder.Services.AddDevExpressBlazor(options => {
-    options.SizeMode = DevExpress.Blazor.SizeMode.Medium;
-});
+builder.Services.AddDevExpressBlazor();
 builder.Services.AddMvc();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ThemesService>();
+builder.Services.AddScoped<SizeManager>();
 builder.Services.AddTransient<CookiesService>();
 
 var app = builder.Build();
