@@ -1,12 +1,8 @@
-<!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/227836631/25.1.5%2B)
-[![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/T845557)
-[![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
-[![](https://img.shields.io/badge/💬_Leave_Feedback-feecdd?style=flat-square)](#does-this-example-address-your-development-requirementsobjectives)
-<!-- default badges end -->
 # Implement a Theme Switcher in Blazor Applications
 
 This example demonstrates how to add a Theme Switcher to your application. Users can switch between DevExpress Fluent and Classic themes and external Bootstrap themes. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change the theme at runtime.
+
+This example also implements a size mode switcher. Users can switch between small, medium, and large [size modes](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes).
 
 
 ![Blazor - Theme Switcher](images/blazor-theme-switcher.png)
@@ -176,6 +172,46 @@ If you want to use dark Bootstrap themes, implement custom logic that applies a 
 * `data-bs-theme="dark"` for dark themes
 
 Refer to the following article for more information: [Color Modes](https://getbootstrap.com/docs/5.3/customize/color-modes/).
+
+## Implement a Size Mode Switcher
+
+Follow the steps below to change size modes at runtime:
+
+1. Add the [SizeManager.cs](/CS/switcher/switcher/Services/SizeManager.cs) service to your application (copy the corresponding file). This service uses the `GetFontSizeString()` method to apply the selected size mode:
+
+    ```cs
+    public string GetFontSizeString() {
+        return ActiveSizeMode switch {
+            SizeMode.Small => "14px",
+            SizeMode.Medium => "16px",
+            SizeMode.Large => "18px",
+            _ => "16px"
+        };
+    }
+    ```
+
+2. Register the `SizeManager` service in the [Program.cs](/CS/switcher/switcher/Program.cs) file:
+
+    ```cs
+    builder.Services.AddScoped<SizeManager>();
+    ```
+
+3. Copy the [SizeChanger.razor](/CS/switcher/switcher/Components/Layout/SizeChanger.razor) file to the application's [Layout](/CS/switcher/switcher/Components/Layout/) folder. This file creates a size mode menu and assigns the selected mode to the `--global-size` CSS variable:
+
+    ```css
+    :root {
+        --global-size: @SizeManager.GetFontSizeString();
+    }
+    ```
+
+4. Use the `--global-size` CSS variable to define the application font size:
+
+    ```css
+    html, body {
+        /* ... */
+        font-size: var(--global-size);
+    }
+    ```
 
 ## Files to Review
 
