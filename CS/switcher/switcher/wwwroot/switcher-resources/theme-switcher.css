@@ -165,14 +165,15 @@ ol, ul {
 }
 
 .themeswitcher-container {
+    --margin-top: 4.5rem;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
     background-color: var(--dxds-color-surface-neutral-default-rest, var(--bs-body-bg, white));
     position: absolute;
-    top: calc(3.5rem + 1px);
+    top: calc(var(--margin-top) + 1px);
     right: 0;
     width: 320px;
     height: 0;
-    max-height: calc(100vh - 3.5rem);
+    max-height: calc(100vh - var(--margin-top));
     overflow: hidden;
     z-index: 1029;
 }
@@ -183,7 +184,7 @@ ol, ul {
 }
 
 .themeswitcher-container-shown {
-    height: calc(100vh - 3.5rem);
+    height: calc(100vh - var(--margin-top));
 }
 
 .themeswitcher-custom-color {
@@ -245,9 +246,9 @@ ol, ul {
 @media (max-width: 1199.98px) {
     .themeswitcher-container {
         position: fixed;
-        top: 3.5rem;
+        top: var(--margin-top);
         width: 320px;
-        height: calc(100% - 3.5rem);
+        height: calc(100% - var(--margin-top));
         transform: translateX(100%);
     }
 
