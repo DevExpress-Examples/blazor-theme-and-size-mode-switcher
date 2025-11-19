@@ -175,7 +175,7 @@ Refer to the following article for more information: [Color Modes](https://getbo
 
 ## Implement a Size Mode Switcher
 
-Follow the steps below to change size modes at runtime:
+To change size modes at runtime, you must:
 
 1. Add the [SizeManager.cs](/CS/switcher/switcher/Services/SizeManager.cs) service to your application (copy the corresponding file). This service uses the `GetFontSizeString()` method to apply the selected size mode:
 
@@ -196,7 +196,8 @@ Follow the steps below to change size modes at runtime:
     builder.Services.AddScoped<SizeManager>();
     ```
 
-3. Copy the [SizeChanger.razor](/CS/switcher/switcher/Components/Layout/SizeChanger.razor) file to the application's [Layout](/CS/switcher/switcher/Components/Layout/) folder. This file creates a size mode menu and assigns the selected mode to the `--global-size` CSS variable:
+3. Copy the [SizeChanger.razor](/CS/switcher/switcher/Components/Layout/SizeChanger.razor) file to the [Components/Layout](/CS/switcher/switcher/Components/Layout/) folder. This file creates a size mode menu and assigns the selected mode to the `--global-size` CSS variable:
+
 
     ```css
     :root {
@@ -204,7 +205,7 @@ Follow the steps below to change size modes at runtime:
     }
     ```
 
-4. Use the `--global-size` CSS variable to define the application font size:
+4. Use the `--global-size` CSS variable to define the font size application-wide:
 
     ```css
     html, body {
