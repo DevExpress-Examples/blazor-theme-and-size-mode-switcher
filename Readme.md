@@ -227,11 +227,14 @@ To change size modes at runtime, you must:
 * [Services](./CS/switcher/switcher/Services) (folder)
 * [App.razor](./CS/switcher/switcher/Components/App.razor)
 * [MainLayout.razor](./CS/switcher/switcher/Components/Layout/MainLayout.razor)
+* [SizeChanger.razor](./CS/switcher/switcher/Components/Layout/SizeChanger.razor)
 * [Program.cs](./CS/switcher/switcher/Program.cs)
 
 ## Documentation
 
 * [Themes](https://docs.devexpress.com/Blazor/401523/common-concepts/themes)
+* [Accent Colors in Fluent Themes](https://docs.devexpress.com/Blazor/405530/styling-and-themes/fluent-theme-customization)
+* [Size Modes](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes)
 <!-- feedback -->
 ## Does this example address your development requirements/objectives?
 
@@ -239,3 +242,4 @@ To change size modes at runtime, you must:
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
