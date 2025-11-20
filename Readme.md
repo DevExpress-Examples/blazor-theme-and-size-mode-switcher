@@ -1,4 +1,5 @@
-# Switch Themes and Size Mode in Blazor Applications at Runtime
+# Switch Themes and Size Modes in Blazor Applications at Runtime
+
 
 This example demonstrates how to add a Theme Switcher to your Blazor application. Users can switch between DevExpress Fluent and Classic themes, as well as external Bootstrap themes. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change the theme at runtime.
 
