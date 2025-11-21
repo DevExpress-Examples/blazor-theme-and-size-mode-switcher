@@ -1,7 +1,8 @@
 # Switch Themes and Size Modes in Blazor Applications at Runtime
 
 
-This example demonstrates adds a Theme Switcher to your Blazor application. Users can switch between DevExpress Fluent and Classic themes, and external Bootstrap themes. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change the theme at runtime.
+This example adds a theme switcher to your Blazor application. Users can switch between DevExpress Fluent and Classic themes, and external Bootstrap themes. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change the theme at runtime.
+
 
 This example also implements a size mode combobox that allows users to switch between small, medium, and large [size modes](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes).
 
@@ -9,7 +10,8 @@ This example also implements a size mode combobox that allows users to switch be
 
 ## Add Resources and Services
 
-To implement custom theme and size mode switchers, configure your Blazor application as follows:
+To switch themes and size modes at runtime, configure your Blazor application as follows:
+
 
 1. Copy the example [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) folder to your application *wwwroot* folder. The *switcher-resources* folder has the following structure:
 
