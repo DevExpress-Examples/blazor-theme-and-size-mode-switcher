@@ -218,7 +218,7 @@ Follow the steps below to add a theme switcher to your application:
     ```razor
     <div class="nav-buttons-container">
         @* Navigation buttons *@
-        <div style="margin-left:auto; display:flex">
+        <div class="switcher-panel">
             <ThemeSwitcher />
         </div>
     </div>
@@ -254,7 +254,7 @@ To change size modes at runtime, you must:
     ```razor
     <div class="nav-buttons-container">
         @* Navigation buttons *@
-        <div style="margin-left:auto; display:flex">
+        <div class="switcher-panel">
             <SizeChanger />
             <ThemeSwitcher />
         </div>

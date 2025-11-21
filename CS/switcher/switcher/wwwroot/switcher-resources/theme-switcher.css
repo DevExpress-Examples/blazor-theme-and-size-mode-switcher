@@ -2,6 +2,11 @@ ol, ul {
     margin-top: 0;
 }
 
+.switcher-panel {
+    margin-left: auto;
+    display: flex
+}
+
 .blazor-scroll-view {
     height: 100%;
 }
@@ -133,6 +138,29 @@ ol, ul {
     height: 1.25rem;
     background-color: var(--themeswitcher-color);
 }
+
+    .themeswitcher-color.FluentLight {
+        --themeswitcher-color: #0f6cbd;
+    }
+    .themeswitcher-color.FluentDark {
+        --themeswitcher-color: #282828;
+    }
+    .themeswitcher-color.BlazingBerry {
+        --themeswitcher-color: #5c2d91;
+    }
+    .themeswitcher-color.BlazingDark {
+        --themeswitcher-color: #46444a;
+    }
+    .themeswitcher-color.Purple {
+        --themeswitcher-color: #7989ff;
+    }
+    .themeswitcher-color.OfficeWhite {
+        --themeswitcher-color: #fe7109;
+    }
+    .themeswitcher-color.Bootstrap {
+        --themeswitcher-color: #5c2d91;
+    }
+
 
 .theme-BlazingDark .themeswitcher-color.active a:before,
 .themeswitcher-color.DefaultDark a:before {

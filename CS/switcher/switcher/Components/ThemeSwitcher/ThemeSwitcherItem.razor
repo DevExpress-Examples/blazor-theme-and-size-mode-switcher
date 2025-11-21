@@ -1,7 +1,7 @@
 ﻿@inject ThemesService ThemesService
 @rendermode InteractiveServer
 
-<li class="themeswitcher-color @(Theme.Name) @(isActive ? "active" : "")" style="--themeswitcher-color: @ItemColor">
+<li class="themeswitcher-color @(Theme.Name) @(isActive ? "active" : "")">
     <a
     @onclick:preventDefault
     @onclick="Anchor_Click">@(Title ?? Theme.Name)</a>
@@ -10,7 +10,6 @@
 @code {
     [Parameter] public ITheme Theme { get; set; }
     [Parameter] public string Title { get; set; }
-    [Parameter] public string ItemColor { get; set; }
     [Parameter] public EventCallback<ITheme> Click { get; set; }
 
     bool isActive;
