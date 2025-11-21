@@ -143,8 +143,6 @@ Review implementation details in the [ThemeSwitcherContainer.razor](./CS/switche
 
 Our DevExpress Blazor themes affect DevExpress components only. To apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
 
-> Bootstrap themes require external theme-specific stylesheets. Once you register a Bootstrap theme, call the `Clone()` method and add the stylesheet using theme properties.
-
 ```cs
 public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
     props.Name = "Bootstrap";
@@ -154,6 +152,8 @@ public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(
     props.AddFilePaths("css/theme-bs.css");
 });
 ```
+
+> Bootstrap themes require external theme-specific stylesheets. Once you register a Bootstrap theme, call the `Clone()` method and add the stylesheet using theme properties.
 
 ### Change Bootstrap Theme Color Modes
 
@@ -283,4 +283,5 @@ To change size modes at runtime, you must:
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
 
