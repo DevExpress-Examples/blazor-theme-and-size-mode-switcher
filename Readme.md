@@ -4,13 +4,11 @@
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 [![](https://img.shields.io/badge/💬_Leave_Feedback-feecdd?style=flat-square)](#does-this-example-address-your-development-requirementsobjectives)
 <!-- default badges end -->
-# Switch Themes and Size Modes in Blazor Applications at Runtime
+# Switch Themes and Size Modes within Blazor Apps at Runtime
 
+This example adds a theme switcher to a DevExpress-powered Blazor app. Users can switch between DevExpress Fluent and Classic themes, and external Bootstrap themes. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change the theme at runtime.
 
-This example adds a theme switcher to your Blazor application. Users can switch between DevExpress Fluent and Classic themes, and external Bootstrap themes. This example uses the [DxResourceManager.RegisterTheme(ITheme)](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxResourceManager.RegisterTheme(DevExpress.Blazor.ITheme)) method to apply a theme at application startup and the [IThemeChangeService.SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to change the theme at runtime.
-
-
-This example also implements a size mode combobox that allows users to switch between small, medium, and large [size modes](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes).
+This example also implements a size mode combobox designed to switch between small, medium, and large [size modes](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes).
 
 ![Blazor - Theme and Size Mode Switchers](images/blazor-theme-and-size-mode-switcher.png)
 
@@ -18,26 +16,25 @@ This example also implements a size mode combobox that allows users to switch be
 
 To switch themes and size modes at runtime, configure your Blazor application as follows:
 
-
 1. Copy the example [switcher-resources](./CS/switcher/switcher/wwwroot/switcher-resources) folder to your application *wwwroot* folder. The *switcher-resources* folder has the following structure:
 
-    * **js/cookies-manager.js**  
-    Contains a function that stores the theme in a cookie variable.
-    * **js/size-manager.js**  
-    Contains a function that assigns selected size mode to the `--global-size` CSS variable.
-    * **theme-switcher.css**  
-    Contains CSS rules that define theme switcher appearance and behavior.
+   * **js/cookies-manager.js**  
+   Contains a function that stores the theme in a cookie variable.
+   * **js/size-manager.js**  
+   Contains a function that assigns selected size mode to the `--global-size` CSS variable.
+   * **theme-switcher.css**  
+   Contains CSS rules that define theme switcher appearance and behavior.
 
-2. Add the following services to your application (copy the corresponding files from the [Services](./CS/switcher/switcher/Services) folder):
+2. Add the following services to your application (copy corresponding files from the [Services](./CS/switcher/switcher/Services) folder):
 
-    * [ThemesService.cs](./CS/switcher/switcher/Services/ThemesService.cs)  
-    Implements the [IThemeChangeService](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService) interface to switch themes at runtime and uses the [SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to apply the selected theme. Supports custom accent colors for Fluent themes.
-    * [Themes.cs](./CS/switcher/switcher/Services/Themes.cs)  
-    Creates a list of themes for the theme switcher via the built-in DevExpress Blazor [Themes](https://docs.devexpress.com/Blazor/DevExpress.Blazor.Themes) collection and the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method.
-    * [CookiesService.cs](./CS/switcher/switcher/Services/CookiesService.cs)  
-    Manages cookies.
-    * [SizeManager.cs](./CS/switcher/switcher/Services/SizeManager.cs) *(Optional)*  
-    Manages application [size mode](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes) (small, medium, or large).
+   * [ThemesService.cs](./CS/switcher/switcher/Services/ThemesService.cs)  
+   Implements the [IThemeChangeService](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService) interface to switch themes at runtime and uses the [SetTheme()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.IThemeChangeService.SetTheme(DevExpress.Blazor.ITheme)) method to apply the selected theme. Supports custom accent colors for Fluent themes.
+   * [Themes.cs](./CS/switcher/switcher/Services/Themes.cs)  
+   Creates a list of themes for the theme switcher via the built-in DevExpress Blazor [Themes](https://docs.devexpress.com/Blazor/DevExpress.Blazor.Themes) collection and the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method.
+   * [CookiesService.cs](./CS/switcher/switcher/Services/CookiesService.cs)  
+   Manages cookies.
+   * [SizeManager.cs](./CS/switcher/switcher/Services/SizeManager.cs)   
+   Manages application [size mode](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes) (small, medium, or large).
 
 3. In the [_Imports.razor](./CS/switcher/switcher/Components/_Imports.razor) file, register `{ProjectName}.Components.ThemeSwitcher` and `{ProjectName}.Services` namespaces:
 
@@ -83,7 +80,8 @@ Create a [Themes.cs](./CS/switcher/switcher/Services/Themes.cs) file and configu
         props.AddFilePaths("css/theme-bs.css");
     });
     ```
-1. For Fluent themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add theme stylesheets and change theme mode:
+
+2. For Fluent themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add theme stylesheets and change theme mode:
 
     ```cs
     public static ITheme FluentLight(string? accent = null) { 
@@ -102,7 +100,8 @@ Create a [Themes.cs](./CS/switcher/switcher/Services/Themes.cs) file and configu
         });
     }
     ```
-1. For Bootstrap themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add a Bootstrap theme stylesheet. Use the same approach if you want to apply your own stylesheets.
+
+3. For Bootstrap themes, call the [Clone()](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxThemeBase-1.Clone(System.Action--0-)) method to add a Bootstrap theme stylesheet. Use the same approach if you wish to apply your own stylesheets.
 
     ```cs
     public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
@@ -111,8 +110,8 @@ Create a [Themes.cs](./CS/switcher/switcher/Services/Themes.cs) file and configu
         props.AddFilePaths("css/theme-bs.css");
     });
     ```
-1. Create a list of themes:
-
+    
+4. Create a list of themes:
 
     ```cs
     public enum MyTheme {
@@ -135,13 +134,13 @@ The theme switcher allows you to apply a Fluent theme with a custom accent color
 * A masked input field used to enter hex color values
 * A color picker for visual color selection
 
-The theme is applied automatically when a user selects the color.
+The theme is applied automatically when a user selects a color.
 
 Review implementation details in the [ThemeSwitcherContainer.razor](./CS/switcher/switcher/Components/ThemeSwitcher/ThemeSwitcherContainer.razor) file.
 
 ### Add Custom Stylesheets to the Application (Apply Styles to Non-DevExpress UI Elements)
 
-Our DevExpress Blazor themes affect DevExpress components only. To apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
+DevExpress Blazor themes affect DevExpress components only. To apply theme-specific styles to non-DevExpress elements or the entire application, add external stylesheets to the theme using its `AddFilePaths()` method:
 
 ```cs
 public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(props => {
@@ -157,16 +156,16 @@ public static readonly ITheme BootstrapDefault = Themes.BootstrapExternal.Clone(
 
 ### Change Bootstrap Theme Color Modes
 
-If you want to use dark Bootstrap themes, apply a `data-bs-theme` attribute to the root `<html>` element:
+If you wish to use dark Bootstrap themes, apply a `data-bs-theme` attribute to the root `<html>` element:
 
 * `data-bs-theme="light"` for light themes
 * `data-bs-theme="dark"` for dark themes
 
-Refer to the following article for more information: [Color Modes](https://getbootstrap.com/docs/5.3/customize/color-modes/).
+Refer to the following article for additional information: [Color Modes](https://getbootstrap.com/docs/5.3/customize/color-modes/).
 
 ## Add a Theme Switcher to Your Application
 
-Follow the steps below to add a theme switcher to your application:
+Replicate the steps below to add a theme switcher to your application:
 
 1. Copy the [ThemeSwitcher](./CS/switcher/switcher/Components/ThemeSwitcher) folder to your project. The folder contains:
    * [ThemeSwitcher.razor](./CS/switcher/switcher/Components/ThemeSwitcher/ThemeSwitcher.razor) - The theme switcher button.
@@ -240,7 +239,7 @@ To change size modes at runtime, you must:
     </head>
     ```
 
-4. Use the `--global-size` CSS variable to define the font size application-wide:
+4. Use the `--global-size` CSS variable to define font size application-wide:
 
     ```css
     html, body {
@@ -283,5 +282,6 @@ To change size modes at runtime, you must:
 
 (you will be redirected to DevExpress.com to submit your response)
 <!-- feedback end -->
+
 
 
