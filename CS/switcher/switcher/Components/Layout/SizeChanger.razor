@@ -4,8 +4,7 @@
 <DxDropDownButton RenderStyle="ButtonRenderStyle.Secondary"
                   RenderStyleMode="ButtonRenderStyleMode.Text"
                   Text="@FormatSizeText(SizeManager.ActiveSizeMode)"
-                  ItemClick="OnSizeChange"
->
+                  ItemClick="OnSizeChange">
     <Items>
         @foreach (var sizeMode in sizeModes) {
             <DxDropDownButtonItem Text="@FormatSizeText(sizeMode)" Id="@sizeMode.ToString()"  />
