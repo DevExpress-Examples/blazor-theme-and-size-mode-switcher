@@ -9,20 +9,18 @@ namespace switcher.Services {
         protected CookiesService _cookiesService;
         protected IThemeChangeService _dxThemeChangeService;
 
-        public ITheme ActiveTheme { get => _dxThemeChangeService.ActiveTheme; }
+        public ITheme ActiveTheme { get; private set; }
 
-        public ThemesService(CookiesService cs, IThemeChangeService dxThemeService) {
+        public ThemesService(CookiesService cs, IThemeChangeService dxThemeService, IHttpContextAccessor httpContextAccessor) {
             _cookiesService = cs;
             _dxThemeChangeService = dxThemeService;
+            ActiveTheme = GetThemeFromCookies(httpContextAccessor);
         }
 
         public ITheme GetThemeFromCookies(IHttpContextAccessor httpContextAccessor) {
             var cookieValue = _cookiesService.GetCookie(httpContextAccessor, ThemeCookieKey);
             ThemeCookie? cookie = cookieValue.TryDeserialize();
-            if (cookie == null || string.IsNullOrEmpty(cookie.ThemeName))
-                return ThemesCollection.FluentLight();
-
-            return cookie.GetTheme();
+            return cookie?.GetTheme() ?? ThemesCollection.FluentLight();
         }
 
         public async Task SetActiveThemeAsync(ITheme theme, string? accentColor = null) {
@@ -31,6 +29,7 @@ namespace switcher.Services {
             await _cookiesService.SetCookie(ThemeCookieKey, JsonSerializer.Serialize(cookie));
 
             var newTheme = nameWithoutAccent.GetTheme(accentColor);
+            ActiveTheme = newTheme;
             await _dxThemeChangeService.SetTheme(newTheme);
         }
 
