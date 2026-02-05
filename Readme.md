@@ -193,6 +193,7 @@ Replicate the steps below to add a theme switcher to your application:
             <link href=@AppendVersion("switcher-resources/theme-switcher.css") rel="stylesheet" />
 
             @DxResourceManager.RegisterTheme(Theme)
+            @DxResourceManager.RegisterScripts()
 
             <link href=@AppendVersion("css/site.css") rel="stylesheet" />
             <HeadOutlet @rendermode="InteractiveServer" />
