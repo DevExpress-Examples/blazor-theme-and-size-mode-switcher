@@ -236,7 +236,7 @@ To change size modes at runtime, you must:
 * [Accent Colors in Fluent Themes](https://docs.devexpress.com/Blazor/405530/styling-and-themes/fluent-theme-customization)
 * [Size Modes](https://docs.devexpress.com/Blazor/401784/styling-and-themes/size-modes)
 <!-- feedback -->
-## Does this example address your development requirements/objectives?
+## Does This Example Address Your Development Requirements/Objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=blazor-theme-switcher&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=blazor-theme-switcher&~~~was_helpful=no)
 
