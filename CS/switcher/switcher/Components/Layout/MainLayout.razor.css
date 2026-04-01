@@ -1,6 +1,6 @@
 ﻿﻿.page {
     height: 100%;
-    font-family: var(--bs-font-sans-serif, var(--dxds-font-family-sans-serif));
+    font-family: var(--dxds-font-family-sans-serif);
     min-height: 0;
 }
 

@@ -30,7 +30,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--bs-body-color, var(--dxds-color-content-neutral-default-rest));
+    background: var(--dxds-color-content-neutral-default-rest);
     opacity: 0.05;
     border-radius: 1rem;
     z-index: -2;

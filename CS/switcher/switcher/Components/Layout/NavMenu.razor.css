@@ -16,7 +16,7 @@
 }
 
 ::deep .menu-item {
-    color: var(--bs-white, #fff);
+    color: #fff;
 }
 
 ::deep .icon {

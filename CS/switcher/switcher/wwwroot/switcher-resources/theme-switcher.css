@@ -15,7 +15,7 @@ ol, ul {
     mask-size: cover;
     width: 1rem;
     height: 1rem;
-    background-color: var(--dxds-color-content-neutral-default-rest, var(--bs-body-color, black));
+    background-color: var(--dxds-color-content-neutral-default-rest, black);
     mask-image: url("../images/theme.svg");
     -webkit-mask-image: url("../images/theme.svg");
     mask-repeat: no-repeat;
@@ -59,12 +59,12 @@ ol, ul {
 }
 
 .theme-DefaultDark .themeswitcher-fluent-mode .dxbl-btn.dxbl-disabled {
-    --dxbl-btn-disabled-color: var(--bs-border-color);
+    --dxbl-btn-disabled-color: #7a7a7a;
 }
 
 .themeswitcher-title {
     display: block;
-    background-color: var(--dxds-color-surface-neutral-default-rest, var(--bs-body-bg));
+    background-color: var(--dxds-color-surface-neutral-default-rest);
     font-weight: 700;
     font-size: 1.25rem;
     line-height: 100%;
@@ -195,7 +195,7 @@ ol, ul {
 .themeswitcher-container {
     --margin-top: 4.5rem;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-    background-color: var(--dxds-color-surface-neutral-default-rest, var(--bs-body-bg, white));
+    background-color: var(--dxds-color-surface-neutral-default-rest, white);
     position: absolute;
     top: calc(var(--margin-top) + 1px);
     right: 0;

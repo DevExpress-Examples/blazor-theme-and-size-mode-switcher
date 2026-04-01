@@ -11,7 +11,7 @@
 }
 
 ::deep .navigation-drawer > .dxbl-drawer-panel {
-    background-image: linear-gradient(180deg, var(--bs-primary, var(--dxds-primary-90)) 0%, var(--bs-black, #000) 150%);
+    background-image: linear-gradient(180deg, var(--dxds-primary-90) 0%, #000 150%);
 }
 
 ::deep .navigation-drawer > .dxbl-drawer-content {

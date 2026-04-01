@@ -38,13 +38,9 @@
 }
 
 a {
-    color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
+    color: var(--dxds-primary-90);
     text-decoration: underline
 }
-
-    a:hover {
-        --bs-link-color-rgb: var(--bs-link-hover-color-rgb)
-    }
 
     a:not([href]):not([class]), a:not([href]):not([class]):hover {
         color: inherit;
